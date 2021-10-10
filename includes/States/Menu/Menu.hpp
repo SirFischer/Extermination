@@ -4,7 +4,8 @@
 class Menu : public Yuna::Core::State
 {
 private:
-	
+	void	InitMenuItems();
+
 	void	Update();
 	void	HandleEvents();
 	void	Render();

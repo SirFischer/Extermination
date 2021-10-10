@@ -12,12 +12,7 @@ Menu::~Menu()
 
 void	Menu::Init()
 {
-	mf::GUI::ClearWidgets();
-	bool *active = &mActive;
-	mf::GUI::AddWidget(mf::Button::Create(sf::Color::Green, sf::Color::Blue)
-	->SetClickEvent([active](){
-		*active = false;
-	}));
+	InitMenuItems();
 }
 
 void	Menu::Update()
