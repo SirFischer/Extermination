@@ -1,6 +1,7 @@
 #include "Game.hpp"
 
 #include "States.hpp"
+#include "StateFactory.hpp"
 
 Game::Game(/* args */)
 {

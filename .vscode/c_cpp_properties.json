@@ -10,7 +10,8 @@
                 "${workspaceFolder}/Yuna/includes/core",
                 "${workspaceFolder}/includes/States",
                 "${workspaceFolder}/includes/States/Menu",
-                "${workspaceFolder}/Yuna/includes/core/resourceManager"
+                "${workspaceFolder}/Yuna/includes/core/resourceManager",
+                "${workspaceFolder}/includes/States/Splash"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu17",
