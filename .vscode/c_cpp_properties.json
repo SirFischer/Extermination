@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${default}",
+                "includes",
+                "${workspaceFolder}/Yuna/mfGUI/includes/widgets",
+                "${workspaceFolder}/Yuna/includes/core/eventHandler",
+                "${workspaceFolder}/Yuna/includes/core",
+                "${workspaceFolder}/includes/States",
+                "${workspaceFolder}/includes/States/Menu",
+                "${workspaceFolder}/Yuna/includes/core/resourceManager"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu17",
+            "intelliSenseMode": "linux-gcc-x64",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
