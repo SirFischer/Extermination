@@ -1,10 +1,13 @@
 #pragma once
 #include "Yuna.hpp"
+#include "../../Actions.hpp"
 
 class Menu : public Yuna::Core::State
 {
 private:
 	void	InitMenuItems();
+	void	InitMenuControls();
+
 
 	void	Update();
 	void	HandleEvents();

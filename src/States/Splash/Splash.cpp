@@ -32,7 +32,11 @@ void	Splash::Update()
 
 void	Splash::HandleEvents()
 {
-	mEventHandler.HandleEvent();
+	sf::Event event;
+	while (mWindow->PollEvent(event))
+	{
+		mEventHandler.HandleEvent(event);
+	}
 }
 
 void	Splash::Render()

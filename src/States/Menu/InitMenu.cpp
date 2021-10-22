@@ -14,3 +14,9 @@ void	Menu::InitMenuItems()
 	->SetText("Exit")
 	->SetTextPosition(10, 5));
 }
+
+void	Menu::InitMenuControls()
+{
+	mEventHandler.BindKey(sf::Keyboard::Tab, (uint32_t)eAction::CONSOLE_TOGGLE);
+	mEventHandler.BindKey(sf::Keyboard::Enter, (uint32_t)eAction::CONSOLE_CONFIRM);
+}
