@@ -15,7 +15,9 @@
                 "${workspaceFolder}/includes/States/Splash",
                 "${workspaceFolder}/Yuna/includes/core/stateManager",
                 "${workspaceFolder}/Yuna/sandbox/includes/states",
-                "${workspaceFolder}/Yuna/includes/core/console"
+                "${workspaceFolder}/Yuna/includes/core/console",
+                "${workspaceFolder}/includes/States/Game",
+                "${workspaceFolder}/Yuna/sandbox/includes"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu17",

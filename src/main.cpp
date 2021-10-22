@@ -1,8 +1,8 @@
-#include "Game.hpp"
+#include "GameApplication.hpp"
 
 int main()
 {
-	Game	game;
+	GameApplication	game;
 
 	game.Run();
 	return (0);

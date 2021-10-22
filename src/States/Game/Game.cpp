@@ -1,34 +1,35 @@
 /*
- * File: Menu.cpp
+ * File: Game.cpp
  * Project: Extermination
- * File Created: Saturday, 9th October 2021 10:06:48 pm
+ * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 22nd October 2021 3:24:20 pm
+ * Last Modified: Friday, 22nd October 2021 3:29:38 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
-#include "Menu.hpp"
 
-Menu::Menu(Yuna::Core::Window* tWindow)
+#include "Game.hpp"
+
+Game::Game(Yuna::Core::Window* tWindow)
 :State(tWindow)
 {
 	
 }
 
-Menu::~Menu()
+Game::~Game()
 {
 }
 
-void	Menu::Init()
+void	Game::Init()
 {
-	InitMenuItems();
-	InitMenuControls();
+	mf::GUI::ClearWidgets();
+	InitGameControls();
 	Yuna::Core::Console::InitUI();
 }
 
-void	Menu::Update()
+void	Game::Update()
 {
 	Yuna::Core::Console::Update();
 	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_TOGGLE))
@@ -43,19 +44,18 @@ void	Menu::Update()
 	}
 }
 
-void	Menu::HandleEvents()
+void	Game::HandleEvents()
 {
 	sf::Event event;
 	while (mWindow->PollEvent(event))
 	{
 		mEventHandler.HandleEvent(event);
-		
 	}
 }
 
-void	Menu::Render()
+void	Game::Render()
 {
-	mWindow->Clear();
+	mWindow->Clear(sf::Color::Red);
 	mf::GUI::Render();
 	mWindow->Render();
 }

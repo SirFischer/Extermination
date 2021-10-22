@@ -2,5 +2,6 @@
 
 enum class eStates {
 	SPLASH,
-	MENU
+	MENU,
+	GAME
 };
