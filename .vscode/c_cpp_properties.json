@@ -5,7 +5,7 @@
             "includePath": [
                 "${default}",
                 "includes",
-                "${workspaceFolder}",
+                "${workspaceFolder}/*",
                 "${workspaceFolder}/Yuna/mfGUI/includes/widgets",
                 "${workspaceFolder}/Yuna/includes/core/eventHandler",
                 "${workspaceFolder}/Yuna/includes/core",
@@ -17,7 +17,12 @@
                 "${workspaceFolder}/Yuna/sandbox/includes/states",
                 "${workspaceFolder}/Yuna/includes/core/console",
                 "${workspaceFolder}/includes/States/Game",
-                "${workspaceFolder}/Yuna/sandbox/includes"
+                "${workspaceFolder}/Yuna/sandbox/includes",
+                "${workspaceFolder}/includes/States/Game/Player",
+                "${workspaceFolder}/includes/States/Game/World",
+                "${workspaceFolder}/Yuna/mfGUI/includes/widgetComponents",
+                "${workspaceFolder}/includes/States/Game/World/Map",
+                "${workspaceFolder}/includes/States/Game/World/Player"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu17",

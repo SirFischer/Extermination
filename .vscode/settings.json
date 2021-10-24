@@ -50,7 +50,13 @@
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
 		"cinttypes": "cpp",
-		"typeinfo": "cpp"
+		"typeinfo": "cpp",
+		"chrono": "cpp",
+		"codecvt": "cpp",
+		"list": "cpp",
+		"set": "cpp",
+		"ratio": "cpp",
+		"iomanip": "cpp"
 	},
 	"psi-header.config": {
 	"company": "Deep Vertic",

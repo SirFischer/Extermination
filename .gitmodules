@@ -1,3 +1,6 @@
 [submodule "Yuna"]
 	path = Yuna
 	url = https://github.com/SirFischer/Yuna.git
+[submodule "MapBuilder"]
+	path = MapBuilder
+	url = https://github.com/SirFischer/MapBuilder.git

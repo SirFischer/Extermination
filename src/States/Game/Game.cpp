@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 22nd October 2021 3:29:38 pm
+ * Last Modified: Saturday, 23rd October 2021 5:09:17 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -14,6 +14,7 @@
 
 Game::Game(Yuna::Core::Window* tWindow)
 :State(tWindow)
+,mWorld(&mResourceManager)
 {
 	
 }
@@ -26,6 +27,7 @@ void	Game::Init()
 {
 	mf::GUI::ClearWidgets();
 	InitGameControls();
+	InitGameCommands();
 	Yuna::Core::Console::InitUI();
 }
 
@@ -42,6 +44,7 @@ void	Game::Update()
 		Yuna::Core::Console::ProcessConsoleCommand();
 		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_CONFIRM, false);
 	}
+	mWorld.Update(&mEventHandler);
 }
 
 void	Game::HandleEvents()
@@ -55,7 +58,8 @@ void	Game::HandleEvents()
 
 void	Game::Render()
 {
-	mWindow->Clear(sf::Color::Red);
+	mWindow->Clear(sf::Color::Cyan);
+	mWorld.Render(mWindow);
 	mf::GUI::Render();
 	mWindow->Render();
 }
