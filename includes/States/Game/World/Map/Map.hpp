@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 6:55:17 am
+ * Last Modified: Wednesday, 27th October 2021 5:33:39 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -30,6 +30,8 @@ private:
 	uint32_t							mGridSize = 100;
 
 	void	ApplyPerlin(uint32_t pSegments, float pAmplitude);
+	void	FitToGrid();
+	void	FillGaps();
 	
 public:
 	Map(Yuna::Core::ResourceManager *mResourceManager);

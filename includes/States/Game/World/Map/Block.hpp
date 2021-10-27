@@ -4,7 +4,7 @@
  * File Created: Monday, 25th October 2021 7:58:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 26th October 2021 7:08:22 am
+ * Last Modified: Wednesday, 27th October 2021 5:23:51 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -13,6 +13,13 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+enum class eBlockType
+{
+	GRASS,
+	DIRT,
+	CRATE
+};
+
 class Block
 {
 private:
@@ -20,6 +27,7 @@ private:
 	float			mHealth = 100.f;
 	std::string		mTexturePath = "assets/textures/dirt_w_grass.png";
 	sf::Vector2f	mPosition;
+	eBlockType		mType;
 
 public:
 	Block(/* args */);
