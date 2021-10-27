@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 6:13:41 am
+ * Last Modified: Wednesday, 27th October 2021 7:45:34 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -29,6 +29,9 @@ void	Game::Init()
 	InitGameControls();
 	InitGameCommands();
 	Yuna::Core::Console::InitUI();
+
+	mEventHandler.BindKey(sf::Keyboard::D, (uint32_t)eAction::MOVE_RIGHT);
+	mEventHandler.BindKey(sf::Keyboard::A, (uint32_t)eAction::MOVE_LEFT);
 }
 
 void	Game::Update()

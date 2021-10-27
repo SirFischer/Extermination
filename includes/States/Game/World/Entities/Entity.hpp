@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 23rd October 2021 5:06:45 pm
+ * Last Modified: Wednesday, 27th October 2021 7:48:02 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -17,6 +17,8 @@ class Entity
 {
 protected:
 	sf::Sprite		mSprite;
+	sf::Vector2f	mPosition = sf::Vector2f(0, 200);
+	sf::Vector2f	mVelocity = sf::Vector2f(0, 0);
 	
 public:
 	Entity(/* args */);
@@ -26,5 +28,7 @@ public:
 
 	virtual void	Update(Yuna::Core::EventHandler *pEventHandler);
 	virtual void	Render(Yuna::Core::Window *pWindow);
+
+	sf::Vector2f	GetPosition() {return (mPosition);}
 };
 

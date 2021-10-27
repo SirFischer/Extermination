@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 6:38:35 am
+ * Last Modified: Wednesday, 27th October 2021 7:42:41 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -46,7 +46,11 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler)
 
 void	World::Render(Yuna::Core::Window *pWindow)
 {
+	sf::View view = pWindow->GetView();
+	view.setCenter(mPlayer->GetPosition());
+	pWindow->SetView(view);
 	mMap.Render(pWindow);
 	for (auto &entity : mEntities)
 		entity->Render(pWindow);
+	pWindow->ResetView(false);
 }
