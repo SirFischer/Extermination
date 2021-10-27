@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 5:56:14 pm
+ * Last Modified: Wednesday, 27th October 2021 10:09:18 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -23,7 +23,7 @@ float	interpolate(float pA, float pB, float pX)
 void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 {
 	int segmentCounter = 0;
-	float pA, pB = ((float)random() / (float)RAND_MAX);
+	float pA, pB = (((float)random() / (float)RAND_MAX) * 2.0f) - 1.0f;
 	for (auto &block : mBlocks)
 	{
 		sf::Vector2f	pos = block.GetPosition();
@@ -40,6 +40,7 @@ void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 		else
 		{
 			pos.y += (interpolate(pA, pB, ((float)(segmentCounter % wl) / (float)wl)) * pAmplitude);
+			
 			block.SetPosition(pos);
 		}
 		segmentCounter++;
@@ -51,8 +52,7 @@ void	Map::FitToGrid()
 	for (auto &block : mBlocks)
 	{
 		sf::Vector2f	pos = block.GetPosition();
-		std::cout << pos.y << std::endl;
-		pos.y = (uint32_t)(pos.y / mGridSize) * mGridSize;
+		pos.y = (int)(pos.y / (int)mGridSize) * (int)mGridSize;
 		block.SetPosition(pos);
 	}
 }
@@ -78,7 +78,7 @@ void	Map::FillGaps()
 	}
 }
 
-void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pSeed)
+void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed)
 {
 	mBlocks.clear();
 	srand(pSeed);
@@ -88,13 +88,13 @@ void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uin
 		block.SetPosition(sf::Vector2f(i * mGridSize, 0));
 		mBlocks.push_back(block);
 	}
-	uint32_t	segments = 1;
+	uint32_t	segments = pStartSegments;
 	uint32_t	amplitude = pAmplitude;
 	for (size_t i = 0; i < pOctaves; i++)
 	{
-		segments *= 4;
+		segments *= 2;
 		ApplyPerlin(segments, amplitude);
-		amplitude /= 4;
+		amplitude /= 2;
 	}
 	FitToGrid();
 	FillGaps();

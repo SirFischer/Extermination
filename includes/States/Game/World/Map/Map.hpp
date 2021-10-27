@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 5:33:39 pm
+ * Last Modified: Wednesday, 27th October 2021 9:52:02 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -37,7 +37,7 @@ public:
 	Map(Yuna::Core::ResourceManager *mResourceManager);
 	~Map();
 
-	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pSeed);
+	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed);
 
 	void	Render(Yuna::Core::Window *pWindow);
 
