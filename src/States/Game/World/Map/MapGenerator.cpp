@@ -1,0 +1,86 @@
+/*
+ * File: MapGenerator.cpp
+ * Project: Extermination
+ * File Created: Wednesday, 27th October 2021 5:49:04 am
+ * Author: Marek Fischer
+ * -----
+ * Last Modified: Wednesday, 27th October 2021 6:59:14 am
+ * Modified By: Marek Fischer 
+ * -----
+ * Copyright - 2021 Deep Vertic
+ */
+#include "Map.hpp"
+#include <math.h>
+#include <random>
+
+/**
+ * function interpolate(pa, pb, px){
+    var ft = px * Math.PI,
+        f = (1 - Math.cos(ft)) * 0.5;
+    return pa * (1 - f) + pb * f;
+	}
+**/
+/**
+ * Values between 0 and 1
+ **/
+float	interpolate(float pA, float pB, float pX)
+{
+	float ft = pX * M_PI;
+	float f = (1.f - std::cos(ft)) * 0.5f;
+	return (pA * (1.f - f) + pB * f);
+}
+
+void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
+{
+	int segmentCounter = 0;
+	float pA, pB = ((float)random() / (float)RAND_MAX);
+	for (auto &block : mBlocks)
+	{
+		sf::Vector2f	pos = block.GetPosition();
+		uint32_t		wl = mBlocks.size() / pSegments;
+		if (!wl)
+			wl = 1;
+		if (!(segmentCounter % wl))
+		{
+			pA = pB;
+			pB = (float)random() / (float)RAND_MAX;
+			pos.y += (pA * pAmplitude);
+			block.SetPosition(pos);
+		}
+		else
+		{
+			pos.y += (interpolate(pA, pB, ((float)(segmentCounter % wl) / (float)wl)) * pAmplitude);
+			block.SetPosition(pos);
+		}
+		segmentCounter++;
+	}
+}
+
+void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pSeed)
+{
+	mBlocks.clear();
+	srand(pSeed);
+	for (uint32_t i = 0; i < pLength; i++)
+	{
+		Block block;
+		block.SetPosition(sf::Vector2f(i * mGridSize, 0));
+		mBlocks.push_back(block);
+	}
+	uint32_t	segments = 1;
+	uint32_t	amplitude = pAmplitude;
+	for (size_t i = 0; i < pOctaves; i++)
+	{
+		segments *= 4;
+		ApplyPerlin(segments, amplitude);
+		amplitude /= 4;
+	}
+	for (auto &block : mBlocks)
+	{
+		sf::Vector2f	pos = block.GetPosition();
+		std::cout << pos.y << std::endl;
+		pos.y = (uint32_t)(pos.y / mGridSize) * mGridSize;
+		block.SetPosition(pos);
+	}
+	
+	//perlin generation
+}

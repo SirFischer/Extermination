@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 24th October 2021 8:27:20 am
+ * Last Modified: Wednesday, 27th October 2021 6:55:17 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -17,30 +17,25 @@
 #include <SFML/Graphics.hpp>
 #include "Yuna.hpp"
 
+#include "Block.hpp"
+
 class Map
 {
 private:
 
 	Yuna::Core::ResourceManager			*mResourceManager;
-
-	struct sBlock
-	{
-		sf::Vector2f	mPos;
-		uint32_t		mSignature;
-	};
 	
-	std::vector<sBlock>					mBlocks;
-	std::map<uint32_t, sf::Texture>		mSignatures;
+	std::vector<Block>					mBlocks;
 	sf::Sprite							mSprite;
+	uint32_t							mGridSize = 100;
 
-	void	ReadBasicFormat(std::fstream &pFile, std::list<sBlock> &pList);
-	void	ReadAdvancedFormat(std::fstream &pFile, std::list<sBlock> &pList);
+	void	ApplyPerlin(uint32_t pSegments, float pAmplitude);
 	
 public:
 	Map(Yuna::Core::ResourceManager *mResourceManager);
 	~Map();
 
-	void	Load(std::string pPath);
+	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pSeed);
 
 	void	Render(Yuna::Core::Window *pWindow);
 

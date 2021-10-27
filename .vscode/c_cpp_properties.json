@@ -18,7 +18,6 @@
                 "${workspaceFolder}/Yuna/includes/core/console",
                 "${workspaceFolder}/includes/States/Game",
                 "${workspaceFolder}/Yuna/sandbox/includes",
-                "${workspaceFolder}/includes/States/Game/Player",
                 "${workspaceFolder}/includes/States/Game/World",
                 "${workspaceFolder}/Yuna/mfGUI/includes/widgetComponents",
                 "${workspaceFolder}/includes/States/Game/World/Map",
