@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 22nd October 2021 3:24:20 pm
+ * Last Modified: Thursday, 28th October 2021 6:37:33 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -40,6 +40,16 @@ void	Menu::Update()
 	{
 		Yuna::Core::Console::ProcessConsoleCommand();
 		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_CONFIRM, false);
+	}
+	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY))
+	{
+		Yuna::Core::Console::GetNextInCommandHistory();
+		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY, false);
+	}
+	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY))
+	{
+		Yuna::Core::Console::GetPreviousInCommandHistory();
+		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY, false);
 	}
 }
 

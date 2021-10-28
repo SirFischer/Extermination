@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 7:45:34 am
+ * Last Modified: Thursday, 28th October 2021 6:37:24 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -47,6 +47,17 @@ void	Game::Update()
 		Yuna::Core::Console::ProcessConsoleCommand();
 		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_CONFIRM, false);
 	}
+	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY))
+	{
+		Yuna::Core::Console::GetNextInCommandHistory();
+		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY, false);
+	}
+	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY))
+	{
+		Yuna::Core::Console::GetPreviousInCommandHistory();
+		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY, false);
+	}
+		
 	mWorld.Update(&mEventHandler);
 }
 
