@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 10:09:18 pm
+ * Last Modified: Thursday, 28th October 2021 9:40:03 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -67,11 +67,9 @@ void	Map::FillGaps()
 		for (uint32_t j = 1; j < std::abs(diff); j++)
 		{
 			Block block;
-			sf::Vector2f pos = mBlocks[i + 1].GetPosition();
-			if (diff > 0)
-				pos.y += (mGridSize * j);
-			else
-				pos.y -= (mGridSize * j);
+			block.SetTexturePath("assets/textures/dirt400x400.png");
+			sf::Vector2f pos = (diff > 0) ? mBlocks[i + 1].GetPosition() : mBlocks[i].GetPosition();
+			pos.y += (mGridSize * j);
 			block.SetPosition(pos);
 			mBlocks.push_back(block);
 		}

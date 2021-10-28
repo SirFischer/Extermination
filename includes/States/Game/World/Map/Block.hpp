@@ -4,7 +4,7 @@
  * File Created: Monday, 25th October 2021 7:58:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 5:23:51 pm
+ * Last Modified: Thursday, 28th October 2021 9:28:22 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -25,7 +25,7 @@ class Block
 private:
 	bool			mIsBreakable = false;
 	float			mHealth = 100.f;
-	std::string		mTexturePath = "assets/textures/dirt_w_grass.png";
+	std::string		mTexturePath = "assets/textures/green400x400.png";
 	sf::Vector2f	mPosition;
 	eBlockType		mType;
 
@@ -37,6 +37,7 @@ public:
 	 * Setters
 	 **/
 	void			SetPosition(sf::Vector2f pPosition){mPosition = pPosition;}
+	void			SetTexturePath(std::string pPath){mTexturePath = pPath;}
 
 	/**
 	 * Getters

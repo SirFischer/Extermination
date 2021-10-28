@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 5:49:17 am
+ * Last Modified: Thursday, 28th October 2021 9:35:38 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -29,8 +29,9 @@ void	Map::Render(Yuna::Core::Window *pWindow)
 	{
 		if (a.GetTexturePath() != lastPath)
 		{
-			mSprite.setTexture(*mResourceManager->LoadTexture(a.GetTexturePath()));
-			mSprite.setScale(sf::Vector2f(100.f / mSprite.getGlobalBounds().width, 100.f / mSprite.getGlobalBounds().height));
+			sf::Texture	*texture = mResourceManager->LoadTexture(a.GetTexturePath()).get();
+			mSprite.setTexture(*texture);
+			mSprite.setScale(sf::Vector2f((float)mGridSize / texture->getSize().x, (float)mGridSize / texture->getSize().y));
 			lastPath = a.GetTexturePath();
 		}
 		mSprite.setPosition(a.GetPosition());
