@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 28th October 2021 9:35:38 pm
+ * Last Modified: Friday, 29th October 2021 7:20:16 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -36,6 +36,16 @@ void	Map::Render(Yuna::Core::Window *pWindow)
 		}
 		mSprite.setPosition(a.GetPosition());
 		pWindow->Draw(mSprite);
+	}
+	mSprite.setTexture(*mResourceManager->LoadTexture("assets/textures/dirt400x400.png"));
+	for (auto &a : mBlocks)
+	{
+		mSprite.setPosition(a.GetPosition());
+		while (mSprite.getPosition().y + mGridSize < a.GetPosition().y + (mGridSize * 10))
+		{
+			mSprite.move(0, mGridSize);
+			pWindow->Draw(mSprite);
+		}
 	}
 }
 
