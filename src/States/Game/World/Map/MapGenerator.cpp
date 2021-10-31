@@ -4,11 +4,12 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 10:48:23 am
+ * Last Modified: Sunday, 31st October 2021 11:43:31 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
+#define MAX_QUADTREE_NODES 9
 #include "Map.hpp"
 #include <math.h>
 #include <random>
