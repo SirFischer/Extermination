@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 28th October 2021 6:37:24 am
+ * Last Modified: Saturday, 30th October 2021 11:35:20 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -58,7 +58,12 @@ void	Game::Update()
 		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY, false);
 	}
 		
-	mWorld.Update(&mEventHandler);
+	mWorld.Update(&mEventHandler, mDeltaTime);
+	if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
+	{
+		mFPSClock.restart();
+		std::cout << "FPS: " << 1.f / mFPS << std::endl;
+	}
 }
 
 void	Game::HandleEvents()

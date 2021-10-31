@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 28th October 2021 9:40:03 pm
+ * Last Modified: Sunday, 31st October 2021 10:48:23 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -24,6 +24,7 @@ void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 {
 	int segmentCounter = 0;
 	float pA, pB = (((float)random() / (float)RAND_MAX) * 2.0f) - 1.0f;
+	std::cout << pB << std::endl;
 	for (auto &block : mBlocks)
 	{
 		sf::Vector2f	pos = block.GetPosition();
@@ -33,14 +34,13 @@ void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 		if (!(segmentCounter % wl))
 		{
 			pA = pB;
-			pB = (float)random() / (float)RAND_MAX;
+			pB = (((float)random() / (float)RAND_MAX) * 2.0f) - 1.0f;
 			pos.y += (pA * pAmplitude);
 			block.SetPosition(pos);
 		}
 		else
 		{
 			pos.y += (interpolate(pA, pB, ((float)(segmentCounter % wl) / (float)wl)) * pAmplitude);
-			
 			block.SetPosition(pos);
 		}
 		segmentCounter++;
@@ -57,18 +57,17 @@ void	Map::FitToGrid()
 	}
 }
 
-void	Map::FillGaps()
+void	Map::FillGaps(uint32_t pAmplitude)
 {
-	for (uint32_t i = 0; i < (mBlocks.size() + 1); i++)
+	for (uint32_t i = 0; i < mBlocks.size(); i++)
 	{
-		int diff = (mBlocks[i].GetPosition().y - mBlocks[i + 1].GetPosition().y) / mGridSize;
-		if (std::abs(mBlocks[i].GetPosition().x - mBlocks[i + 1].GetPosition().x) > mGridSize)
+		if (mBlocks[i].GetPosition().x == mBlocks[i + 1].GetPosition().x)
 			break;
-		for (uint32_t j = 1; j < std::abs(diff); j++)
+		for (uint32_t j = 1; j < pAmplitude; j++)
 		{
 			Block block;
 			block.SetTexturePath("assets/textures/dirt400x400.png");
-			sf::Vector2f pos = (diff > 0) ? mBlocks[i + 1].GetPosition() : mBlocks[i].GetPosition();
+			sf::Vector2f pos = mBlocks[i].GetPosition();
 			pos.y += (mGridSize * j);
 			block.SetPosition(pos);
 			mBlocks.push_back(block);
@@ -76,9 +75,19 @@ void	Map::FillGaps()
 	}
 }
 
+void	Map::GenerateQTree()
+{
+	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(sf::FloatRect(0, -mSize.y / 2.f, mSize.x, mSize.y));
+	for (auto &i : mBlocks)
+		mBlockQTree->Insert(i, sf::FloatRect(i.GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
+}
+
+
 void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed)
 {
 	mBlocks.clear();
+	mAmplitude = pAmplitude;
+	mSize = sf::Vector2f(pLength * mGridSize, pAmplitude * 2.f);
 	srand(pSeed);
 	for (uint32_t i = 0; i < pLength; i++)
 	{
@@ -95,6 +104,6 @@ void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uin
 		amplitude /= 2;
 	}
 	FitToGrid();
-	FillGaps();
-	//perlin generation
+	FillGaps(pAmplitude);
+	GenerateQTree();
 }

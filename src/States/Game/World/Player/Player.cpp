@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 27th October 2021 7:47:24 am
+ * Last Modified: Saturday, 30th October 2021 8:47:09 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -20,13 +20,12 @@ Player::~Player()
 {
 }
 
-void	Player::Update(Yuna::Core::EventHandler *pEventhandler)
+void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 {
-	(void)pEventhandler;
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_RIGHT))
-		mVelocity.x += 0.1;
+		mVelocity.x += mSpeed * mDeltaTime;
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_LEFT))
-		mVelocity.x -= 0.1;
+		mVelocity.x -= mSpeed * mDeltaTime;
 	mPosition += mVelocity;
 	mSprite.setPosition(mPosition);
 }

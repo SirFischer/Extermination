@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 24th October 2021 7:50:34 am
+ * Last Modified: Saturday, 30th October 2021 8:48:02 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -26,7 +26,7 @@ public:
 	World(Yuna::Core::ResourceManager *pResourceManager);
 	~World();
 
-	void	Update(Yuna::Core::EventHandler	*pEventHandler);
+	void	Update(Yuna::Core::EventHandler	*pEventHandler, float mDeltaTime);
 	void	Render(Yuna::Core::Window		*pWindow);
 };
 

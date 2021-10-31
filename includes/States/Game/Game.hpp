@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:25:47 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 23rd October 2021 4:44:42 pm
+ * Last Modified: Saturday, 30th October 2021 11:33:22 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -18,6 +18,8 @@ class Game : public Yuna::Core::State
 {
 private:
 	World	mWorld;
+
+	sf::Clock	mFPSClock;
 
 	void	Update();
 	void	HandleEvents();
