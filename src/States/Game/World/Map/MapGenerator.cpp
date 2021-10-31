@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 11:43:31 am
+ * Last Modified: Sunday, 31st October 2021 1:22:00 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -64,7 +64,8 @@ void	Map::FillGaps(uint32_t pAmplitude)
 	{
 		if (mBlocks[i].GetPosition().x == mBlocks[i + 1].GetPosition().x)
 			break;
-		for (uint32_t j = 1; j < pAmplitude; j++)
+		uint32_t length = (pAmplitude / mGridSize);
+		for (uint32_t j = 1; j < ((length > 10) ? length : 10); j++)
 		{
 			Block block;
 			block.SetTexturePath("assets/textures/dirt400x400.png");
