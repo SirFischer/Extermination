@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 30th October 2021 11:35:20 pm
+ * Last Modified: Sunday, 31st October 2021 3:55:23 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -42,28 +42,34 @@ void	Game::Update()
 		Yuna::Core::Console::ToggleConsole();
 		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_TOGGLE, false);
 	}
-	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_CONFIRM))
+	if (Yuna::Core::Console::IsOpen())
 	{
-		Yuna::Core::Console::ProcessConsoleCommand();
-		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_CONFIRM, false);
+		if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_CONFIRM))
+		{
+			Yuna::Core::Console::ProcessConsoleCommand();
+			mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_CONFIRM, false);
+		}
+		if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY))
+		{
+			Yuna::Core::Console::GetNextInCommandHistory();
+			mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY, false);
+		}
+		if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY))
+		{
+			Yuna::Core::Console::GetPreviousInCommandHistory();
+			mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY, false);
+		}
 	}
-	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY))
+	else
 	{
-		Yuna::Core::Console::GetNextInCommandHistory();
-		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_NEXT_IN_HISTORY, false);
+		mWorld.Update(&mEventHandler, mDeltaTime);
+		if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
+		{
+			mFPSClock.restart();
+			std::cout << "FPS: " << 1.f / mFPS << std::endl;
+		}
 	}
-	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY))
-	{
-		Yuna::Core::Console::GetPreviousInCommandHistory();
-		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_PREVIOUS_IN_HISTORY, false);
-	}
-		
-	mWorld.Update(&mEventHandler, mDeltaTime);
-	if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
-	{
-		mFPSClock.restart();
-		std::cout << "FPS: " << 1.f / mFPS << std::endl;
-	}
+	
 }
 
 void	Game::HandleEvents()

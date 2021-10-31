@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 11:40:26 am
+ * Last Modified: Sunday, 31st October 2021 3:02:02 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -37,7 +37,7 @@ private:
 
 	void	ApplyPerlin(uint32_t pSegments, float pAmplitude);
 	void	FitToGrid();
-	void	FillGaps(uint32_t pAmplitude);
+	void	GenerateGround();
 	void	GenerateQTree();
 	
 public:

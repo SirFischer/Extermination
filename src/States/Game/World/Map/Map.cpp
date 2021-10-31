@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 11:12:22 am
+ * Last Modified: Sunday, 31st October 2021 3:02:46 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -33,7 +33,6 @@ void	Map::ResolveCollisions(Entity *pEntity)
 	}
 }
 
-//TODO: Refactor this horribleness
 void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 {
 	std::string		lastPath = "";
