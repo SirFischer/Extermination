@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 11:59:25 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 28th October 2021 6:29:01 am
+ * Last Modified: Tuesday, 2nd November 2021 8:06:45 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -17,5 +17,7 @@ enum class eAction {
 	CONSOLE_NEXT_IN_HISTORY,
 	CONSOLE_PREVIOUS_IN_HISTORY,
 	MOVE_RIGHT,
-	MOVE_LEFT
+	MOVE_LEFT,
+	JUMP,
+	CROUCH
 };

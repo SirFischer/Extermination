@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 3:02:09 pm
+ * Last Modified: Tuesday, 2nd November 2021 9:18:12 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -79,7 +79,19 @@ void	Map::GenerateGround()
 
 void	Map::GenerateQTree()
 {
-	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(sf::FloatRect(0, -mSize.y / 2.f, mSize.x, mSize.y));
+	sf::Vector2f min = sf::Vector2f(0, 0), max = min;
+	for (auto &i : mBlocks)
+	{
+		if (i.GetPosition().x < min.x)
+			min.x = i.GetPosition().x;
+		if (i.GetPosition().y < min.y)
+			min.y = i.GetPosition().y;
+		if (i.GetPosition().x > max.x)
+			max.x = i.GetPosition().x;
+		if (i.GetPosition().y > max.y)
+			max.y = i.GetPosition().y;
+	}
+	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(sf::FloatRect(min.x, min.y, max.x - min.x, max.y - min.y));
 	for (auto &i : mBlocks)
 		mBlockQTree->Insert(i, sf::FloatRect(i.GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
 }

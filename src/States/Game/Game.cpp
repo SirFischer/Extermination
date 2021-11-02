@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 3:55:23 pm
+ * Last Modified: Tuesday, 2nd November 2021 8:07:11 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -32,6 +32,8 @@ void	Game::Init()
 
 	mEventHandler.BindKey(sf::Keyboard::D, (uint32_t)eAction::MOVE_RIGHT);
 	mEventHandler.BindKey(sf::Keyboard::A, (uint32_t)eAction::MOVE_LEFT);
+	mEventHandler.BindKey(sf::Keyboard::Space, (uint32_t)eAction::JUMP);
+	mEventHandler.BindKey(sf::Keyboard::S, (uint32_t)eAction::CROUCH);
 }
 
 void	Game::Update()

@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 10:35:03 am
+ * Last Modified: Tuesday, 2nd November 2021 7:59:32 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -42,6 +42,7 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 {
 	for (auto &entity : mEntities)
 	{
+		mMap.ResolveCollisions(entity.get());
 		entity->Update(pEventHandler, mDeltaTime);
 	}
 }
