@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 3rd November 2021 7:02:48 am
+ * Last Modified: Saturday, 6th November 2021 12:19:15 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -23,8 +23,6 @@ private:
 
 	Map										mMap;
 
-	//TEST
-	sf::Vertex								mLine[2];
 public:
 	World(Yuna::Core::ResourceManager *pResourceManager);
 	~World();

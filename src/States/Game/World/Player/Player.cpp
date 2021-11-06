@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 2nd November 2021 9:19:13 pm
+ * Last Modified: Saturday, 6th November 2021 12:57:16 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -34,6 +34,6 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 		mVelocity.y -= mSpeed * mDeltaTime;
 	if (pEventhandler->GetEventState((uint32_t)eAction::CROUCH))
 		mVelocity.y += mSpeed * mDeltaTime;
-	//mVelocity.y += 0.2f;
+	mVelocity.y += 0.2f;
 	mVelocity *= 0.9f;
 }

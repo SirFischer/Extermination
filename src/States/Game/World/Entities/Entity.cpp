@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 3rd November 2021 6:45:03 am
+ * Last Modified: Saturday, 6th November 2021 12:59:55 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -23,7 +23,8 @@ Entity::~Entity()
 void	Entity::Init(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/download.png"));
-	mSprite.setPosition(0, 0);
+	mSprite.setPosition(100, -500);
+
 }
 
 void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)

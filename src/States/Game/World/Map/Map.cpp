@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 6th November 2021 8:21:55 am
+ * Last Modified: Saturday, 6th November 2021 1:03:16 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -24,35 +24,30 @@ Map::~Map()
 void	Map::UpdateEntity(Entity *pEntity)
 {
 	auto list = mBlockQTree->RangeSearch(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 1.f), pEntity->GetPosition().y - (mGridSize * 1.f)), sf::Vector2f(mGridSize * 4.f, mGridSize * 4.f)));
-	// sf::Vector2f	futurePos = pEntity->mPosition + pEntity->mVelocity;
-	// sf::Vector2f	currPos = pEntity->mPosition;
+	sf::Vector2f collisionPoint;
+	sf::Vector2f collisionNormal;
+	sf::Vector2f rayDir = pEntity->mVelocity;
+	float collisionTime;
+	std::vector<std::pair<sf::FloatRect, float>>	collisionTimes;
 	for (auto &a : list)
 	{
 		for (auto &b : *a)
 		{
-			if (b.mRect.intersects(pEntity->GetGlobalBounds()))
-				b.mData.SetColor(sf::Color(255, 0, 0, 250));
-			else
-				b.mData.SetColor(sf::Color(255, 255, 255, 255));
+			if (Yuna::Physics::DynamicRectCollision(pEntity->GetGlobalBounds(), rayDir, b.mRect, collisionPoint, collisionNormal, collisionTime))
+			{
+				collisionTimes.push_back(std::pair<sf::FloatRect, float>(b.mRect, collisionTime));
+			}
 		}
 	}
-}
+	std::sort(collisionTimes.begin(), collisionTimes.end(), [](const std::pair<sf::FloatRect, float> &a, const std::pair<sf::FloatRect, float> &b) { return a.second < b.second; });
 
-void	Map::UpdateLine(const sf::Vector2f &pLineStart, const sf::Vector2f &pLineEnd)
-{
-	auto list = mBlockQTree->RangeSearch(sf::FloatRect(sf::Vector2f(pLineStart.x - (mGridSize * 5.f), pLineStart.y - (mGridSize * 5.f)), sf::Vector2f(mGridSize * 15.f, mGridSize * 15.f)));
-	for (auto &a : list)
+	for (auto &collision : collisionTimes)
 	{
-		for (auto &b : *a)
+		rayDir = pEntity->mVelocity;
+		if (Yuna::Physics::DynamicRectCollision(pEntity->GetGlobalBounds(), rayDir, collision.first, collisionPoint, collisionNormal, collisionTime))
 		{
-			if (Yuna::Physics::LineRectCollision(pLineStart, pLineEnd, b.mRect))
-			{
-				b.mData.SetColor(sf::Color(255, 0, 0, 250));
-			}
-			else
-			{
-				b.mData.SetColor(sf::Color(255, 255, 255, 255));
-			}
+			pEntity->mVelocity.x += collisionNormal.x * std::abs(pEntity->mVelocity.x) * (1.f - collisionTime);
+			pEntity->mVelocity.y += collisionNormal.y * std::abs(pEntity->mVelocity.y) * (1.f - collisionTime);
 		}
 	}
 }
