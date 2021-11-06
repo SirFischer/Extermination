@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 31st October 2021 3:02:02 pm
+ * Last Modified: Saturday, 6th November 2021 8:15:43 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -44,7 +44,8 @@ public:
 	Map(Yuna::Core::ResourceManager *mResourceManager);
 	~Map();
 
-	void	ResolveCollisions(Entity *pEntity);
+	void	UpdateEntity(Entity *pEntity);
+	void	UpdateLine(const sf::Vector2f &pLineStart, const sf::Vector2f &pLineEnd);
 
 	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed);
 

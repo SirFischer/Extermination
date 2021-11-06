@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 30th October 2021 8:48:02 pm
+ * Last Modified: Wednesday, 3rd November 2021 7:02:48 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -13,6 +13,7 @@
 
 #include "Player.hpp"
 #include "Map.hpp"
+#include <math.h>
 
 class World
 {
@@ -22,6 +23,8 @@ private:
 
 	Map										mMap;
 
+	//TEST
+	sf::Vertex								mLine[2];
 public:
 	World(Yuna::Core::ResourceManager *pResourceManager);
 	~World();

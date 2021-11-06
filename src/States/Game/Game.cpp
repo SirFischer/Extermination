@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 2nd November 2021 8:07:11 pm
+ * Last Modified: Tuesday, 2nd November 2021 9:52:41 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -64,7 +64,8 @@ void	Game::Update()
 	}
 	else
 	{
-		mWorld.Update(&mEventHandler, mDeltaTime);
+		mWorld.Update(&mEventHandler, mDeltaTime / 2.f);
+		mWorld.Update(&mEventHandler, mDeltaTime / 2.f);
 		if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
 		{
 			mFPSClock.restart();

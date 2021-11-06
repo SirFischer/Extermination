@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 2nd November 2021 7:59:32 pm
+ * Last Modified: Saturday, 6th November 2021 8:17:15 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -42,7 +42,8 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 {
 	for (auto &entity : mEntities)
 	{
-		mMap.ResolveCollisions(entity.get());
+		mMap.UpdateEntity(entity.get());
+		mMap.UpdateLine(mLine[0].position, mLine[1].position);
 		entity->Update(pEventHandler, mDeltaTime);
 	}
 }
@@ -55,5 +56,17 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	mMap.Render(pWindow, view);
 	for (auto &entity : mEntities)
 		entity->Render(pWindow);
+	/**
+	 * TEST
+	 **/
+	sf::Vector2f pos = mPlayer->GetPosition();
+	pos.x += mPlayer->GetGlobalBounds().width / 2.f;
+	pos.y += mPlayer->GetGlobalBounds().height / 2.f;
+	mLine[0].position = pos;
+	mLine[0].color = sf::Color::Blue;
+	mLine[1].position = sf::Vector2f(pWindow->GetRelativeMousePos()) + (view.getCenter() - sf::Vector2f(1600.f / 2.f, 900.f / 2.f));
+	mLine[1].color = sf::Color::Blue;
+	pWindow->Draw(mLine, 2, sf::PrimitiveType::Lines);
+	/*****/
 	pWindow->ResetView(true);
 }
