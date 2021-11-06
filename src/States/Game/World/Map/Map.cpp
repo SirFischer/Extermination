@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 6th November 2021 1:03:16 pm
+ * Last Modified: Saturday, 6th November 2021 5:47:14 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -48,6 +48,8 @@ void	Map::UpdateEntity(Entity *pEntity)
 		{
 			pEntity->mVelocity.x += collisionNormal.x * std::abs(pEntity->mVelocity.x) * (1.f - collisionTime);
 			pEntity->mVelocity.y += collisionNormal.y * std::abs(pEntity->mVelocity.y) * (1.f - collisionTime);
+			if (collisionNormal.y < 0.f)
+				pEntity->mOnGround = true;
 		}
 	}
 }
