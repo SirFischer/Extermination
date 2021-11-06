@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 6th November 2021 12:18:06 pm
+ * Last Modified: Saturday, 6th November 2021 5:01:08 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -18,7 +18,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager)
 	mPlayer.reset(new Player());
 	mPlayer->Init(pResourceManager);
 	mEntities.push_back(mPlayer);
-	mMap.Generate(100, 600, 3, 5, time(0));
+	mMap.Generate(200, 300, 3, 5, time(0));
 
 	Yuna::Core::Console::sCommand reGenMapCommand;
 	reGenMapCommand.mHelpShort = "Regenerate map";

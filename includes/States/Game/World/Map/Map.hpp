@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 6th November 2021 1:03:23 pm
+ * Last Modified: Saturday, 6th November 2021 4:59:47 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -31,7 +31,7 @@ private:
 	std::vector<Block>					mBlocks;
 	std::unique_ptr<Yuna::Utils::QTree<Block>>		mBlockQTree;
 	sf::Sprite							mSprite;
-	uint32_t							mGridSize = 100;
+	uint32_t							mGridSize = 64;
 	sf::Vector2f						mSize;
 	uint32_t							mAmplitude;
 
