@@ -1,35 +1,35 @@
 /*
- * File: Menu.cpp
+ * File: Options.cpp
  * Project: Extermination
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 8:17:35 am
+ * Last Modified: Sunday, 7th November 2021 3:56:01 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
-#include "Menu.hpp"
+#include "Options.hpp"
 
-Menu::Menu(Yuna::Core::Window* tWindow)
+Options::Options(Yuna::Core::Window* tWindow)
 :State(tWindow)
 {
 	
 }
 
-Menu::~Menu()
+Options::~Options()
 {
 }
 
-void	Menu::Init()
+void	Options::Init()
 {
-	mActive = true;
-	InitMenuItems();
-	InitMenuControls();
+	InitOptionsItems();
+	InitOptionsControls();
+	InitGraphicsOptions();
 	Yuna::Core::Console::InitUI();
 }
 
-void	Menu::Update()
+void	Options::Update()
 {
 	Yuna::Core::Console::Update();
 	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_TOGGLE))
@@ -57,17 +57,16 @@ void	Menu::Update()
 	}
 }
 
-void	Menu::HandleEvents()
+void	Options::HandleEvents()
 {
 	sf::Event event;
 	while (mWindow->PollEvent(event))
 	{
 		mEventHandler.HandleEvent(event);
-		
 	}
 }
 
-void	Menu::Render()
+void	Options::Render()
 {
 	mWindow->Clear();
 	mf::GUI::Render();

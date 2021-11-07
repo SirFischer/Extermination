@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 6th November 2021 5:47:14 pm
+ * Last Modified: Sunday, 7th November 2021 7:37:18 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -23,7 +23,7 @@ Map::~Map()
 
 void	Map::UpdateEntity(Entity *pEntity)
 {
-	auto list = mBlockQTree->RangeSearch(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 1.f), pEntity->GetPosition().y - (mGridSize * 1.f)), sf::Vector2f(mGridSize * 4.f, mGridSize * 4.f)));
+	auto list = mBlockQTree->RangeSearch(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 2.f), pEntity->GetPosition().y - (mGridSize * 2.f)), sf::Vector2f(mGridSize * 4.f, mGridSize * 4.f)));
 	sf::Vector2f collisionPoint;
 	sf::Vector2f collisionNormal;
 	sf::Vector2f rayDir = pEntity->mVelocity;

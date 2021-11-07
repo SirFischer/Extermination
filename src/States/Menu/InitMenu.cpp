@@ -9,7 +9,7 @@ void	Menu::InitMenuItems()
 	Yuna::Core::eStateControls *stateAction = &mStateAction;
 	uint8_t	*nextState = &mNextState;
 
-	mf::GUI::AddWidget(mf::Button::Create(sf::Color::Transparent, sf::Color(50, 50, 50, 120))
+	mf::GUI::AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
 	->SetClickEvent([active, stateAction, nextState](){
 		*active = false;
 		*stateAction = Yuna::Core::eStateControls::NEXT_STATE;
@@ -17,18 +17,31 @@ void	Menu::InitMenuItems()
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Play")
-	->SetTextPosition(10, 5)
-	->SetPosition(45, 300)->SetPositionPercentage(true, false));
+	->SetTextPosition(15, 5)
+	->SetPosition(3, 200)->SetPositionPercentage(true, false));
 
-	mf::GUI::AddWidget(mf::Button::Create(sf::Color::Transparent, sf::Color(50, 50, 50, 120))
+
+	mf::GUI::AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
+	->SetClickEvent([active, stateAction, nextState](){
+		*active = false;
+		*stateAction = Yuna::Core::eStateControls::NEXT_STATE;
+		*nextState = (uint8_t)eStates::OPTIONS;
+	})
+	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
+	->SetText("Options")
+	->SetTextPosition(15, 5)
+	->SetSize(160, 50)
+	->SetPosition(3, 300)->SetPositionPercentage(true, false));
+
+	mf::GUI::AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
 	->SetClickEvent([active, stateAction](){
 		*active = false;
 		*stateAction = Yuna::Core::eStateControls::EXIT;
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Exit")
-	->SetTextPosition(10, 5)
-	->SetPosition(45, 400)->SetPositionPercentage(true, false));
+	->SetTextPosition(15, 5)
+	->SetPosition(1, 93)->SetPositionPercentage(true, true));
 
 }
 
