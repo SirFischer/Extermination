@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 3:56:01 pm
+ * Last Modified: Sunday, 7th November 2021 5:47:09 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -26,6 +26,7 @@ void	Options::Init()
 	InitOptionsItems();
 	InitOptionsControls();
 	InitGraphicsOptions();
+	InitControlsOptions();
 	Yuna::Core::Console::InitUI();
 }
 

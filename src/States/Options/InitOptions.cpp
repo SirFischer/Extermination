@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 7:54:51 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 4:06:15 pm
+ * Last Modified: Sunday, 7th November 2021 5:50:53 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -25,7 +25,12 @@ void	Options::InitOptionsItems()
 	auto *controlsList = &mControlsOptionsList;
 	auto *mainList = &mMainOptionsList;
 
-	mf::GUI::AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
+	mf::GUI::AddWidget(mf::List::Create()
+	->SetPosition(1, 10)->SetPositionPercentage(true, true)
+	->SetSize(30, 80)->SetSizePercentage(true, true)
+	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
+	->SetItemSpacing(20)
+	->AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
 	->SetClickEvent([graphicsList, audioList, controlsList, mainList](){
 		if (*audioList)
 			(*audioList)->SetDisabled(true);
@@ -38,8 +43,21 @@ void	Options::InitOptionsItems()
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Graphics")
 	->SetSize(200, 50)
-	->SetTextPosition(15, 5)
-	->SetPosition(1, 25)->SetPositionPercentage(true, true));
+	->SetTextPosition(15, 5))
+	->AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
+	->SetClickEvent([graphicsList, audioList, controlsList, mainList](){
+		if (*audioList)
+			(*audioList)->SetDisabled(true);
+		if (*graphicsList)
+			(*graphicsList)->SetDisabled(true);
+		if (*mainList)
+			(*mainList)->SetDisabled(true);
+		(*controlsList)->SetDisabled(false);
+	})
+	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
+	->SetText("Controls")
+	->SetSize(200, 50)
+	->SetTextPosition(15, 5)));
 
 	mf::GUI::AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
 	->SetClickEvent([active, stateAction, nextState](){
