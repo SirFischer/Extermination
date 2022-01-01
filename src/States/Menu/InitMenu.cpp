@@ -1,51 +1,67 @@
 #include "Menu.hpp"
 
+inline void initBtnHover(mf::Button *pBtn, Yuna::Core::ResourceManager *pResourceManager)
+{
+	pBtn->AddEventListener(mf::eEvent::ENTERED, [pBtn, pResourceManager](){
+		pBtn->SetBackground(*(pResourceManager->LoadTexture("assets/textures/Button_01_hover.png")));
+	});
+	pBtn->AddEventListener(mf::eEvent::EXITED, [pBtn, pResourceManager](){
+		pBtn->SetBackground(*(pResourceManager->LoadTexture("assets/textures/Button_01.png")));
+	});
+}
+
 void	Menu::InitMenuItems()
 {
 	mf::GUI::ClearWidgets();
 
-	//Exit button
-	bool *active = &mActive;
-	Yuna::Core::eStateControls *stateAction = &mStateAction;
-	uint8_t	*nextState = &mNextState;
+	auto btnPlay = mf::Button::Create()
+	->SetClickEvent([this](){
+		this->mActive = false;
+		this->mStateAction = Yuna::Core::eStateControls::NEXT_STATE;
+		this->mNextState = (uint8_t)eStates::GAME;
+	})
+	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
+	->SetText("Play")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
+	->SetTextPosition(15, 5)
+	->SetPosition(3, 200)->SetPositionPercentage(true, false);
+	initBtnHover(btnPlay, &mResourceManager);
+
+	auto btnOptions = mf::Button::Create()
+	->SetClickEvent([this](){
+		this->mActive = false;
+		this->mStateAction = Yuna::Core::eStateControls::NEXT_STATE;
+		this->mNextState = (uint8_t)eStates::OPTIONS;
+	})
+	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
+	->SetText("Options")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
+	->SetTextPosition(15, 5)
+	->SetSize(160, 50)
+	->SetPosition(3, 300)->SetPositionPercentage(true, false);
+	initBtnHover(btnOptions, &mResourceManager);
+
 
 	mf::GUI::AddWidget(mf::List::Create()
 	->SetPosition(3, 10)->SetPositionPercentage(true, true)
 	->SetSize(30, 80)->SetSizePercentage(true, true)
 	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
 	->SetItemSpacing(50)
-	->AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
-	->SetClickEvent([active, stateAction, nextState](){
-		*active = false;
-		*stateAction = Yuna::Core::eStateControls::NEXT_STATE;
-		*nextState = (uint8_t)eStates::GAME;
-	})
-	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
-	->SetText("Play")
-	->SetTextPosition(15, 5)
-	->SetPosition(3, 200)->SetPositionPercentage(true, false))
-	->AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
-	->SetClickEvent([active, stateAction, nextState](){
-		*active = false;
-		*stateAction = Yuna::Core::eStateControls::NEXT_STATE;
-		*nextState = (uint8_t)eStates::OPTIONS;
-	})
-	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
-	->SetText("Options")
-	->SetTextPosition(15, 5)
-	->SetSize(160, 50)
-	->SetPosition(3, 300)->SetPositionPercentage(true, false)));
+	->AddWidget(btnPlay)
+	->AddWidget(btnOptions));
 
-	mf::GUI::AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
-	->SetClickEvent([active, stateAction](){
-		*active = false;
-		*stateAction = Yuna::Core::eStateControls::EXIT;
+	auto btn = mf::Button::Create()
+	->SetClickEvent([this](){
+		this->mActive = false;
+		this->mStateAction = Yuna::Core::eStateControls::EXIT;
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Exit")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetTextPosition(15, 5)
-	->SetPosition(1, 93)->SetPositionPercentage(true, true));
-
+	->SetPosition(1, 93)->SetPositionPercentage(true, true);
+	initBtnHover(btn, &mResourceManager);
+	mf::GUI::AddWidget(btn);
 }
 
 void	Menu::InitMenuControls()

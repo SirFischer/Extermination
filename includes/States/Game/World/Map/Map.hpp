@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 6th November 2021 4:59:47 pm
+ * Last Modified: Saturday, 1st January 2022 10:10:02 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -33,6 +33,7 @@ private:
 	sf::Sprite							mSprite;
 	uint32_t							mGridSize = 64;
 	sf::Vector2f						mSize;
+	uint32_t							mLength;
 	uint32_t							mAmplitude;
 
 	void	ApplyPerlin(uint32_t pSegments, float pAmplitude);
@@ -45,6 +46,9 @@ public:
 	~Map();
 
 	void	UpdateEntity(Entity *pEntity);
+
+	void	ApplyCollisionDetection(Entity *pEntity);
+	void	LockPlayerToMap(Entity *pEntity);
 
 	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed);
 

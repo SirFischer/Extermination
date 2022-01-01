@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 7:54:51 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 5:50:53 pm
+ * Last Modified: Wednesday, 29th December 2021 8:39:01 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -15,58 +15,51 @@ void	Options::InitOptionsItems()
 {
 	mf::GUI::ClearWidgets();
 
-	//Exit button
-	bool *active = &mActive;
-	Yuna::Core::eStateControls *stateAction = &mStateAction;
-	uint8_t	*nextState = &mNextState;
-
-	auto *graphicsList = &mGraphicsOptionsList;
-	auto *audioList = &mAudioOptionsList;
-	auto *controlsList = &mControlsOptionsList;
-	auto *mainList = &mMainOptionsList;
-
 	mf::GUI::AddWidget(mf::List::Create()
 	->SetPosition(1, 10)->SetPositionPercentage(true, true)
 	->SetSize(30, 80)->SetSizePercentage(true, true)
 	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
 	->SetItemSpacing(20)
-	->AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
-	->SetClickEvent([graphicsList, audioList, controlsList, mainList](){
-		if (*audioList)
-			(*audioList)->SetDisabled(true);
-		if (*controlsList)
-			(*controlsList)->SetDisabled(true);
-		if (*mainList)
-			(*mainList)->SetDisabled(true);
-		(*graphicsList)->SetDisabled(false);
+	->AddWidget(mf::Button::Create()
+	->SetClickEvent([this](){
+		if (this->mAudioOptionsList)
+			this->mAudioOptionsList->SetDisabled(true);
+		if (this->mControlsOptionsList)
+			this->mControlsOptionsList->SetDisabled(true);
+		if (this->mMainOptionsList)
+			this->mMainOptionsList->SetDisabled(true);
+		(this->mGraphicsOptionsList)->SetDisabled(false);
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Graphics")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetSize(200, 50)
 	->SetTextPosition(15, 5))
-	->AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
-	->SetClickEvent([graphicsList, audioList, controlsList, mainList](){
-		if (*audioList)
-			(*audioList)->SetDisabled(true);
-		if (*graphicsList)
-			(*graphicsList)->SetDisabled(true);
-		if (*mainList)
-			(*mainList)->SetDisabled(true);
-		(*controlsList)->SetDisabled(false);
+	->AddWidget(mf::Button::Create()
+	->SetClickEvent([this](){
+		if (this->mAudioOptionsList)
+			this->mAudioOptionsList->SetDisabled(true);
+		if (this->mGraphicsOptionsList)
+			this->mGraphicsOptionsList->SetDisabled(true);
+		if (this->mMainOptionsList)
+			this->mMainOptionsList->SetDisabled(true);
+		this->mControlsOptionsList->SetDisabled(false);
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Controls")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetSize(200, 50)
 	->SetTextPosition(15, 5)));
 
-	mf::GUI::AddWidget(mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png")
-	->SetClickEvent([active, stateAction, nextState](){
-		*active = false;
-		*stateAction = Yuna::Core::eStateControls::PREVIOUS_STATE;
-		*nextState = (uint8_t)eStates::MENU;
+	mf::GUI::AddWidget(mf::Button::Create()
+	->SetClickEvent([this](){
+		this->mActive = false;
+		this->mStateAction = Yuna::Core::eStateControls::PREVIOUS_STATE;
+		this->mNextState = (uint8_t)eStates::MENU;
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Back")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetSize(110, 50)
 	->SetTextPosition(15, 5)
 	->SetPosition(1, 93)->SetPositionPercentage(true, true));

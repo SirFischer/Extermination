@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 10:43:08 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 4:40:34 pm
+ * Last Modified: Wednesday, 29th December 2021 8:36:31 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -20,9 +20,10 @@ void	Options::InitGraphicsOptions()
 	->SetPosition(2.5, 2.5)->SetPositionPercentage(true, true);
 	mOptionsContainer->AddWidget(mGraphicsOptionsList);
 	mGraphicsOptionsList->SetDisabled(true);
-	mf::Button *fullscreen = mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png");
+	mf::Button *fullscreen = mf::Button::Create();
 	fullscreen->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
 	->SetText("Fullscreen Off")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetSize(275, 50)
 	->SetTextPosition(10, 5)
 	->SetClickEvent([this, fullscreen]() {

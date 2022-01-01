@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 2nd November 2021 9:18:12 pm
+ * Last Modified: Saturday, 1st January 2022 10:29:05 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -25,7 +25,6 @@ void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 {
 	int segmentCounter = 0;
 	float pA, pB = (((float)random() / (float)RAND_MAX) * 2.0f) - 1.0f;
-	std::cout << pB << std::endl;
 	for (auto &block : mBlocks)
 	{
 		sf::Vector2f	pos = block.GetPosition();
@@ -77,6 +76,7 @@ void	Map::GenerateGround()
 	}
 }
 
+
 void	Map::GenerateQTree()
 {
 	sf::Vector2f min = sf::Vector2f(0, 0), max = min;
@@ -101,12 +101,13 @@ void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uin
 {
 	mBlocks.clear();
 	mAmplitude = pAmplitude;
+	mLength = pLength;
 	mSize = sf::Vector2f(pLength * mGridSize, pAmplitude * 2.f);
 	srand(pSeed);
 	for (uint32_t i = 0; i < pLength; i++)
 	{
 		Block block;
-		block.SetPosition(sf::Vector2f(i * mGridSize, 0));
+		block.SetPosition(sf::Vector2f(i * mGridSize, pAmplitude));
 		mBlocks.push_back(block);
 	}
 	uint32_t	segments = pStartSegments;

@@ -15,8 +15,9 @@ void	Splash::Init()
 	mSplashClock.restart();
 	mf::GUI::ClearWidgets();
 	mf::GUI::AddWidget(
-		mf::Image::Create("assets/images/logo_small_trans.png")
-		->SetSizePercentage(false, false)->SetSize(400, 400)
+		mf::Image::Create()
+		->SetSizePercentage(false, false)->SetSize(400 * 1.414, 400)
+		->SetImage("assets/images/Logo_V3.5_short.png")
 		->SetPositionPercentage(true, true)->SetPosition(35, 25));
 }
 

@@ -56,7 +56,8 @@
 		"list": "cpp",
 		"set": "cpp",
 		"ratio": "cpp",
-		"iomanip": "cpp"
+		"iomanip": "cpp",
+		"numbers": "cpp"
 	},
 	"psi-header.config": {
 	"company": "Deep Vertic",

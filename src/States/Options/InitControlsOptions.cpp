@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 5:48:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 5:49:42 pm
+ * Last Modified: Tuesday, 28th December 2021 6:41:37 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -19,10 +19,12 @@ void	Options::InitControlsOptions()
 	->SetPosition(2.5, 2.5)->SetPositionPercentage(true, true);
 	mOptionsContainer->AddWidget(mControlsOptionsList);
 	mControlsOptionsList->SetDisabled(true);
-	mf::Button *fullscreen = mf::Button::Create("assets/textures/Button_01.png", "assets/textures/Button_01_hover.png");
-	fullscreen->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+
+	mf::Button *restoreDefaults = mf::Button::Create();
+	restoreDefaults->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
 	->SetText("Restore defaults")
 	->SetSize(375, 50)
-	->SetTextPosition(10, 5);
-	mControlsOptionsList->AddWidget(fullscreen);
+	->SetTextPosition(10, 5)
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"));
+	mControlsOptionsList->AddWidget(restoreDefaults);
 }
