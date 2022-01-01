@@ -4,7 +4,7 @@
  * File Created: Saturday, 1st January 2022 9:42:55 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 1st January 2022 10:24:30 am
+ * Last Modified: Saturday, 1st January 2022 11:09:30 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -14,7 +14,7 @@
 
 void	Map::ApplyCollisionDetection(Entity *pEntity)
 {
-	auto list = mBlockQTree->RangeSearch(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 2.f), pEntity->GetPosition().y - (mGridSize * 2.f)), sf::Vector2f(mGridSize * 4.f, mGridSize * 4.f)));
+	auto list = mBlockQTree->RangeSearch(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 3.f), pEntity->GetPosition().y - (mGridSize * 3.f)), sf::Vector2f(mGridSize * 6.f, mGridSize * 6.f)));
 	sf::Vector2f collisionPoint;
 	sf::Vector2f collisionNormal;
 	sf::Vector2f rayDir = pEntity->mVelocity;

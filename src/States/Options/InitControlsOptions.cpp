@@ -4,12 +4,13 @@
  * File Created: Sunday, 7th November 2021 5:48:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 28th December 2021 6:41:37 am
+ * Last Modified: Saturday, 1st January 2022 11:01:30 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #include "Options.hpp"
+#include "Utils/Utils.hpp"
 
 void	Options::InitControlsOptions()
 {
@@ -26,5 +27,6 @@ void	Options::InitControlsOptions()
 	->SetSize(375, 50)
 	->SetTextPosition(10, 5)
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"));
+	Utils::initBtnHover(restoreDefaults, &mResourceManager);
 	mControlsOptionsList->AddWidget(restoreDefaults);
 }

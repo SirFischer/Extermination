@@ -1,14 +1,5 @@
 #include "Menu.hpp"
-
-inline void initBtnHover(mf::Button *pBtn, Yuna::Core::ResourceManager *pResourceManager)
-{
-	pBtn->AddEventListener(mf::eEvent::ENTERED, [pBtn, pResourceManager](){
-		pBtn->SetBackground(*(pResourceManager->LoadTexture("assets/textures/Button_01_hover.png")));
-	});
-	pBtn->AddEventListener(mf::eEvent::EXITED, [pBtn, pResourceManager](){
-		pBtn->SetBackground(*(pResourceManager->LoadTexture("assets/textures/Button_01.png")));
-	});
-}
+#include "Utils/Utils.hpp"
 
 void	Menu::InitMenuItems()
 {
@@ -25,7 +16,7 @@ void	Menu::InitMenuItems()
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetTextPosition(15, 5)
 	->SetPosition(3, 200)->SetPositionPercentage(true, false);
-	initBtnHover(btnPlay, &mResourceManager);
+	Utils::initBtnHover(btnPlay, &mResourceManager);
 
 	auto btnOptions = mf::Button::Create()
 	->SetClickEvent([this](){
@@ -39,7 +30,7 @@ void	Menu::InitMenuItems()
 	->SetTextPosition(15, 5)
 	->SetSize(160, 50)
 	->SetPosition(3, 300)->SetPositionPercentage(true, false);
-	initBtnHover(btnOptions, &mResourceManager);
+	Utils::initBtnHover(btnOptions, &mResourceManager);
 
 
 	mf::GUI::AddWidget(mf::List::Create()
@@ -60,7 +51,7 @@ void	Menu::InitMenuItems()
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetTextPosition(15, 5)
 	->SetPosition(1, 93)->SetPositionPercentage(true, true);
-	initBtnHover(btn, &mResourceManager);
+	Utils::initBtnHover(btn, &mResourceManager);
 	mf::GUI::AddWidget(btn);
 }
 

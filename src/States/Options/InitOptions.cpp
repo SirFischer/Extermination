@@ -4,23 +4,20 @@
  * File Created: Sunday, 7th November 2021 7:54:51 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 29th December 2021 8:39:01 pm
+ * Last Modified: Saturday, 1st January 2022 10:59:53 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #include "Options.hpp"
+#include "Utils/Utils.hpp"
 
 void	Options::InitOptionsItems()
 {
 	mf::GUI::ClearWidgets();
 
-	mf::GUI::AddWidget(mf::List::Create()
-	->SetPosition(1, 10)->SetPositionPercentage(true, true)
-	->SetSize(30, 80)->SetSizePercentage(true, true)
-	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
-	->SetItemSpacing(20)
-	->AddWidget(mf::Button::Create()
+
+	auto btn = mf::Button::Create()
 	->SetClickEvent([this](){
 		if (this->mAudioOptionsList)
 			this->mAudioOptionsList->SetDisabled(true);
@@ -34,8 +31,10 @@ void	Options::InitOptionsItems()
 	->SetText("Graphics")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetSize(200, 50)
-	->SetTextPosition(15, 5))
-	->AddWidget(mf::Button::Create()
+	->SetTextPosition(15, 5);
+	Utils::initBtnHover(btn, &mResourceManager);
+
+	auto btn2 = mf::Button::Create()
 	->SetClickEvent([this](){
 		if (this->mAudioOptionsList)
 			this->mAudioOptionsList->SetDisabled(true);
@@ -49,9 +48,19 @@ void	Options::InitOptionsItems()
 	->SetText("Controls")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetSize(200, 50)
-	->SetTextPosition(15, 5)));
+	->SetTextPosition(15, 5);
+	Utils::initBtnHover(btn2, &mResourceManager);
 
-	mf::GUI::AddWidget(mf::Button::Create()
+
+	mf::GUI::AddWidget(mf::List::Create()
+	->SetPosition(1, 10)->SetPositionPercentage(true, true)
+	->SetSize(30, 80)->SetSizePercentage(true, true)
+	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
+	->SetItemSpacing(20)
+	->AddWidget(btn)
+	->AddWidget(btn2));
+
+	auto btn3 = mf::Button::Create()
 	->SetClickEvent([this](){
 		this->mActive = false;
 		this->mStateAction = Yuna::Core::eStateControls::PREVIOUS_STATE;
@@ -62,8 +71,12 @@ void	Options::InitOptionsItems()
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
 	->SetSize(110, 50)
 	->SetTextPosition(15, 5)
-	->SetPosition(1, 93)->SetPositionPercentage(true, true));
+	->SetPosition(1, 93)->SetPositionPercentage(true, true);
 
+	Utils::initBtnHover(btn3, &mResourceManager);
+
+	mf::GUI::AddWidget(btn3);
+	
 	mf::GUI::AddWidget((mOptionsContainer = mf::Container::Create())
 	->SetPosition(40, 5)->SetPositionPercentage(true, true)
 	->SetSize(50, 90)->SetSizePercentage(true, true)

@@ -4,13 +4,14 @@
  * File Created: Sunday, 7th November 2021 10:43:08 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 29th December 2021 8:36:31 pm
+ * Last Modified: Saturday, 1st January 2022 11:01:00 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 
 #include "Options.hpp"
+#include "Utils/Utils.hpp"
 
 void	Options::InitGraphicsOptions()
 {
@@ -30,5 +31,6 @@ void	Options::InitGraphicsOptions()
 		this->mWindow->SetFullscreen(!this->mWindow->IsFullscreen());
 		fullscreen->SetText(std::string("Fullscreen ") + (this->mWindow->IsFullscreen() ? "On" : "Off"));
 	});
+	Utils::initBtnHover(fullscreen, &mResourceManager);
 	mGraphicsOptionsList->AddWidget(fullscreen);
 }
