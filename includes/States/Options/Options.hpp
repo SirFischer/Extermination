@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:35 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 5:48:00 pm
+ * Last Modified: Sunday, 2nd January 2022 2:06:54 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -22,6 +22,7 @@ private:
 	void	InitGraphicsOptions();
 	void	InitControlsOptions();
 	void	InitOptionsControls();
+	void	InitButtonBinding(std::string pText, eAction pAction);
 
 
 	void	Update();

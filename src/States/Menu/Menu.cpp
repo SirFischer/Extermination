@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 8:17:35 am
+ * Last Modified: Sunday, 2nd January 2022 8:01:10 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -27,6 +27,8 @@ void	Menu::Init()
 	InitMenuItems();
 	InitMenuControls();
 	Yuna::Core::Console::InitUI();
+	Yuna::Core::Console::mEventHandler = &mEventHandler;
+	Yuna::Core::Console::mActionNames = GetActionNames();
 }
 
 void	Menu::Update()

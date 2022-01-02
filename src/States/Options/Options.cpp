@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 5:47:09 pm
+ * Last Modified: Sunday, 2nd January 2022 8:18:25 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -26,8 +26,11 @@ void	Options::Init()
 	InitOptionsItems();
 	InitOptionsControls();
 	InitGraphicsOptions();
-	InitControlsOptions();
 	Yuna::Core::Console::InitUI();
+	Yuna::Core::Console::mEventHandler = &mEventHandler;
+	Yuna::Core::Console::mActionNames = GetActionNames();
+	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
+	InitControlsOptions();
 }
 
 void	Options::Update()

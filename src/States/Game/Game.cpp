@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 2nd November 2021 9:52:41 pm
+ * Last Modified: Sunday, 2nd January 2022 8:25:12 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -29,11 +29,10 @@ void	Game::Init()
 	InitGameControls();
 	InitGameCommands();
 	Yuna::Core::Console::InitUI();
+	Yuna::Core::Console::mEventHandler = &mEventHandler;
+	Yuna::Core::Console::mActionNames = GetActionNames();
+	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
 
-	mEventHandler.BindKey(sf::Keyboard::D, (uint32_t)eAction::MOVE_RIGHT);
-	mEventHandler.BindKey(sf::Keyboard::A, (uint32_t)eAction::MOVE_LEFT);
-	mEventHandler.BindKey(sf::Keyboard::Space, (uint32_t)eAction::JUMP);
-	mEventHandler.BindKey(sf::Keyboard::S, (uint32_t)eAction::CROUCH);
 }
 
 void	Game::Update()

@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 7:54:51 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 1st January 2022 10:59:53 am
+ * Last Modified: Saturday, 1st January 2022 2:22:57 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -29,7 +29,7 @@ void	Options::InitOptionsItems()
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Graphics")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(200, 50)
 	->SetTextPosition(15, 5);
 	Utils::initBtnHover(btn, &mResourceManager);
@@ -46,7 +46,7 @@ void	Options::InitOptionsItems()
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Controls")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(200, 50)
 	->SetTextPosition(15, 5);
 	Utils::initBtnHover(btn2, &mResourceManager);
@@ -68,7 +68,7 @@ void	Options::InitOptionsItems()
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Back")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/Button_01.png"))
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(110, 50)
 	->SetTextPosition(15, 5)
 	->SetPosition(1, 93)->SetPositionPercentage(true, true);
