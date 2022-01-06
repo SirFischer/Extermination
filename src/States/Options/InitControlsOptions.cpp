@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 5:48:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 2nd January 2022 8:30:46 pm
+ * Last Modified: Thursday, 6th January 2022 8:32:10 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -38,13 +38,29 @@ void	Options::InitButtonBinding(std::string pText, eAction pAction)
 		}
 	}
 	btn->SetText(mEventHandler.GetBindingNames()[tmp]);
-	btn->SetSize(150, 64)->SetTextPosition(10, 5);
+	btn->SetSize(516, 64)->SetTextPosition(10, 5);
 	btn->SetPosition(250, -15);
+	btn->SetTextPosition(10, 5);
 	Utils::initBtnHover(btn, &mResourceManager);
+	eAction *tmpAction = &mActionToBind;
+	bool	*tmpListen = &mListenToNextEvent;
+	mf::Button **tmpBtn = &mButtonToBind;
+	btn->SetClickEvent([pAction, tmpAction, tmpListen, btn, tmpBtn](){
+		*tmpAction = pAction;
+		*tmpListen = true;
+		*tmpBtn = btn;
+		btn->SetText("Press any key");
+	});
 }
 
 void	Options::InitControlsOptions()
 {
+	if (mControlsOptionsList)
+	{
+		mOptionsContainer->RemoveWidget(mControlsOptionsList);
+		mControlsOptionsList->ClearWidgets(true);
+		delete mControlsOptionsList;
+	}
 	mControlsOptionsList = mf::List::Create()
 	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
 	->SetSize(95, 95)->SetSizePercentage(true, true)
@@ -68,4 +84,17 @@ void	Options::InitControlsOptions()
 	InitButtonBinding("Jump", eAction::JUMP);
 	InitButtonBinding("Move left", eAction::MOVE_LEFT);
 	InitButtonBinding("Move Right", eAction::MOVE_RIGHT);
+
+	mf::Button *saveBtn = mf::Button::Create();
+	mControlsOptionsList->AddWidget(saveBtn);
+	saveBtn->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
+	->SetText("Save")
+	->SetTextPosition(10, 5);
+	Utils::initBtnHover(saveBtn, &mResourceManager);
+	saveBtn->SetClickEvent([](){
+		std::cout << "saving to console...\n";
+		Yuna::Core::Console::WriteBindingsToFile("assets/scripts/UserBindings.cfg");
+	});
+
 }

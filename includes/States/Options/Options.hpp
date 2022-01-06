@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:35 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 2nd January 2022 2:06:54 pm
+ * Last Modified: Wednesday, 5th January 2022 9:11:29 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -35,6 +35,10 @@ private:
 	mf::List	*mAudioOptionsList = NULL;
 	mf::List	*mControlsOptionsList = NULL;
 	mf::List	*mMainOptionsList = NULL;
+
+	bool		mListenToNextEvent = false;
+	eAction		mActionToBind;
+	mf::Button	*mButtonToBind = NULL;
 
 public:
 	void	Init();

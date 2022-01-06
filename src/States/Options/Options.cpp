@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 2nd January 2022 8:18:25 pm
+ * Last Modified: Thursday, 6th January 2022 8:33:12 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -30,6 +30,7 @@ void	Options::Init()
 	Yuna::Core::Console::mEventHandler = &mEventHandler;
 	Yuna::Core::Console::mActionNames = GetActionNames();
 	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
+	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
 	InitControlsOptions();
 }
 
@@ -66,6 +67,25 @@ void	Options::HandleEvents()
 	sf::Event event;
 	while (mWindow->PollEvent(event))
 	{
+		if (mListenToNextEvent)
+		{
+			if (event.type == sf::Event::KeyPressed)
+			{
+				mEventHandler.BindKey(event.key.code, (uint32_t)mActionToBind);
+				mListenToNextEvent = false;
+				mButtonToBind->SetText(mEventHandler.GetBindingNames()[event.key.code]);
+				InitControlsOptions();
+				mControlsOptionsList->SetDisabled(false);
+			}
+			else if (event.type == sf::Event::MouseButtonPressed)
+			{
+				mEventHandler.BindButton(event.mouseButton.button, (uint32_t)mActionToBind);
+				mListenToNextEvent = false;
+				mButtonToBind->SetText(mEventHandler.GetBindingNames()[event.key.code + 1000]);
+				InitControlsOptions();
+				mControlsOptionsList->SetDisabled(false);
+			}
+		}
 		mEventHandler.HandleEvent(event);
 	}
 }

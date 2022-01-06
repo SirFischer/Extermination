@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 2nd January 2022 8:25:12 pm
+ * Last Modified: Thursday, 6th January 2022 7:48:34 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -32,6 +32,7 @@ void	Game::Init()
 	Yuna::Core::Console::mEventHandler = &mEventHandler;
 	Yuna::Core::Console::mActionNames = GetActionNames();
 	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
+	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
 
 }
 
