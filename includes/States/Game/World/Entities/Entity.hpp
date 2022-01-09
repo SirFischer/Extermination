@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 9th January 2022 11:35:04 am
+ * Last Modified: Sunday, 9th January 2022 5:55:14 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -29,6 +29,7 @@ protected:
 	sf::Vector2f			mOrigin = sf::Vector2f(0, 0);
 	sf::Vector2f			mVelocity = sf::Vector2f(0, 0);
 	float					mSpeed = 100;
+	bool					mFacingLeft = false;
 	bool					mOnGround = false;
 
 	std::map<eAnimationAction, Animation>	mAnimations;
