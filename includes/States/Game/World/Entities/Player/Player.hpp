@@ -4,23 +4,24 @@
  * File Created: Friday, 22nd October 2021 8:12:25 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 30th October 2021 8:46:28 pm
+ * Last Modified: Sunday, 9th January 2022 11:44:22 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #pragma once
-#include "Entities/Entity.hpp"
+#include "Entity.hpp"
 #include "Actions.hpp"
 
 class Player : public Entity
 {
 private:
-	/* data */
+	void	LoadAnimations();
 public:
 	Player(/* args */);
 	~Player();
 
+	void	Init(Yuna::Core::ResourceManager *pResourceManager);
 	void	Update(Yuna::Core::EventHandler *tEventhandler, float mDeltaTime);
 
 };
