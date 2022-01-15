@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 1st January 2022 10:29:05 am
+ * Last Modified: Saturday, 15th January 2022 10:20:42 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -91,6 +91,10 @@ void	Map::GenerateQTree()
 		if (i.GetPosition().y > max.y)
 			max.y = i.GetPosition().y;
 	}
+	mGlobalBounds.left = min.x;
+	mGlobalBounds.top = min.y;
+	mGlobalBounds.width = max.x - min.x;
+	mGlobalBounds.height = max.y - min.y;
 	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(sf::FloatRect(min.x, min.y, max.x - min.x, max.y - min.y));
 	for (auto &i : mBlocks)
 		mBlockQTree->Insert(i, sf::FloatRect(i.GetPosition(), sf::Vector2f(mGridSize, mGridSize)));

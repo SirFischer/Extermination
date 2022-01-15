@@ -21,7 +21,6 @@
                 "${workspaceFolder}/includes/States/Game/World",
                 "${workspaceFolder}/Yuna/mfGUI/includes/widgetComponents",
                 "${workspaceFolder}/includes/States/Game/World/Map",
-                "${workspaceFolder}/includes/States/Game/World/Player",
                 "${workspaceFolder}/Yuna/includes/physics/collisions",
                 "${workspaceFolder}/Yuna/includes/utils/qTree",
                 "${workspaceFolder}/includes/States/Options",

@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 9th January 2022 10:51:53 am
+ * Last Modified: Saturday, 15th January 2022 10:17:38 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -12,8 +12,9 @@
 #include "World.hpp"
 
 
-World::World(Yuna::Core::ResourceManager *pResourceManager)
-:mMap(pResourceManager)
+World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
+:mStatistics(pStatistics)
+,mMap(pResourceManager)
 {
 	mPlayer.reset(new Player());
 	mPlayer->Init(pResourceManager);
@@ -21,6 +22,9 @@ World::World(Yuna::Core::ResourceManager *pResourceManager)
 	mPlayer->SetOrigin(12, 4);
 	mEntities.push_back(mPlayer);
 	mMap.Generate(mMapSize, 300, 3, 5, time(0));
+	mCamera.SetView(pWindow->GetView());
+	sf::IntRect mapBounds = mMap.GetGlobalBounds();
+	mCamera.SetBoundries(sf::IntRect(mapBounds.left, -20000, mapBounds.width + mapBounds.left, 20000));
 
 	Yuna::Core::Console::sCommand reGenMapCommand;
 	reGenMapCommand.mHelpShort = "Regenerate map";
@@ -40,21 +44,23 @@ World::~World()
 {
 }
 
-void	World::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
+void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 {
 	for (auto &entity : mEntities)
 	{
 		mMap.UpdateEntity(entity.get());
-		entity->Update(pEventHandler, mDeltaTime);
+		entity->Update(pEventHandler, pDeltaTime);
 	}
+	mStatistics->SetPosition(mPlayer->GetPosition());
+	mStatistics->SetVelocity(mPlayer->GetVelocity());
+	mCamera.Update(pDeltaTime);
 }
 
 void	World::Render(Yuna::Core::Window *pWindow)
 {
-	sf::View view = pWindow->GetView();
-	view.setCenter(mPlayer->GetPosition());
-	pWindow->SetView(view);
-	mMap.Render(pWindow, view);
+	mCamera.SetPosition(mPlayer->GetPosition());
+	pWindow->SetView(mCamera.GetView());
+	mMap.Render(pWindow, mCamera.GetView());
 	for (auto &entity : mEntities)
 		entity->Render(pWindow);
 	pWindow->ResetView(true);

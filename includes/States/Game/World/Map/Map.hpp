@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 1st January 2022 10:10:02 am
+ * Last Modified: Saturday, 15th January 2022 10:14:34 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -35,6 +35,7 @@ private:
 	sf::Vector2f						mSize;
 	uint32_t							mLength;
 	uint32_t							mAmplitude;
+	sf::IntRect							mGlobalBounds = sf::IntRect(0, 0, 0, 0);
 
 	void	ApplyPerlin(uint32_t pSegments, float pAmplitude);
 	void	FitToGrid();
@@ -49,6 +50,8 @@ public:
 
 	void	ApplyCollisionDetection(Entity *pEntity);
 	void	LockPlayerToMap(Entity *pEntity);
+
+	sf::IntRect	GetGlobalBounds(){return (mGlobalBounds);}
 
 	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed);
 

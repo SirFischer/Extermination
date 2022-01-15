@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 6th January 2022 7:48:34 am
+ * Last Modified: Saturday, 15th January 2022 9:52:59 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -14,7 +14,8 @@
 
 Game::Game(Yuna::Core::Window* tWindow)
 :State(tWindow)
-,mWorld(&mResourceManager)
+,mWorld(&mResourceManager, &mStatistics, mWindow)
+,mStatistics(&mResourceManager)
 {
 	
 }
@@ -33,7 +34,6 @@ void	Game::Init()
 	Yuna::Core::Console::mActionNames = GetActionNames();
 	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
 	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
-
 }
 
 void	Game::Update()
@@ -64,15 +64,16 @@ void	Game::Update()
 	}
 	else
 	{
-		mWorld.Update(&mEventHandler, mDeltaTime / 2.f);
-		mWorld.Update(&mEventHandler, mDeltaTime / 2.f);
-		if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
-		{
-			mFPSClock.restart();
-			std::cout << "FPS: " << 1.f / mFPS << std::endl;
-		}
+		mWorld.Update(&mEventHandler, mDeltaTime);
+		//mWorld.Update(&mEventHandler, mDeltaTime / 2.f);
 	}
-	
+	if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
+	{
+		mFPSClock.restart();
+		mStatistics.SetFPS(mFPS);
+		mStatistics.SetFrameTime(mFrameTime);
+	}
+	mStatistics.Update();
 }
 
 void	Game::HandleEvents()
@@ -89,5 +90,6 @@ void	Game::Render()
 	mWindow->Clear(sf::Color::Cyan);
 	mWorld.Render(mWindow);
 	mf::GUI::Render();
+	mStatistics.Render(mWindow);
 	mWindow->Render();
 }

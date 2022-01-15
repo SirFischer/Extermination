@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 9th January 2022 7:50:40 pm
+ * Last Modified: Saturday, 15th January 2022 9:57:36 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -22,7 +22,6 @@ Player::~Player()
 
 void	Player::LoadAnimations()
 {
-	//Frame 1
 	mAnimations[eAnimationAction::IDLE].AddFrame((AnimationFrame){.mRect = sf::IntRect(0, 0, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
 	mAnimations[eAnimationAction::IDLE].AddFrame((AnimationFrame){.mRect = sf::IntRect(64, 0, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
 	mAnimations[eAnimationAction::IDLE].AddFrame((AnimationFrame){.mRect = sf::IntRect(128, 0, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
@@ -47,10 +46,9 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	mPosition += mVelocity;
 	mSprite.setPosition(mPosition);
 	mCurrentAnimation = eAnimationAction::IDLE;
-	
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_RIGHT))
 	{
-		mVelocity.x += mSpeed * mDeltaTime  * ((mOnGround) ? 1.0f : 0.5f);
+		mVelocity.x += mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
 		mFacingLeft = false;
 		mCurrentAnimation = eAnimationAction::WALK;
 	}
@@ -62,13 +60,13 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::JUMP) && mOnGround)
 	{
-		mVelocity.y = -(mSpeed * mDeltaTime) * 10.f;
+		mVelocity.y = -(mJumpForce * mDeltaTime);
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::CROUCH))
 	{
 		mVelocity.y += mSpeed * mDeltaTime;
 	}
-	mVelocity.y += 0.2f;
+	mVelocity.y += (25.f * mDeltaTime);
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
 }

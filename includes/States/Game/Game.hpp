@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:25:47 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 30th October 2021 11:33:22 pm
+ * Last Modified: Saturday, 15th January 2022 9:37:15 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -12,6 +12,7 @@
 #pragma once
 #include "Yuna.hpp"
 #include "World.hpp"
+#include "Statistics.hpp"
 #include "../../Actions.hpp"
 
 class Game : public Yuna::Core::State
@@ -20,6 +21,7 @@ private:
 	World	mWorld;
 
 	sf::Clock	mFPSClock;
+	Statistics	mStatistics;
 
 	void	Update();
 	void	HandleEvents();
