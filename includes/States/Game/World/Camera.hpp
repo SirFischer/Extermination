@@ -4,7 +4,7 @@
  * File Created: Saturday, 15th January 2022 8:05:39 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 12:17:40 pm
+ * Last Modified: Sunday, 16th January 2022 8:52:14 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -17,11 +17,17 @@ class Camera
 {
 private:
 	sf::View		mView;
-	sf::Vector2f	mPosition = sf::Vector2f(0, 0);
+	sf::Vector2f	mPosition = sf::Vector2f(500, 0);
+	sf::Vector2f	mTargetPosition = sf::Vector2f(0, 0);
+	float			mActiveAreaRadius = 100.f;
+	float			mLinearVelocity = 0;
+	float			mSpeed = 8.0f;
 	sf::IntRect		mTargetArea = sf::IntRect(0, 0, 50, 50);
 	sf::Vector2f	mSize = sf::Vector2f(900, 800);
 	sf::Vector2f	mVelocity = sf::Vector2f(0, 0);
 	sf::IntRect		mBoundries = sf::IntRect(0, -999, 9999, 9999);
+
+	void			FollowTarget();
 
 public:
 	Camera(/* args */);
@@ -33,6 +39,8 @@ public:
 
 	void		SetPosition(const float &pX, const float &pY);
 	void		SetPosition(const sf::Vector2f &pPosition);
+	void		SetTargetPosition(const sf::Vector2f &pTargetPosition);
+	void		SetActiveArea(float pRadius);
 	void		SetVelocity(const float &pX, const float &pY);
 	void		SetBoundries(const sf::IntRect &pBoundries);
 	void		SetView(const sf::View &pView);

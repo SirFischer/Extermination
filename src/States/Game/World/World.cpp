@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 10:17:38 am
+ * Last Modified: Sunday, 16th January 2022 8:31:45 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -53,12 +53,12 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 	}
 	mStatistics->SetPosition(mPlayer->GetPosition());
 	mStatistics->SetVelocity(mPlayer->GetVelocity());
+	mCamera.SetTargetPosition(sf::Vector2f(mPlayer->GetPosition().x + mPlayer->GetGlobalBounds().width, mPlayer->GetPosition().y + mPlayer->GetGlobalBounds().height));
 	mCamera.Update(pDeltaTime);
 }
 
 void	World::Render(Yuna::Core::Window *pWindow)
 {
-	mCamera.SetPosition(mPlayer->GetPosition());
 	pWindow->SetView(mCamera.GetView());
 	mMap.Render(pWindow, mCamera.GetView());
 	for (auto &entity : mEntities)
