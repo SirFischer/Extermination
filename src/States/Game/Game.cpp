@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 9:52:59 am
+ * Last Modified: Monday, 24th January 2022 6:15:03 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -34,6 +34,7 @@ void	Game::Init()
 	Yuna::Core::Console::mActionNames = GetActionNames();
 	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
 	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
+	mWindow->SetVSync(true);
 }
 
 void	Game::Update()
@@ -65,7 +66,6 @@ void	Game::Update()
 	else
 	{
 		mWorld.Update(&mEventHandler, mDeltaTime);
-		//mWorld.Update(&mEventHandler, mDeltaTime / 2.f);
 	}
 	if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
 	{

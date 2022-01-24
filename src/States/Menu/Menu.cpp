@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 2nd January 2022 8:01:10 pm
+ * Last Modified: Sunday, 23rd January 2022 8:29:31 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -65,7 +65,6 @@ void	Menu::HandleEvents()
 	while (mWindow->PollEvent(event))
 	{
 		mEventHandler.HandleEvent(event);
-		
 	}
 }
 

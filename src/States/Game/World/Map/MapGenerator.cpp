@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 10:20:42 am
+ * Last Modified: Monday, 24th January 2022 6:20:40 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -67,7 +67,7 @@ void	Map::GenerateGround()
 		for (uint32_t j = 1; j < ((length > 15) ? length : 15); j++)
 		{
 			Block block;
-			block.SetTexturePath("assets/textures/dirt400x400.png");
+			block.SetTexturePath("assets/textures/Sandstone.jpg");
 			sf::Vector2f pos = mBlocks[i].GetPosition();
 			pos.y += (mGridSize * j);
 			block.SetPosition(pos);
@@ -111,6 +111,7 @@ void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uin
 	for (uint32_t i = 0; i < pLength; i++)
 	{
 		Block block;
+		block.SetTexturePath("assets/textures/Sandstone-top.jpg");
 		block.SetPosition(sf::Vector2f(i * mGridSize, pAmplitude));
 		mBlocks.push_back(block);
 	}

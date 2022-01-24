@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 9:58:27 am
+ * Last Modified: Monday, 24th January 2022 6:26:03 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -20,7 +20,8 @@ protected:
 	enum class				eAnimationAction
 	{
 		IDLE,
-		WALK
+		WALK,
+		FALL
 	};
 
 	sf::Sprite				mSprite;
@@ -32,6 +33,7 @@ protected:
 	float					mJumpForce = 650;
 	bool					mFacingLeft = false;
 	bool					mOnGround = false;
+	sf::Clock				mFallClock;
 
 	std::map<eAnimationAction, Animation>	mAnimations;
 	eAnimationAction						mCurrentAnimation = eAnimationAction::IDLE;

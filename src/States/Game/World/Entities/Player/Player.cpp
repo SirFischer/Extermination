@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 9:57:36 am
+ * Last Modified: Monday, 24th January 2022 6:29:51 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -30,6 +30,9 @@ void	Player::LoadAnimations()
 	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(64, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
 	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(128, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
 	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(192, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::FALL].AddFrame((AnimationFrame){.mRect = sf::IntRect(0, 128, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::FALL].AddFrame((AnimationFrame){.mRect = sf::IntRect(64, 128, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+
 }
 
 void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
@@ -45,7 +48,7 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	Entity::Update(pEventhandler, mDeltaTime);
 	mPosition += mVelocity;
 	mSprite.setPosition(mPosition);
-	mCurrentAnimation = eAnimationAction::IDLE;
+	
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_RIGHT))
 	{
 		mVelocity.x += mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
@@ -65,6 +68,10 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	if (pEventhandler->GetEventState((uint32_t)eAction::CROUCH))
 	{
 		mVelocity.y += mSpeed * mDeltaTime;
+	}
+	if (mFallClock.getElapsedTime() > sf::seconds(0.8))
+	{
+		mCurrentAnimation = eAnimationAction::FALL;
 	}
 	mVelocity.y += (25.f * mDeltaTime);
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
