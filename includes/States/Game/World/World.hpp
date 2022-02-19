@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 9:44:27 am
+ * Last Modified: Monday, 24th January 2022 6:48:06 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -12,6 +12,7 @@
 #pragma once
 
 #include "Player.hpp"
+#include "Enemy.hpp"
 #include "Map.hpp"
 #include "Statistics.hpp"
 #include "Camera.hpp"

@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 24th January 2022 6:29:51 am
+ * Last Modified: Monday, 24th January 2022 6:51:41 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -46,8 +46,6 @@ void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
 void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 {
 	Entity::Update(pEventhandler, mDeltaTime);
-	mPosition += mVelocity;
-	mSprite.setPosition(mPosition);
 	
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_RIGHT))
 	{
@@ -73,7 +71,6 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	{
 		mCurrentAnimation = eAnimationAction::FALL;
 	}
-	mVelocity.y += (25.f * mDeltaTime);
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
 }

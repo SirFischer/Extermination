@@ -25,7 +25,9 @@
                 "${workspaceFolder}/Yuna/includes/utils/qTree",
                 "${workspaceFolder}/includes/States/Options",
                 "${workspaceFolder}/includes/States/Game/World/Entities",
-                "${workspaceFolder}/includes/States/Game/World/Entities/Player"
+                "${workspaceFolder}/includes/States/Game/World/Entities/Player",
+                "${workspaceFolder}/includes/States/Game/World/Entities/Enemy",
+                "${workspaceFolder}/includes/States/Game/World/Items"
             ],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "gnu17",

@@ -4,7 +4,7 @@
  * File Created: Sunday, 2nd January 2022 8:04:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 2nd January 2022 8:04:25 pm
+ * Last Modified: Monday, 24th January 2022 6:37:22 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -19,6 +19,7 @@ std::map<uint32_t, std::string>	*GetActionNames()
 		names[(uint32_t)eAction::JUMP] = "jump";
 		names[(uint32_t)eAction::MOVE_RIGHT] = "move_right";
 		names[(uint32_t)eAction::MOVE_LEFT] = "move_left";
+		names[(uint32_t)eAction::CROUCH] = "crouch";
 	}
 	return (&names);
 }

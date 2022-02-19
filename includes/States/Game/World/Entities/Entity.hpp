@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 24th January 2022 6:26:03 am
+ * Last Modified: Wednesday, 16th February 2022 6:28:47 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -48,6 +48,8 @@ public:
 
 	virtual void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
 	virtual void	Render(Yuna::Core::Window *pWindow);
+
+	virtual void	Attack(Entity *pTarget);
 
 	void			SetSize(float pX, float pY) {mSize = sf::Vector2f(pX, pY);}
 	void			SetOrigin(float pX, float pY) {mOrigin = sf::Vector2f(pX, pY);}

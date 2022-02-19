@@ -4,7 +4,7 @@
  * File Created: Monday, 25th October 2021 7:58:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 3rd November 2021 6:28:14 am
+ * Last Modified: Wednesday, 16th February 2022 6:37:55 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -22,7 +22,7 @@ enum class eBlockType
 
 class Block
 {
-private:
+protected:
 	bool			mIsBreakable = false;
 	float			mHealth = 100.f;
 	sf::Color		mColor = sf::Color(255, 255, 255, 255);

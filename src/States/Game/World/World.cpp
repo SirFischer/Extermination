@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 16th January 2022 8:31:45 am
+ * Last Modified: Monday, 24th January 2022 6:48:31 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -25,6 +25,9 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mCamera.SetView(pWindow->GetView());
 	sf::IntRect mapBounds = mMap.GetGlobalBounds();
 	mCamera.SetBoundries(sf::IntRect(mapBounds.left, -20000, mapBounds.width + mapBounds.left, 20000));
+
+	mEntities.push_back(std::make_shared<Enemy>());
+	mEntities.back()->Init(pResourceManager);
 
 	Yuna::Core::Console::sCommand reGenMapCommand;
 	reGenMapCommand.mHelpShort = "Regenerate map";
