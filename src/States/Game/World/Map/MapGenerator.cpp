@@ -4,12 +4,12 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 24th January 2022 6:20:40 am
+ * Last Modified: Saturday, 26th February 2022 12:05:12 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
-#define MAX_QUADTREE_NODES 9
+#define MAX_QUADTREE_NODES 18
 #include "Map.hpp"
 #include <math.h>
 #include <random>
@@ -95,7 +95,8 @@ void	Map::GenerateQTree()
 	mGlobalBounds.top = min.y;
 	mGlobalBounds.width = max.x - min.x;
 	mGlobalBounds.height = max.y - min.y;
-	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(sf::FloatRect(min.x, min.y, max.x - min.x, max.y - min.y));
+	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(
+		sf::FloatRect(min.x, min.y - mMaxBuildHeight, max.x - min.x + mMaxBuildHeight, std::max(max.x - min.x, max.y - min.y) + mMaxBuildHeight));
 	for (auto &i : mBlocks)
 		mBlockQTree->Insert(i, sf::FloatRect(i.GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
 }

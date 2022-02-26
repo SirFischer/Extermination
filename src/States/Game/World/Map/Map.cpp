@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 1st January 2022 10:17:21 am
+ * Last Modified: Saturday, 26th February 2022 11:50:08 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -27,6 +27,10 @@ void	Map::UpdateEntity(Entity *pEntity)
 	LockPlayerToMap(pEntity);
 }
 
+void	Map::Update(float pDeltaTime)
+{
+	(void)pDeltaTime;
+}
 
 void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 {
@@ -53,5 +57,6 @@ void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 			pWindow->Draw(mSprite);
 		}
 	}
+	mBlockQTree->Render(pWindow->GetRenderWindow(), -1);
 }
 
