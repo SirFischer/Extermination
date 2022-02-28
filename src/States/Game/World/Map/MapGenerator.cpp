@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 26th February 2022 12:05:12 pm
+ * Last Modified: Saturday, 26th February 2022 8:44:37 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -125,6 +125,7 @@ void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uin
 		amplitude /= 2;
 	}
 	FitToGrid();
+	GeneratePathNodes();
 	GenerateGround();
 	GenerateQTree();
 }

@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 26th February 2022 12:04:15 pm
+ * Last Modified: Monday, 28th February 2022 3:34:31 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -20,6 +20,7 @@
 
 #include "Block.hpp"
 #include "Entities/Entity.hpp"
+#include "Path/PathNode.hpp"
 
 
 class Map
@@ -30,6 +31,7 @@ private:
 	
 	std::vector<Block>					mBlocks;
 	std::unique_ptr<Yuna::Utils::QTree<Block>>				mBlockQTree;
+	std::unique_ptr<Yuna::Utils::QTree<PathNode>>			mPathNodes;
 	sf::Sprite							mSprite;
 	uint32_t							mGridSize = 64;
 	uint32_t							mMaxBuildHeight = 1024;
@@ -42,6 +44,9 @@ private:
 	void	FitToGrid();
 	void	GenerateGround();
 	void	GenerateQTree();
+	void	GeneratePathNodes();
+	void	AddPathNode(Block *tBlock);
+	void	RemovePathNode(PathNode *tNode);
 	
 public:
 	Map(Yuna::Core::ResourceManager *mResourceManager);

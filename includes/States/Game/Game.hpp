@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:25:47 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 15th January 2022 9:37:15 am
+ * Last Modified: Saturday, 26th February 2022 4:21:37 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -14,6 +14,7 @@
 #include "World.hpp"
 #include "Statistics.hpp"
 #include "../../Actions.hpp"
+#include "Config.hpp"
 
 class Game : public Yuna::Core::State
 {
@@ -32,6 +33,8 @@ private:
 
 	//Commands
 	void	InitExitCommand(bool *active, Yuna::Core::eStateControls *action);
+	void	InitQtreeRenderingCommand();
+
 
 public:
 	Game(Yuna::Core::Window* tWindow);

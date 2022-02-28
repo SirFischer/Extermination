@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:38:16 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 28th October 2021 6:29:49 am
+ * Last Modified: Saturday, 26th February 2022 4:22:43 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -23,4 +23,5 @@ void	Game::InitGameControls()
 void	Game::InitGameCommands()
 {
 	InitExitCommand(&mActive, &mStateAction);
+	InitQtreeRenderingCommand();
 }
