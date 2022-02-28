@@ -26,7 +26,7 @@ SRCDIRS			:=	src
 
 SRCS			+=	$(shell find $(SRCDIRS) -name '*.cpp')
 
-INC_PATHS		:=	includes
+INC_PATHS		:=	src
 
 INC_PATHS		:=	$(shell find $(INC_PATHS) -type d)
 

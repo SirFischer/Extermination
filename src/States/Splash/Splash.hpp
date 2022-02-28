@@ -1,6 +1,6 @@
 #pragma once
 #include "Yuna.hpp"
-#include "States.hpp"
+#include "../States.hpp"
 
 class Splash : public Yuna::Core::State
 {

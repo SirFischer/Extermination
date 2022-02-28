@@ -4,14 +4,14 @@
  * File Created: Friday, 22nd October 2021 2:25:47 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 26th February 2022 4:21:37 pm
+ * Last Modified: Monday, 28th February 2022 3:46:30 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #pragma once
 #include "Yuna.hpp"
-#include "World.hpp"
+#include "World/World.hpp"
 #include "Statistics.hpp"
 #include "../../Actions.hpp"
 #include "Config.hpp"

@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 3:34:31 pm
+ * Last Modified: Monday, 28th February 2022 3:50:52 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -19,8 +19,8 @@
 #include "Yuna.hpp"
 
 #include "Block.hpp"
-#include "Entities/Entity.hpp"
-#include "Path/PathNode.hpp"
+#include "Entity.hpp"
+#include "PathNode.hpp"
 
 
 class Map

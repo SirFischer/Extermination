@@ -1,6 +1,6 @@
 #include "GameApplication.hpp"
 
-#include "StateFactory.hpp"
+#include "States/StateFactory.hpp"
 
 GameApplication::GameApplication(/* args */)
 {

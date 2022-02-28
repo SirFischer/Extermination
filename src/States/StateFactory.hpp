@@ -4,17 +4,17 @@
  * File Created: Sunday, 17th October 2021 11:02:38 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 7th November 2021 8:05:12 am
+ * Last Modified: Monday, 28th February 2022 3:45:35 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #pragma once
 #include "States.hpp"
-#include "Menu.hpp"
-#include "Options.hpp"
-#include "Splash.hpp"
-#include "Game.hpp"
+#include "Menu/Menu.hpp"
+#include "Options/Options.hpp"
+#include "Splash/Splash.hpp"
+#include "Game/Game.hpp"
 
 std::unique_ptr<Yuna::Core::State>	stateFactory(uint8_t tID, Yuna::Core::Window* tWindow)
 {
