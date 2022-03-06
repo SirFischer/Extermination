@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 3:50:52 pm
+ * Last Modified: Sunday, 6th March 2022 12:14:09 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -54,6 +54,8 @@ public:
 
 	void	UpdateEntity(Entity *pEntity);
 	void	Update(float pDeltaTime);
+
+	void	AddBlock(Block *pBlock);
 
 
 	void	ApplyCollisionDetection(Entity *pEntity);

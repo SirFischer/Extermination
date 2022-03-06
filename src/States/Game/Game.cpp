@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 24th January 2022 6:15:03 am
+ * Last Modified: Monday, 28th February 2022 3:57:21 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -66,6 +66,7 @@ void	Game::Update()
 	else
 	{
 		mWorld.Update(&mEventHandler, mDeltaTime);
+		//Update HUD
 	}
 	if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
 	{
@@ -89,6 +90,7 @@ void	Game::Render()
 {
 	mWindow->Clear(sf::Color::Cyan);
 	mWorld.Render(mWindow);
+	mHUD.Render(mWindow);
 	mf::GUI::Render();
 	mStatistics.Render(mWindow);
 	mWindow->Render();

@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 16th February 2022 6:28:47 pm
+ * Last Modified: Monday, 28th February 2022 4:01:59 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -13,6 +13,7 @@
 
 #include "Yuna.hpp"
 #include "Animation.hpp"
+#include "../Items/Item.hpp"
 
 class Entity
 {
@@ -34,6 +35,7 @@ protected:
 	bool					mFacingLeft = false;
 	bool					mOnGround = false;
 	sf::Clock				mFallClock;
+	std::shared_ptr<Item>	mEquipedItem;
 
 	std::map<eAnimationAction, Animation>	mAnimations;
 	eAnimationAction						mCurrentAnimation = eAnimationAction::IDLE;

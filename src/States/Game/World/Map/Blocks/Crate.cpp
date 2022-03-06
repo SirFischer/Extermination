@@ -1,21 +1,19 @@
 /*
  * File: Crate.cpp
  * Project: Extermination
- * File Created: Wednesday, 16th February 2022 6:34:46 pm
+ * File Created: Sunday, 6th March 2022 11:30:38 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 16th February 2022 6:39:49 pm
+ * Last Modified: Sunday, 6th March 2022 11:33:01 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
  */
-
-#include "Crates/Crate.hpp"
-
+#include "Crate.hpp"
 
 Crate::Crate(/* args */)
 {
-	
+	mTexturePath = "assets/textures/Crate.jpg";
 }
 
 Crate::~Crate()

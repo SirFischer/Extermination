@@ -4,12 +4,15 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 24th January 2022 6:48:31 am
+ * Last Modified: Sunday, 6th March 2022 7:04:40 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #include "World.hpp"
+
+#include "Items/CrateItem.hpp"
+#include "Blocks/Crate.hpp"
 
 
 World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
@@ -41,6 +44,13 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 		return (Yuna::Core::Console::eCommandStatus::SUCCESS);
 	};
 	Yuna::Core::Console::AddCommand(reGenMapCommand, "regenerate_map");
+	CrateItem *testItem = new CrateItem();
+	testItem->AddPrimaryAction([map](){
+		Crate block;
+		block.SetPosition(sf::Vector2f(100, 100));
+		map->AddBlock(&block);
+	});
+	mPlayer->EquipItem(testItem);
 }
 
 World::~World()

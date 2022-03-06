@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 27th February 2022 10:41:03 am
+ * Last Modified: Sunday, 6th March 2022 6:59:22 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -34,6 +34,14 @@ void	Map::Update(float pDeltaTime)
 	(void)pDeltaTime;
 }
 
+void	Map::AddBlock(Block *pBlock)
+{
+	if (!pBlock)
+		return ;
+	mBlockQTree->Insert(*pBlock, sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
+}
+
+
 void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 {
 	std::string		lastPath = "";
@@ -61,26 +69,5 @@ void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 	}
 	if (Config::mRenderQTree)
 		mBlockQTree->Render(pWindow->GetRenderWindow(), Config::mRenderQTree);
-
-	//Temporary rendering of path nodes
-	auto list2 = mPathNodes->RangeSearch(sf::FloatRect(
-					sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
-					pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
-					sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
-					pView.getSize().y + (mGridSize * 2.f))));
-	sf::CircleShape shape(mGridSize / 4.0);
-	for (auto &a : list2)
-	{
-		for (auto &b : *a)
-		{
-			auto position = b.mData.mPosition;
-			position.x += mGridSize / 4.0;
-			position.y += mGridSize / 4.0;
-			shape.setPosition(position);
-			shape.setFillColor(b.mData.open ? sf::Color::Green : sf::Color::Red);
-			pWindow->Draw(shape);
-		}
-	}
-	mPathNodes->Render(pWindow->GetRenderWindow(), -1);
 }
 

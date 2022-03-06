@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:25:47 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 3:46:30 pm
+ * Last Modified: Monday, 28th February 2022 3:56:28 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -15,6 +15,7 @@
 #include "Statistics.hpp"
 #include "../../Actions.hpp"
 #include "Config.hpp"
+#include "HUD/HUD.hpp"
 
 class Game : public Yuna::Core::State
 {
@@ -23,6 +24,7 @@ private:
 
 	sf::Clock	mFPSClock;
 	Statistics	mStatistics;
+	HUD			mHUD;
 
 	void	Update();
 	void	HandleEvents();

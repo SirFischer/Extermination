@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 24th January 2022 6:51:41 am
+ * Last Modified: Sunday, 6th March 2022 7:10:42 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -67,6 +67,13 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	{
 		mVelocity.y += mSpeed * mDeltaTime;
 	}
+	if (pEventhandler->GetEventState((uint32_t)eAction::USE_ITEM_1))
+	{
+		if (mEquipedItem)
+		{
+			mEquipedItem->UsePrimaryAction();
+		}
+	}
 	if (mFallClock.getElapsedTime() > sf::seconds(0.8))
 	{
 		mCurrentAnimation = eAnimationAction::FALL;
@@ -74,3 +81,12 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
 }
+
+void	Player::EquipItem(Item *pItem)
+{
+	if (pItem)
+	{
+		mEquipedItem.reset(pItem);
+	}
+}
+

@@ -1,10 +1,10 @@
 /*
- * File: Crate.hpp
+ * File: CrateItem.hpp
  * Project: Extermination
  * File Created: Wednesday, 16th February 2022 6:32:58 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 16th February 2022 6:39:45 pm
+ * Last Modified: Sunday, 6th March 2022 11:41:42 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -14,12 +14,12 @@
 
 #include "Item.hpp"
 
-class Crate : public Item
+class CrateItem : public Item
 {
 private:
 	/* data */
 public:
-	Crate(/* args */);
-	~Crate();
+	CrateItem(/* args */);
+	~CrateItem();
 };
 
