@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 5:48:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 6th January 2022 8:32:10 pm
+ * Last Modified: Friday, 25th March 2022 6:23:56 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -24,6 +24,7 @@ void	Options::InitButtonBinding(std::string pText, eAction pAction)
 	text->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf");
 	text->SetBackgroundColor(sf::Color::Transparent);
 	text->SetText(pText);
+	text->SetSize(250, 100);
 	auto btn = mf::Button::Create();
 	container->AddWidget(btn);
 	btn->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf"));
@@ -84,6 +85,8 @@ void	Options::InitControlsOptions()
 	InitButtonBinding("Jump", eAction::JUMP);
 	InitButtonBinding("Move left", eAction::MOVE_LEFT);
 	InitButtonBinding("Move Right", eAction::MOVE_RIGHT);
+	InitButtonBinding("Use Primary", eAction::USE_ITEM_1);
+	InitButtonBinding("Use Secondary", eAction::USE_ITEM_2);
 
 	mf::Button *saveBtn = mf::Button::Create();
 	mControlsOptionsList->AddWidget(saveBtn);
