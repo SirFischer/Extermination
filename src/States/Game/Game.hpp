@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:25:47 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 3:56:28 pm
+ * Last Modified: Thursday, 14th April 2022 7:56:40 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -36,6 +36,7 @@ private:
 	//Commands
 	void	InitExitCommand(bool *active, Yuna::Core::eStateControls *action);
 	void	InitQtreeRenderingCommand();
+	void	InitPathNodeRenderingCommand();
 
 
 public:

@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 6th March 2022 7:04:40 pm
+ * Last Modified: Thursday, 14th April 2022 9:33:50 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -45,9 +45,13 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	};
 	Yuna::Core::Console::AddCommand(reGenMapCommand, "regenerate_map");
 	CrateItem *testItem = new CrateItem();
-	testItem->AddPrimaryAction([map](){
+	Player		*player = mPlayer.get();
+	Camera		*cam = &mCamera;
+	testItem->AddPrimaryAction([map, player, pStatistics, pWindow, cam](){
 		Crate block;
-		block.SetPosition(sf::Vector2f(100, 100));
+		pWindow->SetView(cam->GetView());
+		block.SetPosition(sf::Vector2f(pWindow->GetViewMousePos()));
+		pWindow->ResetView(true);
 		map->AddBlock(&block);
 	});
 	mPlayer->EquipItem(testItem);
@@ -77,4 +81,10 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	for (auto &entity : mEntities)
 		entity->Render(pWindow);
 	pWindow->ResetView(true);
+}
+
+
+void	World::InitItems()
+{
+	
 }

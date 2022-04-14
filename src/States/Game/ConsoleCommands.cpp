@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:03:44 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 26th February 2022 4:32:12 pm
+ * Last Modified: Thursday, 14th April 2022 8:06:34 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -40,4 +40,21 @@ void	Game::InitQtreeRenderingCommand()
 		return (Yuna::Core::Console::eCommandStatus::SUCCESS);
 	};
 	Yuna::Core::Console::AddCommand(command, "render_qtree");
+}
+
+void	Game::InitPathNodeRenderingCommand()
+{
+	Yuna::Core::Console::sCommand command;
+	command.mHelpLong = "This command enables the rendering of path nodes for easier debuging.\nEnter 1 to enable and 0 to disable this feature.";
+	command.mHelpShort = "Enable/Disable pathfinding node rendering";
+	command.mFunction = [](const std::vector<std::string> &tParams) {
+		if (tParams.size() > 1 || !tParams.size())
+		{
+			return (Yuna::Core::Console::eCommandStatus::BAD_ARGUMENTS);
+		}
+		Config::mRenderPathNodes = (tParams.back() != "0");
+		Yuna::Core::Console::AddString(std::string("The pathnode rendering has been set to: ") + ((tParams.back() != "0") ? "enabled" : "disabled"));
+		return (Yuna::Core::Console::eCommandStatus::SUCCESS);
+	};
+	Yuna::Core::Console::AddCommand(command, "render_pathnodes");
 }

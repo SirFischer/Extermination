@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 3:47:13 pm
+ * Last Modified: Friday, 25th March 2022 6:32:49 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -30,6 +30,8 @@ private:
 	Map										mMap;
 
 	const uint32_t							mMapSize = 200;
+
+	void	InitItems();
 
 public:
 	World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow);

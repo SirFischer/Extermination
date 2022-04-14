@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 6th March 2022 12:14:09 pm
+ * Last Modified: Thursday, 14th April 2022 7:55:30 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -66,6 +66,8 @@ public:
 	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed);
 
 	void	Render(Yuna::Core::Window *pWindow, const sf::View	&pView);
+
+	void	RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView);
 
 };
 
