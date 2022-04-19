@@ -12,7 +12,7 @@
 #include "World.hpp"
 
 #include "Items/CrateItem.hpp"
-#include "Blocks/Crate.hpp"
+#include "Map/Blocks/Crate.hpp"
 
 
 World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
@@ -49,6 +49,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	Camera		*cam = &mCamera;
 	testItem->AddPrimaryAction([map, player, pStatistics, pWindow, cam](){
 		Crate block;
+		block.SetSize(sf::Vector2f(64, 64));
 		pWindow->SetView(cam->GetView());
 		block.SetPosition(sf::Vector2f(pWindow->GetViewMousePos()));
 		pWindow->ResetView(true);

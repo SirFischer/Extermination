@@ -4,14 +4,14 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 14th April 2022 9:52:06 am
+ * Last Modified: Friday, 15th April 2022 8:08:34 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #include "Map.hpp"
 
-#include "Config.hpp"
+#include "../../Config.hpp"
 
 Map::Map(Yuna::Core::ResourceManager *pResourceManager)
 {
@@ -39,7 +39,7 @@ void	Map::AddBlock(Block *pBlock)
 	if (!pBlock)
 		return ;
 	pBlock->SetPosition(sf::Vector2f(std::floor(pBlock->GetPosition().x / mGridSize) * mGridSize, std::floor(pBlock->GetPosition().y / mGridSize) * mGridSize));
-	auto list = mBlockQTree->RangeSearch(sf::FloatRect(pBlock->GetPosition() - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 4, mGridSize * 4)));
+	auto list = mBlockQTree->Query(sf::FloatRect(pBlock->GetPosition() - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 4, mGridSize * 4)));
 	for (auto &sublist : list) {
 		for (auto &block : *sublist)
 		{
@@ -47,6 +47,7 @@ void	Map::AddBlock(Block *pBlock)
 				return ;
 		}
 	}
+	AddPathNode(pBlock);
 	mBlockQTree->Insert(*pBlock, sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
 }
 
@@ -55,27 +56,23 @@ void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 {
 	std::string		lastPath = "";
 	mSprite.setScale(1, 1);
-	auto list = mBlockQTree->RangeSearch(sf::FloatRect(
-					sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
-					pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
-					sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
-					pView.getSize().y + (mGridSize * 2.f))));
-	for (auto &a : list)
-	{
-		for (auto &b : *a)
-		{
-			mSprite.setColor(b.mData.GetColor());
-			if (b.mData.GetTexturePath() != lastPath)
+	mBlockQTree->ForEach(sf::FloatRect(
+		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
+		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
+		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
+		pView.getSize().y + (mGridSize * 2.f))),
+		[&lastPath, sprite = &mSprite, resourceManager = mResourceManager, gridSize = mGridSize, pWindow](const Block &pBlock){
+			sprite->setColor(pBlock.GetColor());
+			if (pBlock.GetTexturePath() != lastPath)
 			{
-				sf::Texture	*texture = mResourceManager->LoadTexture(b.mData.GetTexturePath()).get();
-				mSprite.setTexture(*texture);
-				mSprite.setScale(sf::Vector2f((float)mGridSize / texture->getSize().x, (float)mGridSize / texture->getSize().y));
-				lastPath = b.mData.GetTexturePath();
+				sf::Texture	*texture = resourceManager->LoadTexture(pBlock.GetTexturePath()).get();
+				sprite->setTexture(*texture);
+				sprite->setScale(sf::Vector2f((float)gridSize / texture->getSize().x, (float)gridSize / texture->getSize().y));
+				lastPath = pBlock.GetTexturePath();
 			}
-			mSprite.setPosition(b.mData.GetPosition());
-			pWindow->Draw(mSprite);
-		}
-	}
+			sprite->setPosition(pBlock.GetPosition());
+			pWindow->Draw(*sprite);
+		});
 	if (Config::mRenderPathNodes)
 		RenderPathNodes(pWindow, pView);
 	if (Config::mRenderQTree)
@@ -86,19 +83,14 @@ void	Map::RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView)
 {
 	sf::CircleShape node(32);
 	node.setFillColor(sf::Color::Red);
-	auto list = mPathNodes->RangeSearch(sf::FloatRect(
-					sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
-					pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
-					sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
-					pView.getSize().y + (mGridSize * 2.f))));
-	for (auto &a : list)
-	{
-		for (auto &b : *a)
-		{
-			node.setPosition(b.mData.mPosition);
+	mPathNodes->ForEach(sf::FloatRect(
+		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
+		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
+		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
+		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow](const PathNode &pNode){
+			node.setPosition(pNode.mPosition);
 			pWindow->Draw(node);
-		}
-	}
+		});
 }
 
 

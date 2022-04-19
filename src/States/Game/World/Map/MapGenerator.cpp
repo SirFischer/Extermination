@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 26th February 2022 8:44:37 pm
+ * Last Modified: Friday, 15th April 2022 4:22:47 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -24,7 +24,7 @@ float	interpolate(float pA, float pB, float pX)
 void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 {
 	int segmentCounter = 0;
-	float pA, pB = (((float)random() / (float)RAND_MAX) * 2.0f) - 1.0f;
+	float pA = 0, pB = (((float)random() / (float)RAND_MAX) * 2.0f) - 1.0f;
 	for (auto &block : mBlocks)
 	{
 		sf::Vector2f	pos = block.GetPosition();
@@ -68,6 +68,7 @@ void	Map::GenerateGround()
 		{
 			Block block;
 			block.SetTexturePath("assets/textures/Sandstone.jpg");
+			block.SetSize(sf::Vector2f(mGridSize, mGridSize));
 			sf::Vector2f pos = mBlocks[i].GetPosition();
 			pos.y += (mGridSize * j);
 			block.SetPosition(pos);
@@ -97,8 +98,9 @@ void	Map::GenerateQTree()
 	mGlobalBounds.height = max.y - min.y;
 	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(
 		sf::FloatRect(min.x, min.y - mMaxBuildHeight, max.x - min.x + mMaxBuildHeight, std::max(max.x - min.x, max.y - min.y) + mMaxBuildHeight));
+	mPathNodes = std::make_unique<Yuna::Utils::QTree<PathNode>>(mBlockQTree->GetGlobalBounds());
 	for (auto &i : mBlocks)
-		mBlockQTree->Insert(i, sf::FloatRect(i.GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
+		AddBlock(&i);
 }
 
 
@@ -125,7 +127,6 @@ void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uin
 		amplitude /= 2;
 	}
 	FitToGrid();
-	GeneratePathNodes();
 	GenerateGround();
 	GenerateQTree();
 }

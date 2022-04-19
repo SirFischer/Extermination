@@ -12,7 +12,7 @@
 #pragma once
 #include "../Entity.hpp"
 #include "Actions.hpp"
-#include "CrateItem.hpp"
+#include "../../Items/CrateItem.hpp"
 
 class Player : public Entity
 {

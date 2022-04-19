@@ -15,7 +15,7 @@
 class Crate : public Block
 {
 private:
-	/* data */
+
 public:
 	Crate(/* args */);
 	~Crate();

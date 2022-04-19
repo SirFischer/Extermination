@@ -18,8 +18,8 @@
 
 #include "Yuna.hpp"
 
-#include "Block.hpp"
-#include "Entity.hpp"
+#include "Blocks/Block.hpp"
+#include "../Entities/Entity.hpp"
 #include "PathNode.hpp"
 
 

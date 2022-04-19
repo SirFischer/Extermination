@@ -4,28 +4,39 @@
  * File Created: Saturday, 26th February 2022 8:41:36 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 3:34:19 pm
+ * Last Modified: Monday, 18th April 2022 7:16:06 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
  */
 #include "Map.hpp"
 
-void	Map::GeneratePathNodes()
-{
-	mPathNodes = std::make_unique<Yuna::Utils::QTree<PathNode>>(sf::FloatRect(0, -(int)mAmplitude * 2, mLength * mGridSize, mLength * mGridSize));
-	for (auto &block : mBlocks)
-	{
-		AddPathNode(&block);
-	}
-}
+#include <iostream>
 
 void	Map::AddPathNode(Block *tBlock)
 {
+	if (!tBlock)
+		return ;
 	PathNode node;
 	node.mPosition = tBlock->GetPosition();
+	if (tBlock->IsBreakable())
+		mPathNodes->Insert(node, sf::FloatRect(node.mPosition, sf::Vector2f(mGridSize, mGridSize)));
+
 	node.mPosition.y -= mGridSize;
-	mPathNodes->Insert(node, sf::FloatRect(node.mPosition, sf::Vector2f(mGridSize, mGridSize)));
+
+	auto lists = mBlockQTree->Query(sf::FloatRect(tBlock->GetPosition() - sf::Vector2f(mGridSize, mGridSize), tBlock->GetSize() + sf::Vector2f(mGridSize * 2, mGridSize * 2)));
+	bool intersects = false;
+	for (auto &list : lists)
+	{
+		for (auto &block : *list)
+		{
+			if (block.mRect.contains(node.mPosition + sf::Vector2f(32, 32)) && !block.mData.IsBreakable())
+				intersects = true;
+		}
+	}
+	if (!intersects)
+		mPathNodes->Insert(node, sf::FloatRect(node.mPosition, sf::Vector2f(mGridSize, mGridSize)));
+	
 }
 
 void	Map::RemovePathNode(PathNode *tNode)

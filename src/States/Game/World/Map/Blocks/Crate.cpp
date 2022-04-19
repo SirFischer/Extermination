@@ -14,6 +14,7 @@
 Crate::Crate(/* args */)
 {
 	mTexturePath = "assets/textures/Crate.jpg";
+	mIsBreakable = true;
 }
 
 Crate::~Crate()

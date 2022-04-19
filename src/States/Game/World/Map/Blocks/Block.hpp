@@ -28,6 +28,7 @@ protected:
 	sf::Color		mColor = sf::Color(255, 255, 255, 255);
 	std::string		mTexturePath = "assets/textures/green400x400.png";
 	sf::Vector2f	mPosition;
+	sf::Vector2f	mSize;
 	eBlockType		mType;
 
 public:
@@ -37,14 +38,18 @@ public:
 	/**
 	 * Setters
 	 **/
-	void			SetPosition(sf::Vector2f pPosition){mPosition = pPosition;}
-	void			SetTexturePath(std::string pPath){mTexturePath = pPath;}
-	void			SetColor(sf::Color pColor){mColor = pColor;}
+	void			SetPosition(const sf::Vector2f &pPosition){mPosition = pPosition;}
+	void			SetSize(const sf::Vector2f &pSize){mSize = pSize;}
+	void			SetTexturePath(const std::string &pPath){mTexturePath = pPath;}
+	void			SetColor(const sf::Color &pColor){mColor = pColor;}
 
 	/**
 	 * Getters
 	 **/
-	std::string		GetTexturePath(){return (mTexturePath);}
-	sf::Vector2f	GetPosition(){return (mPosition);}
-	sf::Color		GetColor(){return (mColor);}
+	std::string		GetTexturePath() const {return (mTexturePath);}
+	sf::Vector2f		GetPosition() const {return (mPosition);}
+	sf::Vector2f		GetSize() const {return (mSize);}
+	sf::Color			GetColor() const {return (mColor);}
+
+	bool			IsBreakable() const {return (mIsBreakable);}
 };

@@ -14,7 +14,7 @@
 
 void	Map::ApplyCollisionDetection(Entity *pEntity)
 {
-	auto list = mBlockQTree->RangeSearch(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 3.f), pEntity->GetPosition().y - (mGridSize * 3.f)), sf::Vector2f(mGridSize * 6.f, mGridSize * 6.f)));
+	auto list = mBlockQTree->Query(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 3.f), pEntity->GetPosition().y - (mGridSize * 3.f)), sf::Vector2f(mGridSize * 6.f, mGridSize * 6.f)));
 	sf::Vector2f collisionPoint;
 	sf::Vector2f collisionNormal;
 	sf::Vector2f rayDir = pEntity->mVelocity;

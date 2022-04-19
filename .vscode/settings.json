@@ -16,9 +16,11 @@
 		"bit": "cpp",
 		"*.tcc": "cpp",
 		"compare": "cpp",
+		"complex": "cpp",
 		"concepts": "cpp",
 		"cstdint": "cpp",
 		"deque": "cpp",
+		"list": "cpp",
 		"map": "cpp",
 		"unordered_map": "cpp",
 		"vector": "cpp",
@@ -39,52 +41,19 @@
 		"utility": "cpp",
 		"fstream": "cpp",
 		"initializer_list": "cpp",
+		"iomanip": "cpp",
 		"iosfwd": "cpp",
 		"iostream": "cpp",
 		"istream": "cpp",
 		"limits": "cpp",
 		"new": "cpp",
+		"numbers": "cpp",
 		"ostream": "cpp",
 		"ranges": "cpp",
 		"sstream": "cpp",
 		"stdexcept": "cpp",
 		"streambuf": "cpp",
 		"cinttypes": "cpp",
-		"typeinfo": "cpp",
-		"chrono": "cpp",
-		"codecvt": "cpp",
-		"list": "cpp",
-		"set": "cpp",
-		"ratio": "cpp",
-		"iomanip": "cpp",
-		"numbers": "cpp",
-		"complex": "cpp"
-	},
-	"psi-header.config": {
-	"company": "Deep Vertic",
-	},
-	"psi-header.variables": [
-		["projectname", "Extermination"]
-	],
-	"psi-header.changes-tracking": {
-	"autoHeader": "autoSave",
-	"isActive": true,
-	},
-	"psi-header.templates": [
-	{
-		"language": "*",
-		"template": [
-			"File: <<filename>>",
-			"Project: <<projectname>>",
-			"File Created: <<filecreated('dddd, Do MMMM YYYY h:mm:ss a')>>",
-			"Author: <<author>>",
-			"-----",
-			"Last Modified: <<dateformat('dddd, Do MMMM YYYY h:mm:ss a')>>",
-			"Modified By: <<author>> ",
-			"-----",
-			"Copyright - <<year>> <<copyrightholder>>"
-		]
+		"typeinfo": "cpp"
 	}
-	],
-	"C_Cpp.errorSquiggles": "Disabled",
 }
