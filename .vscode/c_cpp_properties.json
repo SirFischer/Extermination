@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/Yuna/sandbox/includes/**",
+                "${workspaceFolder}/src/**"
+            ],
+            "defines": [],
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17"
+        }
+    ],
+    "version": 4
+}
