@@ -31,7 +31,7 @@ void	Options::InitOptionsItems()
 	->SetText("Graphics")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(200, 50)
-	->SetTextPosition(15, 5);
+	->SetTextPosition(10, 5);
 	Utils::initBtnHover(btn, &mResourceManager);
 
 	auto btn2 = mf::Button::Create()
@@ -48,7 +48,7 @@ void	Options::InitOptionsItems()
 	->SetText("Controls")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(200, 50)
-	->SetTextPosition(15, 5);
+	->SetTextPosition(10, 5);
 	Utils::initBtnHover(btn2, &mResourceManager);
 
 
@@ -70,7 +70,7 @@ void	Options::InitOptionsItems()
 	->SetText("Back")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(110, 50)
-	->SetTextPosition(15, 5)
+	->SetTextPosition(10, 5)
 	->SetPosition(1, 93)->SetPositionPercentage(true, true);
 
 	Utils::initBtnHover(btn3, &mResourceManager);

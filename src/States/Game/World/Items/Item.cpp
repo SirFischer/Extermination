@@ -11,11 +11,16 @@
  */
 #include "Item.hpp"
 
-Item::Item(/* args */)
+Item::Item()
 {
-	
+
 }
 
 Item::~Item()
 {
+}
+
+void	Item::Render(Yuna::Core::Window *pWindow)
+{
+	(void)pWindow;
 }

@@ -20,7 +20,11 @@ void	Map::AddPathNode(Block *tBlock)
 	PathNode node;
 	node.mPosition = tBlock->GetPosition();
 	if (tBlock->IsBreakable())
+	{
+		node.mIsBreakable = true;
 		mPathNodes->Insert(node, sf::FloatRect(node.mPosition, sf::Vector2f(mGridSize, mGridSize)));
+	}
+	node.mIsBreakable = false;
 
 	node.mPosition.y -= mGridSize;
 
@@ -38,6 +42,12 @@ void	Map::AddPathNode(Block *tBlock)
 		mPathNodes->Insert(node, sf::FloatRect(node.mPosition, sf::Vector2f(mGridSize, mGridSize)));
 	
 }
+
+void	Map::AddNode(PathNode *pNode)
+{
+	(void)pNode;
+}
+
 
 void	Map::RemovePathNode(PathNode *tNode)
 {

@@ -46,6 +46,7 @@ private:
 	void	GenerateQTree();
 	void	GeneratePathNodes();
 	void	AddPathNode(Block *tBlock);
+	void	AddNode(PathNode *pNode);
 	void	RemovePathNode(PathNode *tNode);
 	
 public:
@@ -56,6 +57,7 @@ public:
 	void	Update(float pDeltaTime);
 
 	void	AddBlock(Block *pBlock);
+	void	RemoveBlock(sf::Vector2f pPos);
 
 
 	void	ApplyCollisionDetection(Entity *pEntity);

@@ -4,7 +4,7 @@
  * File Created: Sunday, 6th March 2022 11:30:38 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 6th March 2022 11:33:01 am
+ * Last Modified: Monday, 25th April 2022 9:01:40 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -13,7 +13,7 @@
 
 Crate::Crate(/* args */)
 {
-	mTexturePath = "assets/textures/Crate.jpg";
+	mTexturePath = "assets/textures/crate.png";
 	mIsBreakable = true;
 }
 

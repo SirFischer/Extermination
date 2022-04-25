@@ -15,6 +15,7 @@
 
 struct PathNode
 {
-	bool			open = true;
+	bool			mOpen = true;
+	bool			mIsBreakable = false;
 	sf::Vector2f	mPosition;
 };

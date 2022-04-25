@@ -13,15 +13,23 @@
 #pragma once
 #include <functional>
 
+#include "Yuna.hpp"
+
 class Item
 {
 protected:
 	std::function<void()>	mPrimaryAction;
+	std::function<void()>	mSecondaryAction;
 
 public:
-	Item(/* args */);
+	Item();
 	~Item();
 
 	void	UsePrimaryAction() {if (mPrimaryAction) mPrimaryAction();}
 	void	AddPrimaryAction(std::function<void()> pAction) {mPrimaryAction = pAction;}
+	void	UseSecondaryAction() {if (mSecondaryAction) mSecondaryAction();}
+	void	AddSecondaryAction(std::function<void()> pAction) {mSecondaryAction = pAction;}
+
+	virtual void	Render(Yuna::Core::Window *pWindow);
+
 };

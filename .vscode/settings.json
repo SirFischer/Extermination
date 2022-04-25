@@ -55,5 +55,31 @@
 		"streambuf": "cpp",
 		"cinttypes": "cpp",
 		"typeinfo": "cpp"
-	}
+	},
+	"psi-header.config": {
+		"company": "Deep Vertic",
+		},
+		"psi-header.variables": [
+			["projectname", "Extermination"]
+		],
+		"psi-header.changes-tracking": {
+		"autoHeader": "autoSave",
+		"isActive": true,
+		},
+	"psi-header.templates": [
+		{
+			"language": "*",
+			"template": [
+				"File: <<filename>>",
+				"Project: <<projectname>>",
+				"File Created: <<filecreated('dddd, Do MMMM YYYY h:mm:ss a')>>",
+				"Author: <<author>>",
+				"-----",
+				"Last Modified: <<dateformat('dddd, Do MMMM YYYY h:mm:ss a')>>",
+				"Modified By: <<author>> ",
+				"-----",
+				"Copyright - <<year>> <<copyrightholder>>"
+			]
+		}
+		],
 }

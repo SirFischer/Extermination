@@ -17,9 +17,12 @@
 class CrateItem : public Item
 {
 private:
-	/* data */
+	sf::Sprite	mSprite;
+
 public:
-	CrateItem(/* args */);
+	CrateItem(Yuna::Core::ResourceManager *pResourceManager);
 	~CrateItem();
+
+	void	Render(Yuna::Core::Window *pWindow);
 };
 

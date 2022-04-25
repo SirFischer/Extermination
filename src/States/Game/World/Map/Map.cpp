@@ -51,6 +51,15 @@ void	Map::AddBlock(Block *pBlock)
 	mBlockQTree->Insert(*pBlock, sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
 }
 
+void	Map::RemoveBlock(sf::Vector2f pPos)
+{
+	if (mBlockQTree->DeleteAt(sf::FloatRect(pPos - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)), pPos))
+	{
+		//Delete path nodes...
+		std::cout << "A block was successfuly deleted!\n";
+	}
+}
+
 
 void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 {
@@ -89,6 +98,7 @@ void	Map::RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView)
 		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
 		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow](const PathNode &pNode){
 			node.setPosition(pNode.mPosition);
+			node.setFillColor((pNode.mIsBreakable) ? sf::Color::Red : sf::Color::Green);
 			pWindow->Draw(node);
 		});
 }

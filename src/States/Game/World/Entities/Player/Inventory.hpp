@@ -4,7 +4,7 @@
  * File Created: Saturday, 19th February 2022 3:09:55 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 19th February 2022 3:12:40 pm
+ * Last Modified: Monday, 25th April 2022 6:02:09 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -17,7 +17,7 @@
 class Inventory
 {
 private:
-	int mInventorySize;
+	int mInventoryCapacity = 10;
 
 	std::list<std::shared_ptr<Item>> mInventory;
 

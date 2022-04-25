@@ -47,6 +47,8 @@ void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 
 void	Entity::Render(Yuna::Core::Window *pWindow)
 {
+	if (mEquipedItem)
+		mEquipedItem->Render(pWindow);
 	pWindow->Draw(mSprite);
 }
 

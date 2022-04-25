@@ -44,16 +44,19 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 		return (Yuna::Core::Console::eCommandStatus::SUCCESS);
 	};
 	Yuna::Core::Console::AddCommand(reGenMapCommand, "regenerate_map");
-	CrateItem *testItem = new CrateItem();
-	Player		*player = mPlayer.get();
-	Camera		*cam = &mCamera;
-	testItem->AddPrimaryAction([map, player, pStatistics, pWindow, cam](){
+	CrateItem *testItem = new CrateItem(pResourceManager);
+	testItem->AddPrimaryAction([map, pStatistics, pWindow, cam = &mCamera](){
 		Crate block;
 		block.SetSize(sf::Vector2f(64, 64));
 		pWindow->SetView(cam->GetView());
 		block.SetPosition(sf::Vector2f(pWindow->GetViewMousePos()));
 		pWindow->ResetView(true);
 		map->AddBlock(&block);
+	});
+	testItem->AddSecondaryAction([map, pWindow, cam = &mCamera]() {
+		pWindow->SetView(cam->GetView());
+		map->RemoveBlock(pWindow->GetViewMousePos());
+		pWindow->ResetView(true);
 	});
 	mPlayer->EquipItem(testItem);
 }

@@ -74,6 +74,13 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 			mEquipedItem->UsePrimaryAction();
 		}
 	}
+	if (pEventhandler->GetEventState((uint32_t)eAction::USE_ITEM_2))
+	{
+		if (mEquipedItem)
+		{
+			mEquipedItem->UseSecondaryAction();
+		}
+	}
 	if (mFallClock.getElapsedTime() > sf::seconds(0.8))
 	{
 		mCurrentAnimation = eAnimationAction::FALL;

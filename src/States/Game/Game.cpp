@@ -34,7 +34,7 @@ void	Game::Init()
 	Yuna::Core::Console::mActionNames = GetActionNames();
 	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
 	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
-	mWindow->SetVSync(false);
+	mWindow->SetVSync(true);
 }
 
 void	Game::Update()
