@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 14th April 2022 9:33:50 am
+ * Last Modified: Thursday, 12th May 2022 4:21:01 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -17,7 +17,7 @@
 
 World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
 :mStatistics(pStatistics)
-,mMap(pResourceManager)
+,mMap(pResourceManager, pWindow)
 {
 	mPlayer.reset(new Player());
 	mPlayer->Init(pResourceManager);
@@ -59,6 +59,29 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 		pWindow->ResetView(true);
 	});
 	mPlayer->EquipItem(testItem);
+
+	InitBackgrounds(pResourceManager);
+}
+
+void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)
+{
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/sky_lightened.png").get());
+
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.01f, 0.0f));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/clouds_bg.png").get());
+	
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.03f, 0.0f));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/glacial_mountains_lightened.png").get());
+	
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.04f, 0.0f));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/cloud_lonely.png").get());
+
+
+
 }
 
 World::~World()
@@ -67,6 +90,7 @@ World::~World()
 
 void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 {
+	mMap.Update(pDeltaTime);
 	for (auto &entity : mEntities)
 	{
 		mMap.UpdateEntity(entity.get());
@@ -76,10 +100,18 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 	mStatistics->SetVelocity(mPlayer->GetVelocity());
 	mCamera.SetTargetPosition(sf::Vector2f(mPlayer->GetPosition().x + mPlayer->GetGlobalBounds().width, mPlayer->GetPosition().y + mPlayer->GetGlobalBounds().height));
 	mCamera.Update(pDeltaTime);
+	for (auto &background : mBackgrounds)
+	{
+		background.Update(mCamera.GetPosition());
+	}
 }
 
 void	World::Render(Yuna::Core::Window *pWindow)
 {
+	for (auto &background : mBackgrounds)
+	{
+		background.Render(pWindow);
+	}
 	pWindow->SetView(mCamera.GetView());
 	mMap.Render(pWindow, mCamera.GetView());
 	for (auto &entity : mEntities)

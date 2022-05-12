@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 14th April 2022 7:55:30 am
+ * Last Modified: Thursday, 12th May 2022 4:07:10 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -21,6 +21,7 @@
 #include "Blocks/Block.hpp"
 #include "../Entities/Entity.hpp"
 #include "PathNode.hpp"
+#include "Background.hpp"
 
 
 class Map
@@ -28,6 +29,7 @@ class Map
 private:
 
 	Yuna::Core::ResourceManager			*mResourceManager;
+	Yuna::Core::Window					*mWindow;
 	
 	std::vector<Block>					mBlocks;
 	std::unique_ptr<Yuna::Utils::QTree<Block>>				mBlockQTree;
@@ -47,10 +49,10 @@ private:
 	void	GeneratePathNodes();
 	void	AddPathNode(Block *tBlock);
 	void	AddNode(PathNode *pNode);
-	void	RemovePathNode(PathNode *tNode);
+	void	RemovePathNode(const sf::Vector2f &pPos);
 	
 public:
-	Map(Yuna::Core::ResourceManager *mResourceManager);
+	Map(Yuna::Core::ResourceManager *mResourceManager, Yuna::Core::Window *pWindow);
 	~Map();
 
 	void	UpdateEntity(Entity *pEntity);

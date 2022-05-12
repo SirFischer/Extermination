@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 25th March 2022 6:32:49 am
+ * Last Modified: Thursday, 12th May 2022 4:09:25 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -29,9 +29,13 @@ private:
 	Statistics 								*mStatistics = nullptr;
 	Map										mMap;
 
+	//Backgrounds
+	std::vector<Background>				mBackgrounds;
+
 	const uint32_t							mMapSize = 200;
 
 	void	InitItems();
+	void	InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager);
 
 public:
 	World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow);

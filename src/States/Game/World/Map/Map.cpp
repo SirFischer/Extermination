@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 15th April 2022 8:08:34 am
+ * Last Modified: Thursday, 12th May 2022 4:10:12 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -13,9 +13,11 @@
 
 #include "../../Config.hpp"
 
-Map::Map(Yuna::Core::ResourceManager *pResourceManager)
+Map::Map(Yuna::Core::ResourceManager *pResourceManager, Yuna::Core::Window *pWindow)
 {
 	mResourceManager = pResourceManager;
+	mWindow = pWindow;
+
 }
 
 Map::~Map()
@@ -38,25 +40,58 @@ void	Map::AddBlock(Block *pBlock)
 {
 	if (!pBlock)
 		return ;
+
 	pBlock->SetPosition(sf::Vector2f(std::floor(pBlock->GetPosition().x / mGridSize) * mGridSize, std::floor(pBlock->GetPosition().y / mGridSize) * mGridSize));
-	auto list = mBlockQTree->Query(sf::FloatRect(pBlock->GetPosition() - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 4, mGridSize * 4)));
-	for (auto &sublist : list) {
-		for (auto &block : *sublist)
-		{
-			if (sf::FloatRect(block.mData.GetPosition(), sf::Vector2f(mGridSize, mGridSize)).intersects(sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize))))
-				return ;
-		}
+	pBlock->SetSize(sf::Vector2f(mGridSize, mGridSize));
+	const sf::FloatRect range = sf::FloatRect(pBlock->GetPosition() - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3));
+	bool	collides = false;
+	mBlockQTree->ForEach(range, [&collides, pos = pBlock->GetPosition()] (const Block &pBlock) {
+		if (sf::FloatRect(
+			pBlock.GetPosition(),
+			pBlock.GetSize()).contains(
+				sf::Vector2f(pos.x + (pBlock.GetSize().x / 2), pos.y + (pBlock.GetSize().y / 2))
+				)
+			)
+			collides = true;
+	});
+	if (!collides)
+	{
+		AddPathNode(pBlock);
+		mBlockQTree->Insert(*pBlock, sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
 	}
-	AddPathNode(pBlock);
-	mBlockQTree->Insert(*pBlock, sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
 }
 
 void	Map::RemoveBlock(sf::Vector2f pPos)
 {
-	if (mBlockQTree->DeleteAt(sf::FloatRect(pPos - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)), pPos))
+	pPos.x = (std::floor(pPos.x / mGridSize) * mGridSize) + 32;
+	pPos.y = (std::floor(pPos.y / mGridSize) * mGridSize) + 32;
+	const sf::FloatRect range = sf::FloatRect(pPos - sf::Vector2f(mGridSize * 2, mGridSize * 2), sf::Vector2f(mGridSize * 4, mGridSize * 4));
+	if (mBlockQTree->DeleteAt(range, pPos))
 	{
 		//Delete path nodes...
-		std::cout << "A block was successfuly deleted!\n";
+		//Delete if no block under
+		RemovePathNode(pPos);
+		//Delete if no block above
+		bool replaceNode = false;
+		bool blockAbove = false;
+		sf::Vector2f pos;
+		mBlockQTree->ForEach(range, [gridSize = mGridSize, pPos, &replaceNode, &blockAbove, &pos](const Block &pBlock) {
+			if (sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos + sf::Vector2f(0, gridSize))) {
+				replaceNode = true;
+				pos = pBlock.GetPosition();
+			}
+			if (sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos - sf::Vector2f(0, gridSize)))
+				blockAbove = true;
+		});
+
+		if (!blockAbove)
+			RemovePathNode(pPos - sf::Vector2f(0, mGridSize));
+
+		if (replaceNode) {
+			PathNode node;
+			node.mPosition = pos - sf::Vector2f(0, mGridSize);
+			AddNode(&node);
+		}
 	}
 }
 
@@ -65,6 +100,8 @@ void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 {
 	std::string		lastPath = "";
 	mSprite.setScale(1, 1);
+	
+
 	mBlockQTree->ForEach(sf::FloatRect(
 		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
 		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
