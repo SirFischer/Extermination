@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 12th May 2022 4:07:10 pm
+ * Last Modified: Saturday, 14th May 2022 9:46:50 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -32,8 +32,8 @@ private:
 	Yuna::Core::Window					*mWindow;
 	
 	std::vector<Block>					mBlocks;
-	std::unique_ptr<Yuna::Utils::QTree<Block>>				mBlockQTree;
-	std::unique_ptr<Yuna::Utils::QTree<PathNode>>			mPathNodes;
+	std::unique_ptr<Yuna::Utils::QTree<Block>>						mBlockQTree;
+	std::unique_ptr<Yuna::Utils::QTree<std::shared_ptr<PathNode>>>	mPathNodes;
 	sf::Sprite							mSprite;
 	uint32_t							mGridSize = 64;
 	uint32_t							mMaxBuildHeight = 1024;
@@ -48,7 +48,7 @@ private:
 	void	GenerateQTree();
 	void	GeneratePathNodes();
 	void	AddPathNode(Block *tBlock);
-	void	AddNode(PathNode *pNode);
+	void	AddNode(std::shared_ptr<PathNode> pNode);
 	void	RemovePathNode(const sf::Vector2f &pPos);
 	
 public:

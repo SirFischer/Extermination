@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 12th May 2022 4:21:01 pm
+ * Last Modified: Thursday, 12th May 2022 6:37:16 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -79,8 +79,10 @@ void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)
 	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
 	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.04f, 0.0f));
 	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/cloud_lonely.png").get());
-
-
+	
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.04f, 0.0f));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/clouds_mg_2.png").get());
 
 }
 

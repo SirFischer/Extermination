@@ -4,7 +4,7 @@
  * File Created: Saturday, 26th February 2022 8:41:36 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 1st May 2022 3:26:00 pm
+ * Last Modified: Sunday, 15th May 2022 8:30:18 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -17,46 +17,87 @@ void	Map::AddPathNode(Block *tBlock)
 {
 	if (!tBlock)
 		return ;
-	PathNode node;
-	node.mPosition = tBlock->GetPosition();
+	auto node = std::make_shared<PathNode>();
+	node->mPosition = tBlock->GetPosition();
 	//Delete block node at block position
-	mPathNodes->DeleteAt(
-		sf::FloatRect(node.mPosition - sf::Vector2f(mGridSize, mGridSize),
-		sf::Vector2f(mGridSize * 3, mGridSize * 3)), node.mPosition + sf::Vector2f(mGridSize / 2.f, mGridSize / 2.f));
+	RemovePathNode(node->mPosition + sf::Vector2f(mGridSize / 2.f, mGridSize / 2.f));
 	if (tBlock->IsBreakable())
 	{
-		node.mIsBreakable = true;
-		mPathNodes->Insert(node, sf::FloatRect(node.mPosition, sf::Vector2f(mGridSize, mGridSize)));
+		node->mIsBreakable = true;
+		AddNode(node);
 	}
 
-	node.mIsBreakable = false;
-	node.mPosition.y -= mGridSize;
+	auto topnode = std::make_shared<PathNode>();
+	topnode->mPosition = node->mPosition;
+	topnode->mIsBreakable = false;
+	topnode->mPosition.y -= mGridSize;
 
 	bool intersectsAbove = false;
-	bool intersectsCenter = false;
 
-	mBlockQTree->ForEach(sf::FloatRect(node.mPosition - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)),
-		[node, &intersectsAbove, &intersectsCenter, size = mGridSize](const Block &pBlock){
+	mBlockQTree->ForEach(sf::FloatRect(topnode->mPosition - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)),
+		[topnode, &intersectsAbove, size = mGridSize](const Block &pBlock){
 			//is there a block above?
-			if (sf::FloatRect(pBlock.GetPosition(), pBlock.GetSize()).contains(node.mPosition + sf::Vector2f(size / 2.f, size / 2.f)))
+			if (sf::FloatRect(pBlock.GetPosition(), pBlock.GetSize()).contains(topnode->mPosition + sf::Vector2f(size / 2.f, size / 2.f)))
 				intersectsAbove = true;
 		});
 
 	if (!intersectsAbove)
-		mPathNodes->Insert(node, sf::FloatRect(node.mPosition, sf::Vector2f(mGridSize, mGridSize)));
+		AddNode(topnode);
 }
 
-void	Map::AddNode(PathNode *pNode)
+void	Map::AddNode(std::shared_ptr<PathNode> pNode)
 {
 	(void)pNode;
-	mPathNodes->Insert(*pNode, sf::FloatRect(pNode->mPosition, sf::Vector2f(mGridSize, mGridSize)));
+	auto rNode = mPathNodes->Insert(pNode, sf::FloatRect(pNode->mPosition, sf::Vector2f(mGridSize, mGridSize)));
+
+	if (!rNode)
+		return;
+	//create paths
+	mPathNodes->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(mGridSize * 2, mGridSize * 2),
+		sf::Vector2f(mGridSize * 4, mGridSize * 4)),
+		[pNode, size = mGridSize](std::shared_ptr<PathNode> &node){
+			//check left node
+			if (sf::FloatRect(node->mPosition, sf::Vector2f(size, size)).contains(pNode->mPosition + sf::Vector2f(-((float)size / 2.f), (float)size / 2.f)))
+			{
+				node->mConnectedPaths.push_back(Path());
+				node->mConnectedPaths.back().mTarget = pNode;
+				pNode->mConnectedPaths.push_back(Path());
+				pNode->mConnectedPaths.back().mTarget = node;
+				return ;
+			}
+			//check right node
+			if (sf::FloatRect(node->mPosition, sf::Vector2f(size, size)).contains(pNode->mPosition + sf::Vector2f(((float)size / 2.f) + (float)size, (float)size / 2.f)))
+			{
+				node->mConnectedPaths.push_back(Path());
+				node->mConnectedPaths.back().mTarget = pNode;
+				pNode->mConnectedPaths.push_back(Path());
+				pNode->mConnectedPaths.back().mTarget = node;
+				return ;
+			}
+		});
 }
 
 
 void	Map::RemovePathNode(const sf::Vector2f &pPos)
 {
+	//TODO: fix the deletion when shared_ptr...
+	PathNode *tmpPtr = NULL;
+	mPathNodes->ForEach(sf::FloatRect(pPos - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)),
+	[size = mGridSize, pPos, &tmpPtr](std::shared_ptr<PathNode> &pNode) {
+		if (sf::FloatRect(pNode->mPosition, sf::Vector2f(size, size)).contains(pPos))
+		{
+			tmpPtr = pNode.get();
+		}
+	});
+
 	if (mPathNodes->DeleteAt(sf::FloatRect(pPos - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)), pPos))
 	{
-		//deleted
+		mPathNodes->ForEach(sf::FloatRect(pPos - sf::Vector2f(mGridSize * 2, mGridSize * 2), sf::Vector2f(mGridSize * 4, mGridSize * 4)),
+		[size = mGridSize, pPos, tmpPtr](std::shared_ptr<PathNode> &pNode) {
+			auto it = std::remove_if(pNode->mConnectedPaths.begin(), pNode->mConnectedPaths.end(), [tmpPtr](Path &data){
+				return (data.mTarget.get() == tmpPtr);
+			});
+			pNode->mConnectedPaths.erase(it, pNode->mConnectedPaths.end());
+		});
 	}
 }

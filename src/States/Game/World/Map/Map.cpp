@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 12th May 2022 4:10:12 pm
+ * Last Modified: Sunday, 15th May 2022 8:26:26 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -69,9 +69,7 @@ void	Map::RemoveBlock(sf::Vector2f pPos)
 	if (mBlockQTree->DeleteAt(range, pPos))
 	{
 		//Delete path nodes...
-		//Delete if no block under
 		RemovePathNode(pPos);
-		//Delete if no block above
 		bool replaceNode = false;
 		bool blockAbove = false;
 		sf::Vector2f pos;
@@ -88,9 +86,9 @@ void	Map::RemoveBlock(sf::Vector2f pPos)
 			RemovePathNode(pPos - sf::Vector2f(0, mGridSize));
 
 		if (replaceNode) {
-			PathNode node;
-			node.mPosition = pos - sf::Vector2f(0, mGridSize);
-			AddNode(&node);
+			auto node = std::make_shared<PathNode>();
+			node->mPosition = pos - sf::Vector2f(0, mGridSize);
+			AddNode(node);
 		}
 	}
 }
@@ -100,7 +98,6 @@ void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 {
 	std::string		lastPath = "";
 	mSprite.setScale(1, 1);
-	
 
 	mBlockQTree->ForEach(sf::FloatRect(
 		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
@@ -133,10 +130,28 @@ void	Map::RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView)
 		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
 		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
 		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
-		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow](const PathNode &pNode){
-			node.setPosition(pNode.mPosition);
-			node.setFillColor((pNode.mIsBreakable) ? sf::Color::Red : sf::Color::Green);
+		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow, size = mGridSize](const std::shared_ptr<PathNode> &pNode){
+			sf::VertexArray line(sf::Lines, 2);
+			line[0].position = pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f);
+
+			node.setPosition(pNode->mPosition);
+			node.setFillColor((pNode->mIsBreakable) ? sf::Color::Red : sf::Color::Green);
 			pWindow->Draw(node);
+		});
+		mPathNodes->ForEach(sf::FloatRect(
+		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
+		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
+		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
+		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow, size = mGridSize](const std::shared_ptr<PathNode> &pNode){
+			sf::VertexArray line(sf::Lines, 2);
+			line[0].position = pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f);
+
+			for (auto &path : pNode->mConnectedPaths)
+			{
+				line[1] = path.mTarget->mPosition + sf::Vector2f(size / 2.f, size / 2.f);
+				//TODO: change color of path based on action needed
+				pWindow->Draw(line);
+			}
 		});
 }
 
