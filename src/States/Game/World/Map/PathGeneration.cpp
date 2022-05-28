@@ -4,7 +4,7 @@
  * File Created: Saturday, 26th February 2022 8:41:36 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 15th May 2022 8:30:18 am
+ * Last Modified: Saturday, 28th May 2022 9:08:01 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -53,26 +53,34 @@ void	Map::AddNode(std::shared_ptr<PathNode> pNode)
 	if (!rNode)
 		return;
 	//create paths
-	mPathNodes->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(mGridSize * 2, mGridSize * 2),
-		sf::Vector2f(mGridSize * 4, mGridSize * 4)),
-		[pNode, size = mGridSize](std::shared_ptr<PathNode> &node){
-			//check left node
-			if (sf::FloatRect(node->mPosition, sf::Vector2f(size, size)).contains(pNode->mPosition + sf::Vector2f(-((float)size / 2.f), (float)size / 2.f)))
+	mPathNodes->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(mGridSize * 3, mGridSize * 3),
+		sf::Vector2f(mGridSize * 6, mGridSize * 6)),
+		[pNode, size = mGridSize, blocks = &mBlockQTree](std::shared_ptr<PathNode> &node){
+			bool isColliding = false;
+			(*blocks)->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(size * 3, size * 3),
+				sf::Vector2f(size * 6, size * 6)),
+				[pNode, node, size, &isColliding](const Block &pBlock){
+
+					if (Yuna::Physics::LineRectCollision(
+						pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1), //I have absolutely zero shame for this...
+						node->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1),
+						sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(size, size))))
+					{
+						isColliding = true;
+					}
+				});
+			if (!isColliding &&
+				Yuna::Math::Distance(node->mPosition, pNode->mPosition) < (size * 3.f) &&
+				node.get() != pNode.get() &&
+				std::find_if(node->mConnectedPaths.begin(), node->mConnectedPaths.end(), [pNode](const Path& path){
+					return (path.mTarget.get() == pNode.get());
+				}) == node->mConnectedPaths.end())
 			{
 				node->mConnectedPaths.push_back(Path());
-				node->mConnectedPaths.back().mTarget = pNode;
-				pNode->mConnectedPaths.push_back(Path());
-				pNode->mConnectedPaths.back().mTarget = node;
-				return ;
-			}
-			//check right node
-			if (sf::FloatRect(node->mPosition, sf::Vector2f(size, size)).contains(pNode->mPosition + sf::Vector2f(((float)size / 2.f) + (float)size, (float)size / 2.f)))
-			{
-				node->mConnectedPaths.push_back(Path());
-				node->mConnectedPaths.back().mTarget = pNode;
-				pNode->mConnectedPaths.push_back(Path());
-				pNode->mConnectedPaths.back().mTarget = node;
-				return ;
+			 	node->mConnectedPaths.back().mTarget = pNode;
+			 	pNode->mConnectedPaths.push_back(Path());
+			 	pNode->mConnectedPaths.back().mTarget = node;
+			 	return ;
 			}
 		});
 }
@@ -82,7 +90,7 @@ void	Map::RemovePathNode(const sf::Vector2f &pPos)
 {
 	//TODO: fix the deletion when shared_ptr...
 	PathNode *tmpPtr = NULL;
-	mPathNodes->ForEach(sf::FloatRect(pPos - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)),
+	mPathNodes->ForEach(sf::FloatRect(pPos - sf::Vector2f(mGridSize * 3, mGridSize * 3), sf::Vector2f(mGridSize * 6, mGridSize * 6)),
 	[size = mGridSize, pPos, &tmpPtr](std::shared_ptr<PathNode> &pNode) {
 		if (sf::FloatRect(pNode->mPosition, sf::Vector2f(size, size)).contains(pPos))
 		{
@@ -90,9 +98,9 @@ void	Map::RemovePathNode(const sf::Vector2f &pPos)
 		}
 	});
 
-	if (mPathNodes->DeleteAt(sf::FloatRect(pPos - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)), pPos))
+	if (mPathNodes->DeleteAt(sf::FloatRect(pPos - sf::Vector2f(mGridSize * 3, mGridSize * 3), sf::Vector2f(mGridSize * 6, mGridSize * 6)), pPos))
 	{
-		mPathNodes->ForEach(sf::FloatRect(pPos - sf::Vector2f(mGridSize * 2, mGridSize * 2), sf::Vector2f(mGridSize * 4, mGridSize * 4)),
+		mPathNodes->ForEach(sf::FloatRect(pPos - sf::Vector2f(mGridSize * 3, mGridSize * 3), sf::Vector2f(mGridSize * 6, mGridSize * 6)),
 		[size = mGridSize, pPos, tmpPtr](std::shared_ptr<PathNode> &pNode) {
 			auto it = std::remove_if(pNode->mConnectedPaths.begin(), pNode->mConnectedPaths.end(), [tmpPtr](Path &data){
 				return (data.mTarget.get() == tmpPtr);
