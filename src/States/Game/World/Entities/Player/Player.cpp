@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 6th March 2022 7:10:42 pm
+ * Last Modified: Wednesday, 1st June 2022 6:03:58 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -14,6 +14,7 @@
 
 Player::Player(/* args */)
 {
+	mType = EntityType::PLAYER;
 }
 
 Player::~Player()
@@ -49,15 +50,11 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_RIGHT))
 	{
-		mVelocity.x += mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
-		mFacingLeft = false;
-		mCurrentAnimation = eAnimationAction::WALK;
+		WalkRight(mDeltaTime);
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_LEFT))
 	{
-		mVelocity.x -= mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
-		mFacingLeft = true;
-		mCurrentAnimation = eAnimationAction::WALK;
+		WalkLeft(mDeltaTime);
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::JUMP) && mOnGround)
 	{

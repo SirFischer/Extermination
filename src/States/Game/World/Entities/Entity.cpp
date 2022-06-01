@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 16th February 2022 6:28:28 pm
+ * Last Modified: Wednesday, 1st June 2022 4:31:25 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -55,5 +55,27 @@ void	Entity::Render(Yuna::Core::Window *pWindow)
 void	Entity::Attack(Entity *pTarget)
 {
 	(void)pTarget;
+}
+
+/**
+ * Controls
+ **/
+void	Entity::WalkLeft(float mDeltaTime)
+{
+	mVelocity.x -= mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
+	mFacingLeft = true;
+	mCurrentAnimation = eAnimationAction::WALK;
+}
+
+void	Entity::WalkRight(float mDeltaTime)
+{
+	mVelocity.x += mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
+	mFacingLeft = false;
+	mCurrentAnimation = eAnimationAction::WALK;
+}
+
+void	Entity::Jump(float mDeltaTime)
+{
+	mVelocity.y = -(mJumpForce * mDeltaTime);
 }
 

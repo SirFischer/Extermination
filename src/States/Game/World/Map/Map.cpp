@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 15th May 2022 8:26:26 am
+ * Last Modified: Wednesday, 1st June 2022 4:50:15 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -56,8 +56,8 @@ void	Map::AddBlock(Block *pBlock)
 	});
 	if (!collides)
 	{
-		AddPathNode(pBlock);
 		mBlockQTree->Insert(*pBlock, sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
+		AddPathNode(pBlock);
 	}
 }
 
@@ -86,7 +86,7 @@ void	Map::RemoveBlock(sf::Vector2f pPos)
 			RemovePathNode(pPos - sf::Vector2f(0, mGridSize));
 
 		if (replaceNode) {
-			auto node = std::make_shared<PathNode>();
+			auto node = std::make_shared<Yuna::AI::PathNode>();
 			node->mPosition = pos - sf::Vector2f(0, mGridSize);
 			AddNode(node);
 		}
@@ -130,7 +130,7 @@ void	Map::RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView)
 		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
 		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
 		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
-		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow, size = mGridSize](const std::shared_ptr<PathNode> &pNode){
+		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow, size = mGridSize](const std::shared_ptr<Yuna::AI::PathNode> &pNode){
 			sf::VertexArray line(sf::Lines, 2);
 			line[0].position = pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f);
 
@@ -138,11 +138,13 @@ void	Map::RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView)
 			node.setFillColor((pNode->mIsBreakable) ? sf::Color::Red : sf::Color::Green);
 			pWindow->Draw(node);
 		});
+
+		//render lines
 		mPathNodes->ForEach(sf::FloatRect(
 		sf::Vector2f(pView.getCenter().x - ((pView.getSize().x / 2.f) + mGridSize), 
 		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
 		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
-		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow, size = mGridSize](const std::shared_ptr<PathNode> &pNode){
+		pView.getSize().y + (mGridSize * 2.f))), [&node, pWindow, size = mGridSize](const std::shared_ptr<Yuna::AI::PathNode> &pNode){
 			sf::VertexArray line(sf::Lines, 2);
 			line[0].position = pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f);
 
@@ -151,6 +153,7 @@ void	Map::RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView)
 				line[1] = path.mTarget->mPosition + sf::Vector2f(size / 2.f, size / 2.f);
 				//TODO: change color of path based on action needed
 				pWindow->Draw(line);
+
 			}
 		});
 }

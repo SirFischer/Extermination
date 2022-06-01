@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 4:01:59 pm
+ * Last Modified: Wednesday, 1st June 2022 4:02:40 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -14,6 +14,12 @@
 #include "Yuna.hpp"
 #include "Animation.hpp"
 #include "../Items/Item.hpp"
+
+enum class EntityType {
+	ENTITY,
+	PLAYER,
+	ENEMY
+};
 
 class Entity
 {
@@ -34,11 +40,20 @@ protected:
 	float					mJumpForce = 650;
 	bool					mFacingLeft = false;
 	bool					mOnGround = false;
-	sf::Clock				mFallClock;
-	std::shared_ptr<Item>	mEquipedItem;
 
-	std::map<eAnimationAction, Animation>	mAnimations;
-	eAnimationAction						mCurrentAnimation = eAnimationAction::IDLE;
+	//Time
+	sf::Clock				mFallClock;
+	sf::Clock				mPathRecalculationClock;
+
+	std::shared_ptr<Item>	mEquipedItem;
+	EntityType				mType = EntityType::ENTITY;
+	std::vector<
+	Yuna::AI::PathNode>		mPath;
+
+	std::map<
+		eAnimationAction,
+		Animation>			mAnimations;
+	eAnimationAction		mCurrentAnimation = eAnimationAction::IDLE;
 	
 public:
 	friend class Map;
@@ -47,6 +62,7 @@ public:
 	~Entity();
 
 	virtual void	Init(Yuna::Core::ResourceManager *pResourceManager);
+	
 
 	virtual void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
 	virtual void	Render(Yuna::Core::Window *pWindow);
@@ -55,9 +71,19 @@ public:
 
 	void			SetSize(float pX, float pY) {mSize = sf::Vector2f(pX, pY);}
 	void			SetOrigin(float pX, float pY) {mOrigin = sf::Vector2f(pX, pY);}
+	void			SetPath(const std::vector<Yuna::AI::PathNode> &pPath) {mPath = pPath; mPathRecalculationClock.restart();}
 
 	sf::Vector2f	GetPosition() {return (mPosition);}
 	sf::Vector2f	GetVelocity() {return (mVelocity);}
 	sf::FloatRect	GetGlobalBounds() {return (sf::FloatRect(mPosition + mOrigin, mSize));}
+	EntityType		GetType() {return (mType);}
+	sf::Time		GetPathRecalcTime() {return (mPathRecalculationClock.getElapsedTime());}
+
+	/**
+	 * Controls
+	 **/
+	virtual void	WalkLeft(float mDeltaTime);
+	virtual void	WalkRight(float mDeltaTime);
+	virtual void	Jump(float mDeltaTime);
 };
 

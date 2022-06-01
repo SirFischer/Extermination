@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:25 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 6th March 2022 12:17:12 pm
+ * Last Modified: Wednesday, 1st June 2022 6:03:25 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -17,6 +17,7 @@
 class Player : public Entity
 {
 private:
+
 	void	LoadAnimations();
 public:
 	Player(/* args */);

@@ -4,7 +4,7 @@
  * File Created: Saturday, 15th January 2022 8:05:29 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 16th January 2022 8:59:45 am
+ * Last Modified: Wednesday, 1st June 2022 5:27:29 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -26,12 +26,13 @@ void	Camera::Update(const float &pDeltaTime)
 	FollowTarget();
 	mPosition.x += mVelocity.x * pDeltaTime;
 	mPosition.y += mVelocity.y * pDeltaTime;
-	if (mPosition.x - (mSize.x / 2.f) < mBoundries.left)
-		mPosition.x = mBoundries.left + (mSize.x / 2.f);
-	if (mPosition.x + (mSize.x / 2.f) > mBoundries.width)
-		mPosition.x = mBoundries.width - (mSize.x / 2.f);
+	if (mPosition.x - ((mSize.x / 2.f) * mZoom) < mBoundries.left)
+		mPosition.x = mBoundries.left + ((mSize.x / 2.f) * mZoom);
+	if (mPosition.x + ((mSize.x / 2.f) * mZoom) > mBoundries.width)
+		mPosition.x = mBoundries.width - ((mSize.x / 2.f) * mZoom);
 	mView.setCenter(mPosition);
 	mView.setSize(mSize);
+	mView.zoom(mZoom);
 }
 
 void	Camera::FollowTarget()
@@ -85,3 +86,14 @@ void	Camera::SetBoundries(const sf::IntRect &pBoundries)
 {
 	mBoundries = pBoundries;
 }
+
+void	Camera::SetSize(const sf::Vector2f &pSize)
+{
+	mSize = pSize;
+}
+
+void	Camera::SetZoom(const float &pZoom)
+{
+	mZoom = pZoom;
+}
+
