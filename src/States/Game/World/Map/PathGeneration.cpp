@@ -4,7 +4,7 @@
  * File Created: Saturday, 26th February 2022 8:41:36 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 1st June 2022 4:54:39 pm
+ * Last Modified: Thursday, 2nd June 2022 9:59:40 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -47,47 +47,8 @@ void	Map::AddPathNode(Block *tBlock)
 
 void	Map::AddNode(std::shared_ptr<Yuna::AI::PathNode> pNode)
 {
-	(void)pNode;
-	auto rNode = mPathNodes->Insert(pNode, sf::FloatRect(pNode->mPosition, sf::Vector2f(mGridSize, mGridSize)));
-
-	if (!rNode)
-		return;
-	//create paths
-	if (!pNode->mIsBreakable)
-	{
-		mPathNodes->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(mGridSize * 3, mGridSize * 3),
-		sf::Vector2f(mGridSize * 6, mGridSize * 6)),
-		[pNode, size = mGridSize, blocks = &mBlockQTree](std::shared_ptr<Yuna::AI::PathNode> &node){
-			bool isColliding = false;
-			(*blocks)->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(size * 3, size * 3),
-				sf::Vector2f(size * 6, size * 6)),
-				[pNode, node, size, &isColliding](const Block &pBlock){
-					if (Yuna::Physics::LineRectCollision(
-						pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1), //I have absolutely zero shame for this...
-						node->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1),
-						sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(size, size))))
-					{
-						isColliding = true;
-					}
-				});
-			if (!isColliding && !node->mIsBreakable &&
-				Yuna::Math::Distance(node->mPosition, pNode->mPosition) < (size * 3.f) &&
-				node.get() != pNode.get() &&
-				std::find_if(node->mConnectedPaths.begin(), node->mConnectedPaths.end(), [pNode](const Yuna::AI::Path& path){
-					return (path.mTarget.get() == pNode.get());
-				}) == node->mConnectedPaths.end())
-			{
-				node->mConnectedPaths.push_back(Yuna::AI::Path());
-			 	node->mConnectedPaths.back().mTarget = pNode;
-				node->mConnectedPaths.back().cost = Yuna::Math::Distance(node->mPosition, pNode->mPosition) + ((node->mIsBreakable || pNode->mIsBreakable) ? 2000.f : 0.f);
-			 	pNode->mConnectedPaths.push_back(Yuna::AI::Path());
-			 	pNode->mConnectedPaths.back().mTarget = node;
-				pNode->mConnectedPaths.back().cost = Yuna::Math::Distance(node->mPosition, pNode->mPosition) + ((node->mIsBreakable || pNode->mIsBreakable) ? 2000.f : 0.f);
-
-				return ;
-			}
-		});
-	}
+	mPathNodes->Insert(pNode, sf::FloatRect(pNode->mPosition, sf::Vector2f(mGridSize, mGridSize)));
+	UpdatePathsInRange(sf::FloatRect(pNode->mPosition - sf::Vector2f(mGridSize * 2, mGridSize * 2), sf::Vector2f(mGridSize * 4, mGridSize * 4)));
 }
 
 
@@ -111,8 +72,10 @@ void	Map::RemovePathNode(const sf::Vector2f &pPos)
 			});
 		});
 	}
+	UpdatePathsInRange(sf::FloatRect(pPos - sf::Vector2f(mGridSize * 2, mGridSize * 2), sf::Vector2f(mGridSize * 4, mGridSize * 4)));
 }
 
+//pDirection -> -1 ignored, 0 left, 1 right
 Yuna::AI::PathNode *Map::GetClosestNode(const sf::Vector2f &pPos)
 {
 	Yuna::AI::PathNode *current = nullptr;
@@ -133,9 +96,67 @@ Yuna::AI::PathNode *Map::GetClosestNode(const sf::Vector2f &pPos)
 
 std::vector<Yuna::AI::PathNode>	Map::GetPath(sf::Vector2f pP1, sf::Vector2f pP2)
 {
-	auto node1 = GetClosestNode(pP1);
-	auto node2 = GetClosestNode(pP2);
+	auto node1 = GetClosestNode(pP1 + sf::Vector2f(mGridSize / 2.f, mGridSize / 2.f));
+	auto node2 = GetClosestNode(pP2 + sf::Vector2f(mGridSize / 2.f, mGridSize / 2.f));
 	if (node1 && node2)
 		return (Yuna::AI::createPath(node1, node2));
 	return (std::vector<Yuna::AI::PathNode>());
 }
+
+void	Map::UpdatePathsInRange(const sf::FloatRect &pRect)
+{
+	//loop through nodes
+	mPathNodes->ForEach(pRect,
+	[&nodeList = mPathNodes, &blockList = mBlockQTree, pRect, size = mGridSize](std::shared_ptr<Yuna::AI::PathNode> &pNode){
+		//for every node, check with every other node in range
+		nodeList->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(size * 2.f, size * 2.f), sf::Vector2f(size * 4.f, size * 4.f)),
+			[pNode, pRect, &blockList, size](std::shared_ptr<Yuna::AI::PathNode> &pNode2){
+				//if same node, do nothing
+				if (pNode.get() == pNode2.get())
+					return ;
+				bool colliding = false;
+				//if path between two nodes collide with a block
+				blockList->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(size * 2.f, size * 2.f), sf::Vector2f(size * 4.f, size * 4.f))
+					, [&colliding, pNode, pNode2, size](const Block &pBlock){
+					if (Yuna::Physics::LineRectCollision(
+						pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1), //I have absolutely zero shame for this...
+						pNode2->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1),
+						sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(size, size))))
+					{
+						colliding = true;
+					}
+				});
+				//check if possible path allready exists
+				if (std::count_if(pNode->mConnectedPaths.begin(), pNode->mConnectedPaths.end(),
+					[pNode2](const Yuna::AI::Path &path){
+						return (path.mTarget.get() == pNode2.get());
+					}))
+				{
+					//path exists but is colliding with block -> remove path from both nodes
+					if (colliding) {
+						pNode->mConnectedPaths.remove_if([pNode2](Yuna::AI::Path &data){
+							return (data.mTarget.get() == pNode2.get());
+						});
+						pNode2->mConnectedPaths.remove_if([pNode](Yuna::AI::Path &data){
+							return (data.mTarget.get() == pNode.get());
+						});
+					}
+					return ;
+				}
+				//no collision and none of the blocks are breakable and distance is less than x, create nodes
+				if (!colliding && !pNode->mIsBreakable && !pNode2->mIsBreakable &&
+					Yuna::Math::Distance(pNode2->mPosition, pNode->mPosition) < (size * 2.f))
+				{
+					pNode2->mConnectedPaths.push_back(Yuna::AI::Path());
+					pNode2->mConnectedPaths.back().mTarget = pNode;
+					pNode2->mConnectedPaths.back().cost = Yuna::Math::Distance(pNode2->mPosition, pNode->mPosition) + ((pNode2->mIsBreakable || pNode->mIsBreakable) ? 2000.f : 0.f);
+					pNode->mConnectedPaths.push_back(Yuna::AI::Path());
+					pNode->mConnectedPaths.back().mTarget = pNode2;
+					pNode->mConnectedPaths.back().cost = Yuna::Math::Distance(pNode2->mPosition, pNode->mPosition) + ((pNode2->mIsBreakable || pNode->mIsBreakable) ? 2000.f : 0.f);
+
+					return ;
+				}
+			});
+	});
+};
+

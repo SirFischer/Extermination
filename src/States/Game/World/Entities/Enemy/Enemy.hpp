@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:44:10 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 1st June 2022 6:03:34 am
+ * Last Modified: Thursday, 2nd June 2022 7:47:14 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -17,13 +17,14 @@
 enum class EnemyState {
 	IDLE,
 	CHASE,
+	WILD_CHASE,
 	ATTACK
 };
 
 class Enemy : public Entity
 {
 private:
-	EnemyState							mState = EnemyState::IDLE;
+	EnemyState							mState = EnemyState::CHASE;
 
 	virtual void	Init(Yuna::Core::ResourceManager *pResourceManager);
 	virtual void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);

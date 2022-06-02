@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 1st June 2022 5:24:58 pm
+ * Last Modified: Thursday, 2nd June 2022 10:24:08 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -32,6 +32,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 
 	mEntities.push_back(std::make_shared<Enemy>());
 	mEntities.back()->Init(pResourceManager);
+	mEntities.back()->SetSize(38, 54);
 
 	Yuna::Core::Console::sCommand reGenMapCommand;
 	reGenMapCommand.mHelpShort = "Regenerate map";
@@ -101,6 +102,9 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 		entity->Update(pEventHandler, pDeltaTime);
 		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
 			auto path = mMap.GetPath(entity->GetPosition(), mPlayer->GetPosition());
+			if (path.size())
+				path.pop_back();
+			entity->SetTarget(mPlayer->GetPosition());
 			entity->SetPath(path);
 		}
 	}

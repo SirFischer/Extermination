@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 1st June 2022 4:03:10 pm
+ * Last Modified: Thursday, 2nd June 2022 9:52:54 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -48,6 +48,8 @@ private:
 	void	GeneratePathNodes();
 	void	AddPathNode(Block *tBlock);
 	void	AddNode(std::shared_ptr<Yuna::AI::PathNode> pNode);
+	void	UpdatePathsInRange(const sf::FloatRect &pRect);
+
 	void	RemovePathNode(const sf::Vector2f &pPos);
 	Yuna::AI::PathNode *
 			GetClosestNode(const sf::Vector2f &pPos);

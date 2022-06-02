@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 1st June 2022 4:02:40 pm
+ * Last Modified: Thursday, 2nd June 2022 7:50:52 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -36,6 +36,7 @@ protected:
 	sf::Vector2f			mSize = sf::Vector2f(48, 64);
 	sf::Vector2f			mOrigin = sf::Vector2f(0, 0);
 	sf::Vector2f			mVelocity = sf::Vector2f(0, 0);
+	sf::Vector2f			mTarget = sf::Vector2f(0, 0);
 	float					mSpeed = 100;
 	float					mJumpForce = 650;
 	bool					mFacingLeft = false;
@@ -72,12 +73,14 @@ public:
 	void			SetSize(float pX, float pY) {mSize = sf::Vector2f(pX, pY);}
 	void			SetOrigin(float pX, float pY) {mOrigin = sf::Vector2f(pX, pY);}
 	void			SetPath(const std::vector<Yuna::AI::PathNode> &pPath) {mPath = pPath; mPathRecalculationClock.restart();}
+	void			SetTarget(const sf::Vector2f &pTarget) {mTarget = pTarget;}
 
 	sf::Vector2f	GetPosition() {return (mPosition);}
 	sf::Vector2f	GetVelocity() {return (mVelocity);}
 	sf::FloatRect	GetGlobalBounds() {return (sf::FloatRect(mPosition + mOrigin, mSize));}
 	EntityType		GetType() {return (mType);}
 	sf::Time		GetPathRecalcTime() {return (mPathRecalculationClock.getElapsedTime());}
+	sf::Vector2f	GetTarget() {return (mTarget);}
 
 	/**
 	 * Controls
