@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 2nd June 2022 10:24:08 pm
+ * Last Modified: Friday, 3rd June 2022 10:49:10 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -102,8 +102,6 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 		entity->Update(pEventHandler, pDeltaTime);
 		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
 			auto path = mMap.GetPath(entity->GetPosition(), mPlayer->GetPosition());
-			if (path.size())
-				path.pop_back();
 			entity->SetTarget(mPlayer->GetPosition());
 			entity->SetPath(path);
 		}

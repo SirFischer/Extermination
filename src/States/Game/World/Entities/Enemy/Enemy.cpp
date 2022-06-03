@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:45:02 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 2nd June 2022 10:25:13 pm
+ * Last Modified: Friday, 3rd June 2022 10:43:50 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -43,13 +43,13 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 		//This is for recalcs so it doesn't move backwards if it's allready on the next node!
 		if (mPath.size() > 2)
 		{
-			if (mSprite.getGlobalBounds().contains(mPath.at(1).mPosition + sf::Vector2f(32, 32)))
+			if (mSprite.getGlobalBounds().intersects(sf::FloatRect(mPath.at(1).mPosition, sf::Vector2f(64, 64))))
 			{
 				mPath.pop_back();
 				mPath.pop_back();
 			}
 		}
-		if (mSprite.getGlobalBounds().contains(mPath.back().mPosition + sf::Vector2f(32, 32)))
+		if (mSprite.getGlobalBounds().intersects(sf::FloatRect(mPath.back().mPosition, sf::Vector2f(64, 64))))
 			mPath.pop_back();
 
 		if (mPath.size())
@@ -61,15 +61,16 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 			if (mPath.back().mPosition.y <= mPosition.y - 32 && mOnGround)
 				Jump(mDeltaTime);
 		}
-	} else if (mState == EnemyState::WILD_CHASE || mPath.size() <= 3)
-	{
-		if (mTarget.x > mPosition.x)
-				WalkRight(mDeltaTime);
-		if (mTarget.x < mPosition.x)
-			WalkLeft(mDeltaTime);
-		if (mTarget.y <= mPosition.y - 32 && mOnGround)
-			Jump(mDeltaTime);
 	}
+	// else if (mState == EnemyState::WILD_CHASE || mPath.size() <= 2)
+	// {
+	// 	if (mTarget.x > mPosition.x)
+	// 			WalkRight(mDeltaTime);
+	// 	if (mTarget.x < mPosition.x)
+	// 		WalkLeft(mDeltaTime);
+	// 	if (mTarget.y <= mPosition.y - 32 && mOnGround)
+	// 		Jump(mDeltaTime);
+	// }
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
 }
