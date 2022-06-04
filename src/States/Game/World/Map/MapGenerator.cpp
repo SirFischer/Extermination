@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 29th May 2022 12:23:43 pm
+ * Last Modified: Saturday, 4th June 2022 12:38:53 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -96,11 +96,11 @@ void	Map::GenerateQTree()
 	mGlobalBounds.top = min.y;
 	mGlobalBounds.width = max.x - min.x;
 	mGlobalBounds.height = max.y - min.y;
-	mBlockQTree = std::make_unique<Yuna::Utils::QTree<Block>>(
+	mBlockQTree = std::make_unique<Yuna::Utils::QTree<std::shared_ptr<Block>>>(
 		sf::FloatRect(min.x, min.y - mMaxBuildHeight, max.x - min.x + mMaxBuildHeight, std::max(max.x - min.x, max.y - min.y) + mMaxBuildHeight));
 	mPathNodes = std::make_unique<Yuna::Utils::QTree<std::shared_ptr<Yuna::AI::PathNode>>>(mBlockQTree->GetGlobalBounds());
 	for (auto &i : mBlocks)
-		AddBlock(&i);
+		AddBlock(std::make_shared<Block>(i));
 }
 
 

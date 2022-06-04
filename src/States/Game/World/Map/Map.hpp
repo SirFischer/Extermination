@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 2nd June 2022 9:52:54 pm
+ * Last Modified: Saturday, 4th June 2022 12:48:57 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -31,7 +31,7 @@ private:
 	Yuna::Core::Window					*mWindow;
 	
 	std::vector<Block>					mBlocks;
-	std::unique_ptr<Yuna::Utils::QTree<Block>>						mBlockQTree;
+	std::unique_ptr<Yuna::Utils::QTree<std::shared_ptr<Block>>>					mBlockQTree;
 	std::unique_ptr<Yuna::Utils::QTree<std::shared_ptr<Yuna::AI::PathNode>>>	mPathNodes;
 	sf::Sprite							mSprite;
 	uint32_t							mGridSize = 64;
@@ -46,7 +46,7 @@ private:
 	void	GenerateGround();
 	void	GenerateQTree();
 	void	GeneratePathNodes();
-	void	AddPathNode(Block *tBlock);
+	void	AddPathNode(std::shared_ptr<Block> tBlock);
 	void	AddNode(std::shared_ptr<Yuna::AI::PathNode> pNode);
 	void	UpdatePathsInRange(const sf::FloatRect &pRect);
 
@@ -59,9 +59,9 @@ public:
 	~Map();
 
 	void	UpdateEntity(Entity *pEntity);
-	void	Update(float pDeltaTime);
+	void	Update(float pDeltaTime, const sf::FloatRect &pRect);
 
-	void	AddBlock(Block *pBlock);
+	void	AddBlock(std::shared_ptr<Block> pBlock);
 	void	RemoveBlock(sf::Vector2f pPos);
 
 	void	ApplyCollisionDetection(Entity *pEntity);

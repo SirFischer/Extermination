@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 2nd June 2022 9:32:12 pm
+ * Last Modified: Saturday, 4th June 2022 12:49:20 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -31,12 +31,20 @@ void	Map::UpdateEntity(Entity *pEntity)
 	LockPlayerToMap(pEntity);
 }
 
-void	Map::Update(float pDeltaTime)
+void	Map::Update(float pDeltaTime, const sf::FloatRect &pRect)
 {
 	(void)pDeltaTime;
+
+	mBlockQTree->ForEach(pRect, [this] (std::shared_ptr<Block> &pBlock) {
+		if (pBlock && pBlock->GetHealth() <= 0)
+		{
+			std::cout << "pBlock destroyed?" << std::endl;
+			RemoveBlock(pBlock->GetPosition());
+		}
+	});
 }
 
-void	Map::AddBlock(Block *pBlock)
+void	Map::AddBlock(std::shared_ptr<Block> pBlock)
 {
 	if (!pBlock)
 		return ;
@@ -45,19 +53,20 @@ void	Map::AddBlock(Block *pBlock)
 	pBlock->SetSize(sf::Vector2f(mGridSize, mGridSize));
 	const sf::FloatRect range = sf::FloatRect(pBlock->GetPosition() - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3));
 	bool	collides = false;
-	mBlockQTree->ForEach(range, [&collides, pos = pBlock->GetPosition()] (const Block &pBlock) {
+	mBlockQTree->ForEach(range, [&collides, pos = pBlock->GetPosition()] (const std::shared_ptr<Block> &pBlock) {
 		if (sf::FloatRect(
-			pBlock.GetPosition(),
-			pBlock.GetSize()).contains(
-				sf::Vector2f(pos.x + (pBlock.GetSize().x / 2), pos.y + (pBlock.GetSize().y / 2))
+			pBlock->GetPosition(),
+			pBlock->GetSize()).contains(
+				sf::Vector2f(pos.x + (pBlock->GetSize().x / 2), pos.y + (pBlock->GetSize().y / 2))
 				)
 			)
 			collides = true;
 	});
 	if (!collides)
 	{
-		mBlockQTree->Insert(*pBlock, sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
-		AddPathNode(pBlock);
+		auto newBlock = mBlockQTree->Insert(std::shared_ptr<Block>(pBlock), sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
+		std::cout << newBlock << std::endl;
+		AddPathNode(*newBlock);
 	}
 }
 
@@ -73,12 +82,12 @@ void	Map::RemoveBlock(sf::Vector2f pPos)
 		bool replaceNode = false;
 		bool blockAbove = false;
 		sf::Vector2f pos;
-		mBlockQTree->ForEach(range, [gridSize = mGridSize, pPos, &replaceNode, &blockAbove, &pos](const Block &pBlock) {
-			if (sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos + sf::Vector2f(0, gridSize))) {
+		mBlockQTree->ForEach(range, [gridSize = mGridSize, pPos, &replaceNode, &blockAbove, &pos](const std::shared_ptr<Block> &pBlock) {
+			if (sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos + sf::Vector2f(0, gridSize))) {
 				replaceNode = true;
-				pos = pBlock.GetPosition();
+				pos = pBlock->GetPosition();
 			}
-			if (sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos - sf::Vector2f(0, gridSize)))
+			if (sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos - sf::Vector2f(0, gridSize)))
 				blockAbove = true;
 		});
 
@@ -104,16 +113,16 @@ void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 		pView.getCenter().y - ((pView.getSize().y / 2.f) + mGridSize)),
 		sf::Vector2f(pView.getSize().x + (mGridSize * 2.f),
 		pView.getSize().y + (mGridSize * 2.f))),
-		[&lastPath, sprite = &mSprite, resourceManager = mResourceManager, gridSize = mGridSize, pWindow](const Block &pBlock){
-			sprite->setColor(pBlock.GetColor());
-			if (pBlock.GetTexturePath() != lastPath)
+		[&lastPath, sprite = &mSprite, resourceManager = mResourceManager, gridSize = mGridSize, pWindow](const std::shared_ptr<Block> &pBlock){
+			sprite->setColor(pBlock->GetColor());
+			if (pBlock->GetTexturePath() != lastPath)
 			{
-				sf::Texture	*texture = resourceManager->LoadTexture(pBlock.GetTexturePath()).get();
+				sf::Texture	*texture = resourceManager->LoadTexture(pBlock->GetTexturePath()).get();
 				sprite->setTexture(*texture);
 				sprite->setScale(sf::Vector2f((float)gridSize / texture->getSize().x, (float)gridSize / texture->getSize().y));
-				lastPath = pBlock.GetTexturePath();
+				lastPath = pBlock->GetTexturePath();
 			}
-			sprite->setPosition(pBlock.GetPosition());
+			sprite->setPosition(pBlock->GetPosition());
 			pWindow->Draw(*sprite);
 		});
 	if (Config::mRenderPathNodes)

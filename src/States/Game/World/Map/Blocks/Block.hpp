@@ -4,13 +4,14 @@
  * File Created: Monday, 25th October 2021 7:58:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 16th February 2022 6:37:55 pm
+ * Last Modified: Saturday, 4th June 2022 7:37:32 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Yuna.hpp"
 #include <string>
 
 enum class eBlockType
@@ -20,11 +21,10 @@ enum class eBlockType
 	CRATE
 };
 
-class Block
+class Block : public Yuna::World::Object
 {
 protected:
 	bool			mIsBreakable = false;
-	float			mHealth = 100.f;
 	sf::Color		mColor = sf::Color(255, 255, 255, 255);
 	std::string		mTexturePath = "assets/textures/green400x400.png";
 	sf::Vector2f	mPosition;
@@ -46,7 +46,7 @@ public:
 	/**
 	 * Getters
 	 **/
-	std::string		GetTexturePath() const {return (mTexturePath);}
+	std::string			GetTexturePath() const {return (mTexturePath);}
 	sf::Vector2f		GetPosition() const {return (mPosition);}
 	sf::Vector2f		GetSize() const {return (mSize);}
 	sf::Color			GetColor() const {return (mColor);}

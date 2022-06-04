@@ -4,7 +4,7 @@
  * File Created: Saturday, 26th February 2022 8:41:36 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 3rd June 2022 10:47:02 pm
+ * Last Modified: Saturday, 4th June 2022 12:33:58 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -13,12 +13,13 @@
 
 #include <iostream>
 
-void	Map::AddPathNode(Block *tBlock)
+void	Map::AddPathNode(std::shared_ptr<Block> tBlock)
 {
 	if (!tBlock)
 		return ;
 	auto node = std::make_shared<Yuna::AI::PathNode>();
 	node->mPosition = tBlock->GetPosition();
+	node->mParentObject = tBlock;
 	//Delete block node at block position
 	RemovePathNode(node->mPosition + sf::Vector2f(mGridSize / 2.f, mGridSize / 2.f));
 	if (tBlock->IsBreakable())
@@ -35,9 +36,9 @@ void	Map::AddPathNode(Block *tBlock)
 	bool intersectsAbove = false;
 
 	mBlockQTree->ForEach(sf::FloatRect(topnode->mPosition - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)),
-		[topnode, &intersectsAbove, size = mGridSize](const Block &pBlock){
+		[topnode, &intersectsAbove, size = mGridSize](const std::shared_ptr<Block> &pBlock){
 			//is there a block above?
-			if (sf::FloatRect(pBlock.GetPosition(), pBlock.GetSize()).contains(topnode->mPosition + sf::Vector2f(size / 2.f, size / 2.f)))
+			if (sf::FloatRect(pBlock->GetPosition(), pBlock->GetSize()).contains(topnode->mPosition + sf::Vector2f(size / 2.f, size / 2.f)))
 				intersectsAbove = true;
 		});
 
@@ -117,11 +118,11 @@ void	Map::UpdatePathsInRange(const sf::FloatRect &pRect)
 				bool colliding = false;
 				//if path between two nodes collide with a block
 				blockList->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(size * 3.f, size * 3.f), sf::Vector2f(size * 6.f, size * 6.f))
-					, [&colliding, pNode, pNode2, size](const Block &pBlock){
+					, [&colliding, pNode, pNode2, size](const std::shared_ptr<Block> &pBlock){
 					if (Yuna::Physics::LineRectCollision(
 						pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1), //I have absolutely zero shame for this...
 						pNode2->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1),
-						sf::FloatRect(pBlock.GetPosition(), sf::Vector2f(size, size))))
+						sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(size, size))))
 					{
 						colliding = true;
 					}

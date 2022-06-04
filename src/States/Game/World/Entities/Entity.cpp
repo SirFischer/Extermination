@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 1st June 2022 4:31:25 pm
+ * Last Modified: Saturday, 4th June 2022 9:55:49 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -50,6 +50,15 @@ void	Entity::Render(Yuna::Core::Window *pWindow)
 	if (mEquipedItem)
 		mEquipedItem->Render(pWindow);
 	pWindow->Draw(mSprite);
+
+	if (mPath.size())
+	{
+		sf::CircleShape shape(10.f);
+		shape.setPosition(mPath.back().mPosition + sf::Vector2f(22, 22));
+		shape.setFillColor(sf::Color::Yellow);
+		pWindow->Draw(shape);
+
+	}
 }
 
 void	Entity::Attack(Entity *pTarget)

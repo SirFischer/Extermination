@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 3rd June 2022 10:49:10 pm
+ * Last Modified: Saturday, 4th June 2022 12:53:23 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -48,12 +48,12 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	Yuna::Core::Console::AddCommand(reGenMapCommand, "regenerate_map");
 	CrateItem *testItem = new CrateItem(pResourceManager);
 	testItem->AddPrimaryAction([map, pStatistics, pWindow, cam = &mCamera](){
-		Crate block;
-		block.SetSize(sf::Vector2f(64, 64));
+		auto block = std::make_shared<Crate>();
+		block->SetSize(sf::Vector2f(64, 64));
 		pWindow->SetView(cam->GetView());
-		block.SetPosition(sf::Vector2f(pWindow->GetViewMousePos()));
+		block->SetPosition(sf::Vector2f(pWindow->GetViewMousePos()));
 		pWindow->ResetView(true);
-		map->AddBlock(&block);
+		map->AddBlock(block);
 	});
 	testItem->AddSecondaryAction([map, pWindow, cam = &mCamera]() {
 		pWindow->SetView(cam->GetView());
@@ -95,7 +95,12 @@ World::~World()
 
 void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 {
-	mMap.Update(pDeltaTime);
+	auto viewRect = sf::FloatRect(
+		sf::Vector2f(mCamera.GetView().getCenter().x - ((mCamera.GetView().getSize().x / 2.f) + 64), 
+		mCamera.GetView().getCenter().y - ((mCamera.GetView().getSize().y / 2.f) + 64)),
+		sf::Vector2f(mCamera.GetView().getSize().x + (64 * 2.f),
+		mCamera.GetView().getSize().y + (64 * 2.f)));
+	mMap.Update(pDeltaTime, viewRect);
 	for (auto &entity : mEntities)
 	{
 		mMap.UpdateEntity(entity.get());
