@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 7:05:30 am
+ * Last Modified: Saturday, 4th June 2022 9:04:42 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -13,6 +13,7 @@
 
 #include "Yuna.hpp"
 #include "Animation.hpp"
+#include "Config.hpp"
 #include "../Items/Item.hpp"
 
 enum class EntityType {
@@ -69,6 +70,8 @@ public:
 	virtual void	Render(Yuna::Core::Window *pWindow);
 
 	virtual void	Attack(Entity *pTarget);
+
+	void			ResolveCollision(Entity *pEntity);
 
 	void			SetSize(float pX, float pY) {mSize = sf::Vector2f(pX, pY);}
 	void			SetOrigin(float pX, float pY) {mOrigin = sf::Vector2f(pX, pY);}

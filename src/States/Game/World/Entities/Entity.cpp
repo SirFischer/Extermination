@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 9:55:49 am
+ * Last Modified: Saturday, 4th June 2022 9:11:11 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -51,7 +51,7 @@ void	Entity::Render(Yuna::Core::Window *pWindow)
 		mEquipedItem->Render(pWindow);
 	pWindow->Draw(mSprite);
 
-	if (mPath.size())
+	if (Config::mRenderPathNodes && mPath.size())
 	{
 		sf::CircleShape shape(10.f);
 		shape.setPosition(mPath.back().mPosition + sf::Vector2f(22, 22));
@@ -65,6 +65,24 @@ void	Entity::Attack(Entity *pTarget)
 {
 	(void)pTarget;
 }
+
+void	Entity::ResolveCollision(Entity *pEntity)
+{
+	if (pEntity == this)
+		return ;
+	if (sf::FloatRect(mPosition, mSize).intersects(sf::FloatRect(pEntity->mPosition, pEntity->mSize)))
+	{
+		float pushForce = 1.0f;
+		sf::Vector2f delta = mPosition - pEntity->mPosition;
+		float distance = Yuna::Math::Distance(mPosition, pEntity->mPosition);
+		if (distance != 0)
+		{
+			mVelocity.x += pushForce * (delta.x / distance);
+			mVelocity.y += (pushForce * (delta.y / distance)) / 4.f;
+		}
+	}
+}
+
 
 /**
  * Controls

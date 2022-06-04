@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 12:53:23 pm
+ * Last Modified: Saturday, 4th June 2022 9:00:01 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -30,6 +30,18 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mCamera.SetBoundries(sf::IntRect(mapBounds.left, -20000, mapBounds.width + mapBounds.left, 20000));
 	mCamera.SetZoom(0.85);
 
+	mEntities.push_back(std::make_shared<Enemy>());
+	mEntities.back()->Init(pResourceManager);
+	mEntities.back()->SetSize(38, 54);
+	mEntities.push_back(std::make_shared<Enemy>());
+	mEntities.back()->Init(pResourceManager);
+	mEntities.back()->SetSize(38, 54);
+	mEntities.push_back(std::make_shared<Enemy>());
+	mEntities.back()->Init(pResourceManager);
+	mEntities.back()->SetSize(38, 54);
+	mEntities.push_back(std::make_shared<Enemy>());
+	mEntities.back()->Init(pResourceManager);
+	mEntities.back()->SetSize(38, 54);
 	mEntities.push_back(std::make_shared<Enemy>());
 	mEntities.back()->Init(pResourceManager);
 	mEntities.back()->SetSize(38, 54);
@@ -109,6 +121,14 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 			auto path = mMap.GetPath(entity->GetPosition(), mPlayer->GetPosition());
 			entity->SetTarget(mPlayer->GetPosition());
 			entity->SetPath(path);
+		}
+		//Resolve entity entity collision
+		for (auto &entity2 : mEntities)
+		{
+			if (entity2 != entity)
+			{
+				entity->ResolveCollision(entity2.get());
+			}
 		}
 	}
 	mStatistics->SetPosition(mPlayer->GetPosition());

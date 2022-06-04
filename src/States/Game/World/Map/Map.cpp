@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 12:49:20 pm
+ * Last Modified: Saturday, 4th June 2022 3:49:10 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -38,7 +38,6 @@ void	Map::Update(float pDeltaTime, const sf::FloatRect &pRect)
 	mBlockQTree->ForEach(pRect, [this] (std::shared_ptr<Block> &pBlock) {
 		if (pBlock && pBlock->GetHealth() <= 0)
 		{
-			std::cout << "pBlock destroyed?" << std::endl;
 			RemoveBlock(pBlock->GetPosition());
 		}
 	});
@@ -65,7 +64,6 @@ void	Map::AddBlock(std::shared_ptr<Block> pBlock)
 	if (!collides)
 	{
 		auto newBlock = mBlockQTree->Insert(std::shared_ptr<Block>(pBlock), sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
-		std::cout << newBlock << std::endl;
 		AddPathNode(*newBlock);
 	}
 }
