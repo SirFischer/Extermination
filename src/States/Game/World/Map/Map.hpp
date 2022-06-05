@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 12:48:57 pm
+ * Last Modified: Sunday, 5th June 2022 7:58:30 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -19,6 +19,7 @@
 #include "Yuna.hpp"
 
 #include "Blocks/Block.hpp"
+#include "Blocks/Foliage.hpp"
 #include "../Entities/Entity.hpp"
 #include "Background.hpp"
 
@@ -67,17 +68,17 @@ public:
 	void	ApplyCollisionDetection(Entity *pEntity);
 	void	LockPlayerToMap(Entity *pEntity);
 
+	bool	CanBlockBePlacedAt(const sf::Vector2f &pPos);
+	std::vector<Yuna::AI::PathNode>
+			GetPath(sf::Vector2f pP1, sf::Vector2f pP2);
 	sf::IntRect
 			GetGlobalBounds(){return (mGlobalBounds);}
 
 	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed);
 
 	void	Render(Yuna::Core::Window *pWindow, const sf::View	&pView);
-
 	void	RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView);
 
-	std::vector<Yuna::AI::PathNode>
-			GetPath(sf::Vector2f pP1, sf::Vector2f pP2);
 
 };
 

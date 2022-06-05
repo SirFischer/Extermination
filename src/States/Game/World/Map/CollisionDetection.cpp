@@ -4,7 +4,7 @@
  * File Created: Saturday, 1st January 2022 9:42:55 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 1st January 2022 11:09:30 am
+ * Last Modified: Sunday, 5th June 2022 8:12:20 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -24,6 +24,8 @@ void	Map::ApplyCollisionDetection(Entity *pEntity)
 	{
 		for (auto &b : *a)
 		{
+			if (!b.mData->IsSolid())
+				continue;
 			if (Yuna::Physics::DynamicRectCollision(pEntity->GetGlobalBounds(), rayDir, b.mRect, collisionPoint, collisionNormal, collisionTime))
 			{
 				collisionTimes.push_back(std::pair<sf::FloatRect, float>(b.mRect, collisionTime));

@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 9:04:42 pm
+ * Last Modified: Sunday, 5th June 2022 8:27:50 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -77,6 +77,7 @@ public:
 	void			SetOrigin(float pX, float pY) {mOrigin = sf::Vector2f(pX, pY);}
 	void			SetPath(const std::vector<Yuna::AI::PathNode> &pPath) {mPath = pPath; mPathRecalculationClock.restart();}
 	void			SetTarget(const sf::Vector2f &pTarget) {mTarget = pTarget;}
+	void			SetPosition(const sf::Vector2f &pPosition) {mPosition = pPosition;}
 
 	sf::Vector2f	GetPosition() {return (mPosition);}
 	sf::Vector2f	GetVelocity() {return (mVelocity);}

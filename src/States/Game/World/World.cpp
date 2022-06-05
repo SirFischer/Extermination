@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 9:00:01 pm
+ * Last Modified: Sunday, 5th June 2022 7:37:43 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -19,6 +19,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 :mStatistics(pStatistics)
 ,mMap(pResourceManager, pWindow)
 {
+	mWindow = pWindow;
 	mPlayer.reset(new Player());
 	mPlayer->Init(pResourceManager);
 	mPlayer->SetSize(38, 54);
@@ -39,27 +40,9 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mEntities.push_back(std::make_shared<Enemy>());
 	mEntities.back()->Init(pResourceManager);
 	mEntities.back()->SetSize(38, 54);
-	mEntities.push_back(std::make_shared<Enemy>());
-	mEntities.back()->Init(pResourceManager);
-	mEntities.back()->SetSize(38, 54);
-	mEntities.push_back(std::make_shared<Enemy>());
-	mEntities.back()->Init(pResourceManager);
-	mEntities.back()->SetSize(38, 54);
 
-	Yuna::Core::Console::sCommand reGenMapCommand;
-	reGenMapCommand.mHelpShort = "Regenerate map";
-	reGenMapCommand.mHelpLong = "This command reapplies perlin noise to generate a brand new map.\nThe first param is the size of the map.\nThe second param is the amplitude\nThe third param is the number of octaves\n and the last param is the start number of segments";
-	Map *map = &mMap;
-	reGenMapCommand.mFunction = [map](std::vector<std::string> tParams){
-		(void)tParams;
-		if (tParams.size() != 4)
-			return (Yuna::Core::Console::eCommandStatus::BAD_ARGUMENTS);
-		map->Generate(std::stoi(tParams.at(0)), std::stoi(tParams.at(1)), std::stoi(tParams.at(2)), std::stoi(tParams.at(3)), time(0));
-		return (Yuna::Core::Console::eCommandStatus::SUCCESS);
-	};
-	Yuna::Core::Console::AddCommand(reGenMapCommand, "regenerate_map");
 	CrateItem *testItem = new CrateItem(pResourceManager);
-	testItem->AddPrimaryAction([map, pStatistics, pWindow, cam = &mCamera](){
+	testItem->AddPrimaryAction([map = &mMap, pStatistics, pWindow, cam = &mCamera](){
 		auto block = std::make_shared<Crate>();
 		block->SetSize(sf::Vector2f(64, 64));
 		pWindow->SetView(cam->GetView());
@@ -67,14 +50,16 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 		pWindow->ResetView(true);
 		map->AddBlock(block);
 	});
-	testItem->AddSecondaryAction([map, pWindow, cam = &mCamera]() {
+	testItem->AddSecondaryAction([map = &mMap, pWindow, cam = &mCamera]() {
 		pWindow->SetView(cam->GetView());
 		map->RemoveBlock(pWindow->GetViewMousePos());
 		pWindow->ResetView(true);
 	});
 	mPlayer->EquipItem(testItem);
+	mCrateItem = testItem;
 
 	InitBackgrounds(pResourceManager);
+	InitConsoleCommands(pResourceManager);
 
 }
 
@@ -139,7 +124,9 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 	{
 		background.Update(mCamera.GetPosition());
 	}
-
+	mWindow->SetView(mCamera.GetView());
+	mCrateItem->SetIsValid(mMap.CanBlockBePlacedAt(mWindow->GetViewMousePos()));
+	mWindow->ResetView(true);
 }
 
 void	World::Render(Yuna::Core::Window *pWindow)

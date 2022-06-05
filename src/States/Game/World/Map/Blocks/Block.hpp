@@ -4,7 +4,7 @@
  * File Created: Monday, 25th October 2021 7:58:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 7:37:32 am
+ * Last Modified: Sunday, 5th June 2022 8:10:17 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -25,6 +25,7 @@ class Block : public Yuna::World::Object
 {
 protected:
 	bool			mIsBreakable = false;
+	bool			mSolid = true;
 	sf::Color		mColor = sf::Color(255, 255, 255, 255);
 	std::string		mTexturePath = "assets/textures/green400x400.png";
 	sf::Vector2f	mPosition;
@@ -51,5 +52,6 @@ public:
 	sf::Vector2f		GetSize() const {return (mSize);}
 	sf::Color			GetColor() const {return (mColor);}
 
+	bool			IsSolid() {return (mSolid);}
 	bool			IsBreakable() const {return (mIsBreakable);}
 };

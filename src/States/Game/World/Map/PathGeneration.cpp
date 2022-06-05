@@ -4,7 +4,7 @@
  * File Created: Saturday, 26th February 2022 8:41:36 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 12:33:58 pm
+ * Last Modified: Sunday, 5th June 2022 8:17:56 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -37,6 +37,8 @@ void	Map::AddPathNode(std::shared_ptr<Block> tBlock)
 
 	mBlockQTree->ForEach(sf::FloatRect(topnode->mPosition - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3, mGridSize * 3)),
 		[topnode, &intersectsAbove, size = mGridSize](const std::shared_ptr<Block> &pBlock){
+			if (!pBlock->IsSolid())
+				return ;
 			//is there a block above?
 			if (sf::FloatRect(pBlock->GetPosition(), pBlock->GetSize()).contains(topnode->mPosition + sf::Vector2f(size / 2.f, size / 2.f)))
 				intersectsAbove = true;
@@ -119,6 +121,8 @@ void	Map::UpdatePathsInRange(const sf::FloatRect &pRect)
 				//if path between two nodes collide with a block
 				blockList->ForEach(sf::FloatRect(pNode->mPosition - sf::Vector2f(size * 3.f, size * 3.f), sf::Vector2f(size * 6.f, size * 6.f))
 					, [&colliding, pNode, pNode2, size](const std::shared_ptr<Block> &pBlock){
+						if (!pBlock->IsSolid())
+							return ;
 					if (Yuna::Physics::LineRectCollision(
 						pNode->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1), //I have absolutely zero shame for this...
 						pNode2->mPosition + sf::Vector2f(size / 2.f, size / 2.f) + sf::Vector2f(0, -1),

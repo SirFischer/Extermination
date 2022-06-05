@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 12:38:53 pm
+ * Last Modified: Sunday, 5th June 2022 9:38:14 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -54,6 +54,12 @@ void	Map::FitToGrid()
 		sf::Vector2f	pos = block.GetPosition();
 		pos.y = (int)(pos.y / (int)mGridSize) * (int)mGridSize;
 		block.SetPosition(pos);
+		int foliage = random() % 100;
+		if (foliage < 5)
+		{
+			mBlocks.push_back(Foliage());
+			mBlocks.back().SetPosition(pos - sf::Vector2f(0, mGridSize));
+		} 
 	}
 }
 
@@ -114,7 +120,7 @@ void	Map::Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uin
 	for (uint32_t i = 0; i < pLength; i++)
 	{
 		Block block;
-		block.SetTexturePath("assets/textures/Sandstone-top.jpg");
+		block.SetTexturePath("assets/textures/Sandstone-top.png");
 		block.SetPosition(sf::Vector2f(i * mGridSize, pAmplitude));
 		mBlocks.push_back(block);
 	}

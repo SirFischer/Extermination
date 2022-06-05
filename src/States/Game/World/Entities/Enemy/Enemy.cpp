@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:45:02 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 12:56:36 pm
+ * Last Modified: Sunday, 5th June 2022 8:18:03 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -27,8 +27,8 @@ void	Enemy::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/enemy/Zombie.png"));
 	mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
 	mSize = sf::Vector2f(mSprite.getGlobalBounds().width - 10, mSprite.getGlobalBounds().height - 10);
-	mPosition.x = random() % 500;
-	mPosition.y = -random() % 500;
+	mPosition.x = random() % 500 + 20000;
+	mPosition.y = -random() % 500 - 200;
 }
 
 void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)

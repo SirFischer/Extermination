@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 3:49:10 pm
+ * Last Modified: Sunday, 5th June 2022 9:40:42 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -64,7 +64,8 @@ void	Map::AddBlock(std::shared_ptr<Block> pBlock)
 	if (!collides)
 	{
 		auto newBlock = mBlockQTree->Insert(std::shared_ptr<Block>(pBlock), sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
-		AddPathNode(*newBlock);
+		if (pBlock->IsSolid())
+			AddPathNode(*newBlock);
 	}
 }
 
@@ -81,6 +82,8 @@ void	Map::RemoveBlock(sf::Vector2f pPos)
 		bool blockAbove = false;
 		sf::Vector2f pos;
 		mBlockQTree->ForEach(range, [gridSize = mGridSize, pPos, &replaceNode, &blockAbove, &pos](const std::shared_ptr<Block> &pBlock) {
+			if (!pBlock->IsSolid())
+				return ;
 			if (sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos + sf::Vector2f(0, gridSize))) {
 				replaceNode = true;
 				pos = pBlock->GetPosition();
@@ -164,5 +167,20 @@ void	Map::RenderPathNodes(Yuna::Core::Window *pWindow, const sf::View &pView)
 			}
 		});
 }
+
+bool	Map::CanBlockBePlacedAt(const sf::Vector2f &pPos)
+{
+	sf::FloatRect range = sf::FloatRect(pPos - sf::Vector2f(mGridSize, mGridSize), sf::Vector2f(mGridSize * 3.f, mGridSize * 3.f));
+	bool canBePlaced = true;
+	mBlockQTree->ForEach(range, [gridSize = mGridSize, pPos, &canBePlaced](const std::shared_ptr<Block> &pBlock) {
+		if (sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(gridSize, gridSize)).contains(pPos))
+		{
+			canBePlaced = false;
+		}
+		//TODO: check all other directions
+	});
+	return (canBePlaced);
+}
+
 
 
