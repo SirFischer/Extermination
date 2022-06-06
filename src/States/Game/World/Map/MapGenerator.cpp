@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 9:38:14 pm
+ * Last Modified: Monday, 6th June 2022 8:32:56 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -72,8 +72,11 @@ void	Map::GenerateGround()
 		uint32_t length = (mAmplitude / mGridSize);
 		for (uint32_t j = 1; j < ((length > 15) ? length : 15); j++)
 		{
+			if (!mBlocks[i].IsSolid())
+				continue;
 			Block block;
-			block.SetTexturePath("assets/textures/Sandstone.jpg");
+			bool cornerBlock = (j == 1) && ((i > 0 && mBlocks[i - 1].GetPosition().y > mBlocks[i].GetPosition().y) || (i < mBlocks.size() - 1 && mBlocks[i + 1].GetPosition().y > mBlocks[i].GetPosition().y));
+			block.SetTexturePath((cornerBlock) ? "assets/textures/corner-block.png" : "assets/textures/Sandstone.jpg");
 			block.SetSize(sf::Vector2f(mGridSize, mGridSize));
 			sf::Vector2f pos = mBlocks[i].GetPosition();
 			pos.y += (mGridSize * j);
