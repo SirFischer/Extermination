@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:45:02 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 8:18:03 am
+ * Last Modified: Thursday, 9th June 2022 6:47:55 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -24,11 +24,12 @@ Enemy::~Enemy()
 
 void	Enemy::Init(Yuna::Core::ResourceManager *pResourceManager)
 {
-	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/enemy/Zombie.png"));
+	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/enemy/Soldier_01_tiles-enemy.png"));
 	mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
 	mSize = sf::Vector2f(mSprite.getGlobalBounds().width - 10, mSprite.getGlobalBounds().height - 10);
 	mPosition.x = random() % 500 + 20000;
 	mPosition.y = -random() % 500 - 200;
+	LoadAnimations();
 }
 
 void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
@@ -81,3 +82,17 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	mOnGround = false;
 }
 
+void	Enemy::LoadAnimations()
+{
+	mAnimations[eAnimationAction::IDLE].AddFrame((AnimationFrame){.mRect = sf::IntRect(0, 0, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::IDLE].AddFrame((AnimationFrame){.mRect = sf::IntRect(64, 0, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::IDLE].AddFrame((AnimationFrame){.mRect = sf::IntRect(128, 0, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::IDLE].AddFrame((AnimationFrame){.mRect = sf::IntRect(192, 0, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(0, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(64, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(128, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(192, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::FALL].AddFrame((AnimationFrame){.mRect = sf::IntRect(0, 128, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+	mAnimations[eAnimationAction::FALL].AddFrame((AnimationFrame){.mRect = sf::IntRect(64, 128, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
+
+}

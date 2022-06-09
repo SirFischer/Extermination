@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 6th June 2022 8:32:56 am
+ * Last Modified: Monday, 6th June 2022 11:31:28 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -55,9 +55,9 @@ void	Map::FitToGrid()
 		pos.y = (int)(pos.y / (int)mGridSize) * (int)mGridSize;
 		block.SetPosition(pos);
 		int foliage = random() % 100;
-		if (foliage < 5)
+		if (foliage < 8)
 		{
-			mBlocks.push_back(Foliage());
+			mBlocks.push_back(Foliage((eFoliageType)(random() % 2)));
 			mBlocks.back().SetPosition(pos - sf::Vector2f(0, mGridSize));
 		} 
 	}

@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:44:10 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 2nd June 2022 7:47:14 pm
+ * Last Modified: Thursday, 9th June 2022 6:47:22 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -28,6 +28,7 @@ private:
 
 	virtual void	Init(Yuna::Core::ResourceManager *pResourceManager);
 	virtual void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
+	void			LoadAnimations();
 
 	
 public:

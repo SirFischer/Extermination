@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 7:37:43 pm
+ * Last Modified: Monday, 6th June 2022 8:46:33 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -25,7 +25,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mPlayer->SetSize(38, 54);
 	mPlayer->SetOrigin(12, 4);
 	mEntities.push_back(mPlayer);
-	mMap.Generate(mMapSize, 300, 3, 5, time(0));
+	mMap.Generate(mMapSize, 200, 3, 5, time(0));
 	mCamera.SetView(pWindow->GetView());
 	sf::IntRect mapBounds = mMap.GetGlobalBounds();
 	mCamera.SetBoundries(sf::IntRect(mapBounds.left, -20000, mapBounds.width + mapBounds.left, 20000));

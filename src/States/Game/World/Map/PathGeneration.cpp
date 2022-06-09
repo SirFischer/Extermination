@@ -4,7 +4,7 @@
  * File Created: Saturday, 26th February 2022 8:41:36 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 8:17:56 pm
+ * Last Modified: Monday, 6th June 2022 8:53:26 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -149,7 +149,7 @@ void	Map::UpdatePathsInRange(const sf::FloatRect &pRect)
 					return ;
 				}
 				//no collision and none of the blocks are breakable and distance is less than x, create nodes
-				if (!colliding || ((pNode2->mIsBreakable || pNode->mIsBreakable) && Yuna::Math::Distance(pNode2->mPosition, pNode->mPosition) <= size))
+				if (!colliding || ((pNode2->mIsBreakable || pNode->mIsBreakable) && Yuna::Math::Distance(pNode2->mPosition, pNode->mPosition) <= size * 1.5))
 				{
 					pNode2->mConnectedPaths.push_back(Yuna::AI::Path());
 					pNode2->mConnectedPaths.back().mTarget = pNode;

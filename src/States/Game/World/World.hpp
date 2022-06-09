@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 7:36:47 pm
+ * Last Modified: Monday, 6th June 2022 8:45:47 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -36,7 +36,7 @@ private:
 	//Backgrounds
 	std::vector<Background>					mBackgrounds;
 
-	const uint32_t							mMapSize = 200;
+	const uint32_t							mMapSize = 100;
 
 	void	InitItems();
 	void	InitConsoleCommands(Yuna::Core::ResourceManager *pResourceManager);
