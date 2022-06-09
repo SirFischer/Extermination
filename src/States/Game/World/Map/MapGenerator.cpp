@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 6th June 2022 11:31:28 am
+ * Last Modified: Thursday, 9th June 2022 9:54:52 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -55,9 +55,9 @@ void	Map::FitToGrid()
 		pos.y = (int)(pos.y / (int)mGridSize) * (int)mGridSize;
 		block.SetPosition(pos);
 		int foliage = random() % 100;
-		if (foliage < 8)
+		if (foliage < 10)
 		{
-			mBlocks.push_back(Foliage((eFoliageType)(random() % 2)));
+			mBlocks.push_back(Foliage((eFoliageType)(random() % 4)));
 			mBlocks.back().SetPosition(pos - sf::Vector2f(0, mGridSize));
 		} 
 	}
@@ -76,7 +76,7 @@ void	Map::GenerateGround()
 				continue;
 			Block block;
 			bool cornerBlock = (j == 1) && ((i > 0 && mBlocks[i - 1].GetPosition().y > mBlocks[i].GetPosition().y) || (i < mBlocks.size() - 1 && mBlocks[i + 1].GetPosition().y > mBlocks[i].GetPosition().y));
-			block.SetTexturePath((cornerBlock) ? "assets/textures/corner-block.png" : "assets/textures/Sandstone.jpg");
+			block.SetTexturePath((cornerBlock) ? "assets/textures/Sandstone.png" : "assets/textures/Sandstone.png");
 			block.SetSize(sf::Vector2f(mGridSize, mGridSize));
 			sf::Vector2f pos = mBlocks[i].GetPosition();
 			pos.y += (mGridSize * j);

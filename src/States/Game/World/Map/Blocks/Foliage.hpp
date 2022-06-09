@@ -4,7 +4,7 @@
  * File Created: Sunday, 5th June 2022 7:52:12 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 6th June 2022 11:28:18 am
+ * Last Modified: Thursday, 9th June 2022 9:54:18 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -16,7 +16,9 @@
 enum class eFoliageType
 {
 	DEAD_BUSH,
-	CACTUS_BIG
+	CACTUS_BIG,
+	CACTUS_SMALL,
+	SKULL
 };
 
 class Foliage : public Block
