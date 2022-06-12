@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 9:40:42 pm
+ * Last Modified: Sunday, 12th June 2022 4:12:46 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -64,7 +64,7 @@ void	Map::AddBlock(std::shared_ptr<Block> pBlock)
 	if (!collides)
 	{
 		auto newBlock = mBlockQTree->Insert(std::shared_ptr<Block>(pBlock), sf::FloatRect(pBlock->GetPosition(), sf::Vector2f(mGridSize, mGridSize)));
-		if (pBlock->IsSolid())
+		if (newBlock && pBlock->IsSolid())
 			AddPathNode(*newBlock);
 	}
 }

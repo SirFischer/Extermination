@@ -4,7 +4,7 @@
  * File Created: Thursday, 12th May 2022 5:55:25 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 12th May 2022 4:12:50 pm
+ * Last Modified: Sunday, 12th June 2022 4:10:37 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -30,7 +30,7 @@ void	Background::LoadBackground(sf::Texture *pTexture)
 	mBackgroundSprite.setPosition(0, 0);
 	mBackgroundSprite.setTexture(*pTexture);
 	mBackgroundSprite.setScale((float)mSize.x / pTexture->getSize().x, (float)mSize.y / pTexture->getSize().y);
-	mBackgroundSprite.setTextureRect(sf::IntRect(0, 0, mSize.x, mSize.y));
+	mBackgroundSize = sf::Vector2i(pTexture->getSize());
 }
 
 void	Background::SetMoveFactor(const sf::Vector2f &pMoveFactor)
@@ -38,11 +38,17 @@ void	Background::SetMoveFactor(const sf::Vector2f &pMoveFactor)
 	mMoveFactor = pMoveFactor;
 }
 
+void	Background::SetScale(const sf::Vector2f &pScale)
+{
+	mBackgroundSprite.setScale(pScale);
+}
+
+
 
 void	Background::Update(const sf::Vector2f &pCamPos)
 {
 	mBackgroundSprite.setTextureRect(
-		sf::IntRect((pCamPos.x - ((float)mSize.x / 2.f)) * mMoveFactor.x, (pCamPos.y - ((float)mSize.y / 2.f)) * mMoveFactor.y, mSize.x, mSize.y)
+		sf::IntRect((pCamPos.x - ((float)mSize.x / 2.f)) * mMoveFactor.x, (pCamPos.y - ((float)mSize.y / 2.f)) * mMoveFactor.y, mBackgroundSize.x, mBackgroundSize.y)
 	);
 }
 

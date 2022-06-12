@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 11:59:25 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 6th March 2022 11:49:34 am
+ * Last Modified: Sunday, 12th June 2022 7:26:33 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -24,7 +24,9 @@ enum class eAction {
 	JUMP,
 	CROUCH,
 	USE_ITEM_1,
-	USE_ITEM_2
+	USE_ITEM_2,
+	NEXT_ITEM,
+	PREVIOUS_ITEM
 };
 
 std::map<uint32_t, std::string>	*GetActionNames();
