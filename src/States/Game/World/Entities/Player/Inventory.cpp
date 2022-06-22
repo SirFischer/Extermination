@@ -4,7 +4,7 @@
  * File Created: Saturday, 19th February 2022 3:10:16 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 12th June 2022 3:57:18 pm
+ * Last Modified: Wednesday, 22nd June 2022 8:55:20 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -13,6 +13,8 @@
 
 Inventory::Inventory(/* args */)
 {
+	mInventorySlots.push_back(std::make_shared<Item>());
+	mInventorySlots.push_back(std::make_shared<Weapon>());
 }
 
 Inventory::~Inventory()
@@ -21,11 +23,37 @@ Inventory::~Inventory()
 
 void	Inventory::Update(Yuna::Core::EventHandler *pEventhandler)
 {
-	(void)pEventhandler;
-	//pEventhandler->GetEventState();
+	if (pEventhandler->GetEventState((uint32_t)eAction::NEXT_ITEM))
+	{
+		mSelected++;
+		if (mSelected >= mInventorySlots.size()) mSelected = 0;
+		pEventhandler->SetEventState((uint32_t)eAction::NEXT_ITEM, false);
+	}
+
+	if (pEventhandler->GetEventState((uint32_t)eAction::PREVIOUS_ITEM))
+	{
+		mSelected--;
+		if (mSelected >= mInventorySlots.size()) mSelected = mInventorySlots.size() - 1;
+		pEventhandler->SetEventState((uint32_t)eAction::PREVIOUS_ITEM, false);
+	}
 }
 
 void	Inventory::Render(Yuna::Core::Window *pWindow)
 {
-	(void)pWindow;
+	sf::RectangleShape itemContainer(sf::Vector2f(100, 100));
+	itemContainer.setFillColor(sf::Color::Transparent);
+	itemContainer.setOutlineColor(sf::Color(100, 100, 100));
+	int index = 0;
+	int topPos = 100;
+
+	for (auto &item : mInventorySlots)
+	{
+		(void)item;
+		itemContainer.setOutlineThickness((mSelected == index) ? 7 : 5);
+		itemContainer.setPosition(sf::Vector2f(20, topPos));
+		topPos += 120;
+		//RENDER ITEM
+		pWindow->Draw(itemContainer);
+		index++;
+	}
 }

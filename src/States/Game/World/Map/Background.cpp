@@ -4,7 +4,7 @@
  * File Created: Thursday, 12th May 2022 5:55:25 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 12th June 2022 4:10:37 pm
+ * Last Modified: Sunday, 12th June 2022 8:04:47 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -42,7 +42,6 @@ void	Background::SetScale(const sf::Vector2f &pScale)
 {
 	mBackgroundSprite.setScale(pScale);
 }
-
 
 
 void	Background::Update(const sf::Vector2f &pCamPos)

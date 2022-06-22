@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 1st June 2022 6:03:58 am
+ * Last Modified: Wednesday, 22nd June 2022 6:19:08 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -47,6 +47,7 @@ void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
 void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 {
 	Entity::Update(pEventhandler, mDeltaTime);
+	mInventory.Update(pEventhandler);
 	
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_RIGHT))
 	{
@@ -93,4 +94,15 @@ void	Player::EquipItem(Item *pItem)
 		mEquipedItem.reset(pItem);
 	}
 }
+
+void	Player::Render(Yuna::Core::Window *pWindow)
+{
+	Entity::Render(pWindow);
+
+	auto tmpView = pWindow->GetView();
+	pWindow->ResetView(true);
+	mInventory.Render(pWindow);
+	pWindow->SetView(tmpView);
+}
+
 

@@ -4,7 +4,7 @@
  * File Created: Sunday, 7th November 2021 5:48:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 25th March 2022 6:23:56 am
+ * Last Modified: Wednesday, 22nd June 2022 6:15:31 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -87,6 +87,8 @@ void	Options::InitControlsOptions()
 	InitButtonBinding("Move Right", eAction::MOVE_RIGHT);
 	InitButtonBinding("Use Primary", eAction::USE_ITEM_1);
 	InitButtonBinding("Use Secondary", eAction::USE_ITEM_2);
+	InitButtonBinding("Next Item", eAction::NEXT_ITEM);
+	InitButtonBinding("Previous Item", eAction::PREVIOUS_ITEM);
 
 	mf::Button *saveBtn = mf::Button::Create();
 	mControlsOptionsList->AddWidget(saveBtn);
