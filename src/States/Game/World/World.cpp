@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 15th June 2022 4:33:01 pm
+ * Last Modified: Wednesday, 22nd June 2022 9:19:53 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -60,17 +60,17 @@ void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)
 	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
 	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/background_1.png").get());
 
-	// mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
-	// mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.02f, 0.0f));
-	// mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/clouds_bg.png").get());
-	
 	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
 	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.03f, 0.0f));
-	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/Mountains.png").get());
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/featherclouds.png").get());
 	
 	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
-	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.05f, 0.15f));
-	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/clouds_bg.png").get());
+	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.06f, 0.0f));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/Mountains.png").get());
+	
+	// mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	// mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.05f, 0.15f));
+	// mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/clouds_bg.png").get());
 	
 }
 
