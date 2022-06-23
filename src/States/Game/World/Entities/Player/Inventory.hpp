@@ -4,13 +4,14 @@
  * File Created: Saturday, 19th February 2022 3:09:55 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 21st June 2022 6:17:16 am
+ * Last Modified: Thursday, 23rd June 2022 7:29:47 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
  */
 #pragma once
 #include "Item.hpp"
+#include "CrateItem.hpp"
 #include "Weapon.hpp"
 #include "Actions.hpp"
 #include <vector>
@@ -24,10 +25,11 @@ private:
 	u_int8_t							mSelected;
 
 public:
-	Inventory(/* args */);
+	Inventory();
 	~Inventory();
 
 	Item	*GetSelectedItem() {return (mInventorySlots[mSelected].get());}
+	void	AddItem(std::shared_ptr<Item> pItem);
 
 	void	Update(Yuna::Core::EventHandler *pEventhandler);
 	void	Render(Yuna::Core::Window *pWindow);

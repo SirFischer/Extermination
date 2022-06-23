@@ -4,22 +4,27 @@
  * File Created: Saturday, 19th February 2022 3:10:16 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 22nd June 2022 9:23:23 pm
+ * Last Modified: Thursday, 23rd June 2022 7:43:25 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
  */
 #include "Inventory.hpp"
 
-Inventory::Inventory(/* args */)
+Inventory::Inventory()
 {
-	mInventorySlots.push_back(std::make_shared<Item>());
-	mInventorySlots.push_back(std::make_shared<Weapon>());
+
 }
 
 Inventory::~Inventory()
 {
 }
+
+void	Inventory::AddItem(std::shared_ptr<Item> pItem)
+{
+	mInventorySlots.push_back(pItem);
+}
+
 
 void	Inventory::Update(Yuna::Core::EventHandler *pEventhandler)
 {
@@ -51,9 +56,12 @@ void	Inventory::Render(Yuna::Core::Window *pWindow)
 		(void)item;
 		itemContainer.setOutlineThickness((mSelected == index) ? 7 : 5);
 		itemContainer.setPosition(sf::Vector2f(20, topPos));
-		topPos += 80;
 		//RENDER ITEM
 		pWindow->Draw(itemContainer);
+		item->SetIconPosition(sf::Vector2f(25, topPos + 5));
+		item->RenderIcon(pWindow);
+		
+		topPos += 80;
 		index++;
 	}
 }

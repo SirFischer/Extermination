@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 4th June 2022 9:11:11 pm
+ * Last Modified: Thursday, 23rd June 2022 7:33:49 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -47,8 +47,6 @@ void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 
 void	Entity::Render(Yuna::Core::Window *pWindow)
 {
-	if (mEquipedItem)
-		mEquipedItem->Render(pWindow);
 	pWindow->Draw(mSprite);
 
 	if (Config::mRenderPathNodes && mPath.size())

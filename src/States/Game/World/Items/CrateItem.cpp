@@ -4,7 +4,7 @@
  * File Created: Wednesday, 16th February 2022 6:34:46 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 7:41:00 pm
+ * Last Modified: Thursday, 23rd June 2022 7:42:28 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -17,6 +17,9 @@ CrateItem::CrateItem(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/crate.png"));
 	mSprite.setColor(sf::Color(150, 150, 150, 180));
+
+	mIcon.setTexture(*pResourceManager->LoadTexture("assets/textures/crate.png"));
+	mIcon.setScale(0.8, 0.8);
 }
 
 CrateItem::~CrateItem()

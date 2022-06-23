@@ -4,7 +4,7 @@
  * File Created: Saturday, 9th October 2021 10:06:48 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 6th January 2022 8:33:12 pm
+ * Last Modified: Thursday, 23rd June 2022 7:21:08 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -83,6 +83,18 @@ void	Options::HandleEvents()
 				mListenToNextEvent = false;
 				mButtonToBind->SetText(mEventHandler.GetBindingNames()[event.key.code + 1000]);
 				InitControlsOptions();
+				mControlsOptionsList->SetDisabled(false);
+			}
+			else if (event.type == sf::Event::MouseWheelScrolled)
+			{
+				if (event.mouseWheelScroll.delta > 0)
+					mEventHandler.BindWheelUp((uint32_t)mActionToBind);
+				else
+					mEventHandler.BindWheelDown((uint32_t)mActionToBind);
+
+				mButtonToBind->SetText(mEventHandler.GetBindingNames()[EVENTHANDLER_WHEEL_OFFSET + event.mouseWheelScroll.delta]);
+				InitControlsOptions();
+				mListenToNextEvent = false;
 				mControlsOptionsList->SetDisabled(false);
 			}
 		}
