@@ -4,7 +4,7 @@
  * File Created: Saturday, 19th February 2022 3:10:16 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 23rd June 2022 7:43:25 am
+ * Last Modified: Wednesday, 29th June 2022 6:23:44 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -13,7 +13,9 @@
 
 Inventory::Inventory()
 {
-
+	mItemContainer.setSize(sf::Vector2f(mSlotSize, mSlotSize));
+	mItemContainer.setFillColor(sf::Color::Transparent);
+	mItemContainer.setOutlineColor(sf::Color(60, 60, 60));
 }
 
 Inventory::~Inventory()
@@ -25,43 +27,42 @@ void	Inventory::AddItem(std::shared_ptr<Item> pItem)
 	mInventorySlots.push_back(pItem);
 }
 
-
-void	Inventory::Update(Yuna::Core::EventHandler *pEventhandler)
+void	Inventory::NextItem()
 {
-	if (pEventhandler->GetEventState((uint32_t)eAction::NEXT_ITEM))
-	{
-		mSelected++;
-		if (mSelected >= mInventorySlots.size()) mSelected = 0;
-		pEventhandler->SetEventState((uint32_t)eAction::NEXT_ITEM, false);
-	}
+	mSelected++;
+	if (mSelected >= mInventorySlots.size()) mSelected = 0;
+}
 
-	if (pEventhandler->GetEventState((uint32_t)eAction::PREVIOUS_ITEM))
-	{
-		mSelected--;
-		if (mSelected >= mInventorySlots.size()) mSelected = mInventorySlots.size() - 1;
-		pEventhandler->SetEventState((uint32_t)eAction::PREVIOUS_ITEM, false);
-	}
+void	Inventory::PreviousItem()
+{
+	mSelected--;
+	if (mSelected >= mInventorySlots.size()) mSelected = mInventorySlots.size() - 1;
+}
+
+
+void	Inventory::Update()
+{
+	
 }
 
 void	Inventory::Render(Yuna::Core::Window *pWindow)
 {
-	sf::RectangleShape itemContainer(sf::Vector2f(60, 60));
-	itemContainer.setFillColor(sf::Color::Transparent);
-	itemContainer.setOutlineColor(sf::Color(60, 60, 60));
 	int index = 0;
 	int topPos = 200;
 
 	for (auto &item : mInventorySlots)
 	{
 		(void)item;
-		itemContainer.setOutlineThickness((mSelected == index) ? 7 : 5);
-		itemContainer.setPosition(sf::Vector2f(20, topPos));
+		mItemContainer.setOutlineThickness((mSelected == index) ? 7 : 5);
+		mItemContainer.setOutlineColor( (mSelected == index) ? sf::Color::Red :sf::Color(60, 60, 60));
+		
+		mItemContainer.setPosition(sf::Vector2f(20, topPos));
 		//RENDER ITEM
-		pWindow->Draw(itemContainer);
+		pWindow->Draw(mItemContainer);
 		item->SetIconPosition(sf::Vector2f(25, topPos + 5));
 		item->RenderIcon(pWindow);
 		
-		topPos += 80;
+		topPos += mSlotSize + 20;
 		index++;
 	}
 }

@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 6th June 2022 9:25:04 pm
+ * Last Modified: Monday, 27th June 2022 7:47:06 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -34,7 +34,8 @@ void	Game::Init()
 	Yuna::Core::Console::mActionNames = GetActionNames();
 	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
 	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
-	mWindow->SetVSync(true);
+	mWindow->SetVSync(false);
+	mWindow->SetCursorVisibility(false);
 }
 
 void	Game::Update()
@@ -43,6 +44,7 @@ void	Game::Update()
 	if (mEventHandler.GetEventState((uint32_t)eAction::CONSOLE_TOGGLE))
 	{
 		Yuna::Core::Console::ToggleConsole();
+		mWindow->SetCursorVisibility(Yuna::Core::Console::IsOpen());
 		mEventHandler.SetEventState((uint32_t)eAction::CONSOLE_TOGGLE, false);
 	}
 	if (Yuna::Core::Console::IsOpen())

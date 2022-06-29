@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 23rd June 2022 7:34:17 am
+ * Last Modified: Wednesday, 29th June 2022 7:10:15 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -38,21 +38,22 @@ void	Player::LoadAnimations()
 
 void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
 {
-	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/player/Soldier_01_tiles.png"));
+	mResourceManager = pResourceManager;
+	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/player/Soldier_01_tiles_armless.png"));
 	mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
+	mArm.setOrigin(sf::Vector2f(32, 32));
 	mSize = sf::Vector2f(mSprite.getGlobalBounds().width, mSprite.getGlobalBounds().height);
 	LoadAnimations();
 
+	mArm.setTexture(*pResourceManager->LoadTexture("assets/images/player/Soldier_01_arm.png"));
+	mItemSprite.setScale(0.35, 0.35);
 	//tmp should be added by world
-	mInventory.AddItem(std::make_shared<Weapon>()); //pistol
-	mInventory.AddItem(std::make_shared<Weapon>()); //machine gun
+	mInventory.AddItem(std::make_shared<Weapon>(pResourceManager)); //pistol
+	mInventory.AddItem(std::make_shared<Weapon>(pResourceManager)); //machine gun
 }
 
-void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
+void	Player::HandleEvents(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 {
-	Entity::Update(pEventhandler, mDeltaTime);
-	mInventory.Update(pEventhandler);
-	
 	if (pEventhandler->GetEventState((uint32_t)eAction::MOVE_RIGHT))
 	{
 		WalkRight(mDeltaTime);
@@ -83,12 +84,38 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 			mInventory.GetSelectedItem()->UseSecondaryAction();
 		}
 	}
-	if (mFallClock.getElapsedTime() > sf::seconds(0.8))
+	if (pEventhandler->GetEventState((uint32_t)eAction::NEXT_ITEM))
 	{
-		mCurrentAnimation = eAnimationAction::FALL;
+		mInventory.NextItem();
+		pEventhandler->SetEventState((uint32_t)eAction::NEXT_ITEM, false);
 	}
+
+	if (pEventhandler->GetEventState((uint32_t)eAction::PREVIOUS_ITEM))
+	{
+		mInventory.PreviousItem();
+		pEventhandler->SetEventState((uint32_t)eAction::PREVIOUS_ITEM, false);
+	}
+	
+}
+
+void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
+{
+	static Item*	lastItem = nullptr;
+	Entity::Update(pEventhandler, mDeltaTime);
+	mArm.setPosition(mPosition + sf::Vector2f((mFacingLeft ? 36 : 28), 38));
+	mInventory.Update();
+	HandleEvents(pEventhandler, mDeltaTime);
+
+	if (mFallClock.getElapsedTime() > sf::seconds(0.8)) mCurrentAnimation = eAnimationAction::FALL;
+	
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
+
+	if (lastItem != mInventory.GetSelectedItem())
+	{
+		lastItem = mInventory.GetSelectedItem();
+		mItemSprite.setTexture(*mResourceManager->LoadTexture(lastItem->GetItemTexturePath()));
+	}
 }
 
 void	Player::EquipItem(Item *pItem)
@@ -99,14 +126,53 @@ void	Player::EquipItem(Item *pItem)
 	}
 }
 
+void	Player::RenderArm(Yuna::Core::Window *pWindow)
+{
+	sf::Vector2f delta = sf::Vector2f(pWindow->GetViewMousePos()) - mArm.getPosition();
+	
+	if (mFacingLeft)
+	{
+		mArm.setTextureRect(
+			sf::IntRect(64, 0, -64, 64));
+		mItemSprite.setOrigin(sf::Vector2f(54, 38));
+		mItemSprite.setTextureRect(
+			sf::IntRect(64, 0, -64, 64));
+		float rotation = (-(std::atan2(delta.x, delta.y) / M_PI) * 180.f) - 30.f;
+		mArm.setRotation(rotation);
+		mItemSprite.setRotation(mArm.getRotation() - 70);
+		mItemSprite.setPosition(mArm.getPosition() - sf::Vector2f(10 * std::cos(((rotation - 70) / 180.f) * M_PI), 10 * std::sin(((rotation - 70) / 180.f) * M_PI)));
+
+	}
+	else
+	{
+		mArm.setTextureRect(
+			sf::IntRect(0, 0, 64, 64));
+		mItemSprite.setOrigin(sf::Vector2f(10, 38));
+		mItemSprite.setTextureRect(
+			sf::IntRect(0, 0, 64, 64));
+		float rotation = (-(std::atan2(delta.x, delta.y) / M_PI) * 180.f) + 30.f;
+		mArm.setRotation(rotation);
+		mItemSprite.setRotation(mArm.getRotation() + 70);
+		mItemSprite.setPosition(mArm.getPosition() + sf::Vector2f(10 * std::cos(((rotation + 70) / 180.f) * M_PI), 10 * std::sin(((rotation + 70) / 180.f) * M_PI)));
+		
+	}
+	
+	pWindow->Draw(mArm);
+}
+
+
 void	Player::Render(Yuna::Core::Window *pWindow)
 {
 	Entity::Render(pWindow);
-
+	
 	if (mInventory.GetSelectedItem())
 	{
 		mInventory.GetSelectedItem()->Render(pWindow);
+		pWindow->Draw(mItemSprite);
 	}
+
+	RenderArm(pWindow);
+
 
 	auto tmpView = pWindow->GetView();
 	pWindow->ResetView(true);

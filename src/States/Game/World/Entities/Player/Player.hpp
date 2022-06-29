@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:25 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 23rd June 2022 7:33:44 am
+ * Last Modified: Wednesday, 29th June 2022 6:30:58 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -19,9 +19,18 @@ class Player : public Entity
 {
 private:
 
+	//dependencies
+	Yuna::Core::ResourceManager *mResourceManager = nullptr;
+
 	Inventory	mInventory;
+	sf::Sprite	mArm;
+	sf::Sprite	mItemSprite;
 
 	void	LoadAnimations();
+
+	void	RenderArm(Yuna::Core::Window *pWindow);
+	void	HandleEvents(Yuna::Core::EventHandler *tEventhandler, float mDeltaTime);
+
 public:
 	Player(/* args */);
 	~Player();

@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:59:39 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 21st June 2022 5:52:41 am
+ * Last Modified: Thursday, 23rd June 2022 8:05:37 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -15,10 +15,11 @@
 class Weapon : public Item
 {
 private:
-	float	mDamage = 20.f;
+	float		mDamage = 20.f;
+	sf::Sprite	mSprite;
 
 public:
-	Weapon(/* args */);
+	Weapon(Yuna::Core::ResourceManager *pResourceManager);
 	~Weapon();
 
 	void	Render(Yuna::Core::Window *pWindow);

@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 22nd June 2022 9:19:53 pm
+ * Last Modified: Thursday, 23rd June 2022 8:11:55 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -85,6 +85,8 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 		mCamera.GetView().getCenter().y - ((mCamera.GetView().getSize().y / 2.f) + 64)),
 		sf::Vector2f(mCamera.GetView().getSize().x + (64 * 2.f),
 		mCamera.GetView().getSize().y + (64 * 2.f)));
+	viewRect.left -= 500;
+	viewRect.width += 1000;
 	mMap.Update(pDeltaTime, viewRect);
 	for (auto &entity : mEntities)
 	{
