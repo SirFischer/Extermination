@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 12th June 2022 4:12:46 pm
+ * Last Modified: Wednesday, 13th July 2022 8:11:18 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -31,14 +31,21 @@ void	Map::UpdateEntity(Entity *pEntity)
 	LockPlayerToMap(pEntity);
 }
 
+
 void	Map::Update(float pDeltaTime, const sf::FloatRect &pRect)
 {
 	(void)pDeltaTime;
 
 	mBlockQTree->ForEach(pRect, [this] (std::shared_ptr<Block> &pBlock) {
-		if (pBlock && pBlock->GetHealth() <= 0)
+		if (!pBlock)
+			return ;
+		if (pBlock->GetHealth() <= 0)
 		{
 			RemoveBlock(pBlock->GetPosition());
+		}
+		if (pBlock->IsBreakable() && pBlock->IsSolid() && pBlock->GetHealth() < 200.f)
+		{
+			pBlock->SetTextureRect(sf::IntRect(64, 0, 64, 64));
 		}
 	});
 }
@@ -120,10 +127,11 @@ void	Map::Render(Yuna::Core::Window *pWindow, const sf::View	&pView)
 			{
 				sf::Texture	*texture = resourceManager->LoadTexture(pBlock->GetTexturePath()).get();
 				sprite->setTexture(*texture);
-				sprite->setScale(sf::Vector2f((float)gridSize / texture->getSize().x, (float)gridSize / texture->getSize().y));
+				//sprite->setScale(sf::Vector2f((float)gridSize / texture->getSize().x, (float)gridSize / texture->getSize().y));
 				lastPath = pBlock->GetTexturePath();
 			}
 			sprite->setPosition(pBlock->GetPosition());
+			sprite->setTextureRect(pBlock->GetTextureRect());
 			pWindow->Draw(*sprite);
 		});
 	if (Config::mRenderPathNodes)

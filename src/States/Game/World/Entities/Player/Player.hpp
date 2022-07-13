@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:25 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 29th June 2022 6:30:58 am
+ * Last Modified: Sunday, 3rd July 2022 1:33:00 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -13,6 +13,7 @@
 #include "../Entity.hpp"
 #include "Actions.hpp"
 #include "../../Items/CrateItem.hpp"
+#include "../../Items/Hands.hpp"
 #include "Inventory.hpp"
 
 class Player : public Entity
@@ -25,6 +26,9 @@ private:
 	Inventory	mInventory;
 	sf::Sprite	mArm;
 	sf::Sprite	mItemSprite;
+
+	sf::Texture	mArmlessTexture;
+	sf::Texture	mArmTexture;
 
 	void	LoadAnimations();
 

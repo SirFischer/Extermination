@@ -4,7 +4,7 @@
  * File Created: Wednesday, 16th February 2022 6:38:38 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 29th June 2022 6:15:26 am
+ * Last Modified: Sunday, 3rd July 2022 1:28:18 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -24,6 +24,8 @@ protected:
 	sf::Sprite				mIcon;
 	std::string				mTexturePath;
 
+	bool					mIsHands = false;
+
 public:
 	Item();
 	~Item();
@@ -36,6 +38,7 @@ public:
 	void			SetIconPosition(const sf::Vector2f &pPosition) {mIcon.setPosition(pPosition);}
 
 	std::string		GetItemTexturePath(){return (mTexturePath);}
+	bool			IsHands(){return (mIsHands);}
 	
 	virtual void	Render(Yuna::Core::Window *pWindow);
 	virtual void	RenderIcon(Yuna::Core::Window *pWindow);

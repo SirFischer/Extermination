@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 29th June 2022 7:10:15 am
+ * Last Modified: Tuesday, 12th July 2022 8:31:17 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -40,6 +40,8 @@ void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mResourceManager = pResourceManager;
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/player/Soldier_01_tiles_armless.png"));
+	mArmlessTexture = *pResourceManager->LoadTexture("assets/images/player/Soldier_01_tiles_armless.png");
+	mArmTexture = *pResourceManager->LoadTexture("assets/images/player/Soldier_01_tiles.png");
 	mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
 	mArm.setOrigin(sf::Vector2f(32, 32));
 	mSize = sf::Vector2f(mSprite.getGlobalBounds().width, mSprite.getGlobalBounds().height);
@@ -48,8 +50,7 @@ void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mArm.setTexture(*pResourceManager->LoadTexture("assets/images/player/Soldier_01_arm.png"));
 	mItemSprite.setScale(0.35, 0.35);
 	//tmp should be added by world
-	mInventory.AddItem(std::make_shared<Weapon>(pResourceManager)); //pistol
-	mInventory.AddItem(std::make_shared<Weapon>(pResourceManager)); //machine gun
+	mInventory.AddItem(std::make_shared<Hands>());
 }
 
 void	Player::HandleEvents(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
@@ -114,7 +115,12 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	if (lastItem != mInventory.GetSelectedItem())
 	{
 		lastItem = mInventory.GetSelectedItem();
-		mItemSprite.setTexture(*mResourceManager->LoadTexture(lastItem->GetItemTexturePath()));
+		if (lastItem->IsHands())
+			mSprite.setTexture(mArmTexture);
+		else
+			mSprite.setTexture(mArmlessTexture);
+		if (!lastItem->IsHands())
+			mItemSprite.setTexture(*mResourceManager->LoadTexture(lastItem->GetItemTexturePath()));
 	}
 }
 
@@ -139,8 +145,8 @@ void	Player::RenderArm(Yuna::Core::Window *pWindow)
 			sf::IntRect(64, 0, -64, 64));
 		float rotation = (-(std::atan2(delta.x, delta.y) / M_PI) * 180.f) - 30.f;
 		mArm.setRotation(rotation);
-		mItemSprite.setRotation(mArm.getRotation() - 70);
-		mItemSprite.setPosition(mArm.getPosition() - sf::Vector2f(10 * std::cos(((rotation - 70) / 180.f) * M_PI), 10 * std::sin(((rotation - 70) / 180.f) * M_PI)));
+		mItemSprite.setRotation(rotation - 60.f);
+		mItemSprite.setPosition(mArm.getPosition() - sf::Vector2f(10.f * std::cos(((rotation - 60.f) / 180.f) * M_PI), 10.f * std::sin(((rotation - 60.f) / 180.f) * M_PI)));
 
 	}
 	else
@@ -152,8 +158,8 @@ void	Player::RenderArm(Yuna::Core::Window *pWindow)
 			sf::IntRect(0, 0, 64, 64));
 		float rotation = (-(std::atan2(delta.x, delta.y) / M_PI) * 180.f) + 30.f;
 		mArm.setRotation(rotation);
-		mItemSprite.setRotation(mArm.getRotation() + 70);
-		mItemSprite.setPosition(mArm.getPosition() + sf::Vector2f(10 * std::cos(((rotation + 70) / 180.f) * M_PI), 10 * std::sin(((rotation + 70) / 180.f) * M_PI)));
+		mItemSprite.setRotation(rotation + 60.f);
+		mItemSprite.setPosition(mArm.getPosition() + sf::Vector2f(10.f * std::cos(((rotation + 60.f) / 180.f) * M_PI), 10.f * std::sin(((rotation + 60.f) / 180.f) * M_PI)));
 		
 	}
 	
@@ -168,10 +174,13 @@ void	Player::Render(Yuna::Core::Window *pWindow)
 	if (mInventory.GetSelectedItem())
 	{
 		mInventory.GetSelectedItem()->Render(pWindow);
-		pWindow->Draw(mItemSprite);
 	}
 
-	RenderArm(pWindow);
+	if (!mInventory.GetSelectedItem()->IsHands())
+	{
+		pWindow->Draw(mItemSprite);
+		RenderArm(pWindow);
+	}
 
 
 	auto tmpView = pWindow->GetView();

@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:45:02 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 9th June 2022 6:47:55 am
+ * Last Modified: Tuesday, 12th July 2022 8:50:41 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -29,6 +29,7 @@ void	Enemy::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mSize = sf::Vector2f(mSprite.getGlobalBounds().width - 10, mSprite.getGlobalBounds().height - 10);
 	mPosition.x = random() % 500 + 20000;
 	mPosition.y = -random() % 500 - 200;
+	mSpeed = 55.f;
 	LoadAnimations();
 }
 
@@ -77,6 +78,11 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 			WalkLeft(mDeltaTime);
 		if (mTarget.y <= mPosition.y - 32 && mOnGround)
 			Jump(mDeltaTime);
+		if (mJumpClock.getElapsedTime().asSeconds() > 2.f)
+		{
+			Jump(mDeltaTime);
+			mJumpClock.restart();
+		}
 	}
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;

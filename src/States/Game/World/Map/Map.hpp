@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 7:58:30 pm
+ * Last Modified: Monday, 11th July 2022 7:15:13 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -22,6 +22,7 @@
 #include "Blocks/Foliage.hpp"
 #include "../Entities/Entity.hpp"
 #include "Background.hpp"
+#include "ProjectileManager.hpp"
 
 
 class Map
@@ -73,6 +74,8 @@ public:
 			GetPath(sf::Vector2f pP1, sf::Vector2f pP2);
 	sf::IntRect
 			GetGlobalBounds(){return (mGlobalBounds);}
+	std::unique_ptr<Yuna::Utils::QTree<std::shared_ptr<Block>>> *
+			GetBlockTree(){return (&mBlockQTree);}
 
 	void	Generate(uint32_t pLength, uint32_t pAmplitude, uint32_t pOctaves, uint32_t pStartSegments, uint32_t pSeed);
 

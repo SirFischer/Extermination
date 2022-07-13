@@ -4,25 +4,30 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 6th June 2022 8:45:47 am
+ * Last Modified: Tuesday, 12th July 2022 7:48:50 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
  */
 #pragma once
 
+#include <math.h>
+
 #include "Entities/Player/Player.hpp"
 #include "Entities/Enemy/Enemy.hpp"
 #include "Map/Map.hpp"
 #include "../Statistics.hpp"
 #include "Camera.hpp"
-#include <math.h>
+#include "ProjectileManager.hpp"
+#include "ParticleEffect.hpp"
 
 class World
 {
 private:
 	std::shared_ptr<Player>					mPlayer;
-	std::vector<std::shared_ptr<Entity>>	mEntities;
+	std::list<std::shared_ptr<Entity>>		mEntities;
+	ProjectileManager						mProjectileManager;
+	std::list<ParticleEffect>				mParticleEffects;
 
 	Yuna::Core::Window						*mWindow = nullptr;
 
@@ -33,7 +38,6 @@ private:
 
 	CrateItem								*mCrateItem = nullptr;
 
-	//Backgrounds
 	std::vector<Background>					mBackgrounds;
 
 	const uint32_t							mMapSize = 100;
@@ -41,6 +45,9 @@ private:
 	void	InitItems();
 	void	InitConsoleCommands(Yuna::Core::ResourceManager *pResourceManager);
 	void	InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager);
+
+	void	HandleBulletCollisions(const sf::FloatRect &pRect);
+	void	HandleParticleCollisions(ParticleEffect *pEffect);
 
 public:
 	World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow);

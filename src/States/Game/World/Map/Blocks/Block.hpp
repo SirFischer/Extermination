@@ -4,7 +4,7 @@
  * File Created: Monday, 25th October 2021 7:58:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 8:10:17 pm
+ * Last Modified: Wednesday, 13th July 2022 8:06:02 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -28,6 +28,7 @@ protected:
 	bool			mSolid = true;
 	sf::Color		mColor = sf::Color(255, 255, 255, 255);
 	std::string		mTexturePath = "assets/textures/green400x400.png";
+	sf::IntRect		mTextureRect = sf::IntRect(0, 0, 64, 64);
 	sf::Vector2f	mPosition;
 	sf::Vector2f	mSize;
 	eBlockType		mType;
@@ -43,11 +44,13 @@ public:
 	void			SetSize(const sf::Vector2f &pSize){mSize = pSize;}
 	void			SetTexturePath(const std::string &pPath){mTexturePath = pPath;}
 	void			SetColor(const sf::Color &pColor){mColor = pColor;}
+	void			SetTextureRect(const sf::IntRect &pRect){mTextureRect = pRect;}
 
 	/**
 	 * Getters
 	 **/
 	std::string			GetTexturePath() const {return (mTexturePath);}
+	sf::IntRect			GetTextureRect() const {return (mTextureRect);}
 	sf::Vector2f		GetPosition() const {return (mPosition);}
 	sf::Vector2f		GetSize() const {return (mSize);}
 	sf::Color			GetColor() const {return (mColor);}

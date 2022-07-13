@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 23rd June 2022 7:33:49 am
+ * Last Modified: Monday, 11th July 2022 9:33:26 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -63,6 +63,19 @@ void	Entity::Attack(Entity *pTarget)
 {
 	(void)pTarget;
 }
+
+void	Entity::TakeDamage(float pDamage)
+{
+	mHealth -= pDamage;
+}
+
+void	Entity::TakeDamage(float pDamage, float pAngle, float pPower)
+{
+	TakeDamage(pDamage);
+	mVelocity += sf::Vector2f(std::cos((pAngle / 180.f) * M_PI) * pPower, std::sin((pAngle / 180.f) * M_PI) * pPower);
+}
+
+
 
 void	Entity::ResolveCollision(Entity *pEntity)
 {

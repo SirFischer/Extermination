@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 8:27:50 am
+ * Last Modified: Tuesday, 12th July 2022 8:42:39 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -38,8 +38,9 @@ protected:
 	sf::Vector2f			mOrigin = sf::Vector2f(0, 0);
 	sf::Vector2f			mVelocity = sf::Vector2f(0, 0);
 	sf::Vector2f			mTarget = sf::Vector2f(0, 0);
-	float					mSpeed = 100;
-	float					mJumpForce = 650;
+	float					mHealth = 100.f;
+	float					mSpeed = 100.f;
+	float					mJumpForce = 650.f;
 	bool					mFacingLeft = false;
 	bool					mOnGround = false;
 
@@ -70,6 +71,8 @@ public:
 	virtual void	Render(Yuna::Core::Window *pWindow);
 
 	virtual void	Attack(Entity *pTarget);
+	virtual void	TakeDamage(float pDamage);
+	virtual void	TakeDamage(float pDamage, float pAngle, float pPower);
 
 	void			ResolveCollision(Entity *pEntity);
 
@@ -78,6 +81,9 @@ public:
 	void			SetPath(const std::vector<Yuna::AI::PathNode> &pPath) {mPath = pPath; mPathRecalculationClock.restart();}
 	void			SetTarget(const sf::Vector2f &pTarget) {mTarget = pTarget;}
 	void			SetPosition(const sf::Vector2f &pPosition) {mPosition = pPosition;}
+
+	bool			IsAlive(){return (mHealth > 0.f);}
+	bool			IsFacingLeft(){return (mFacingLeft);}
 
 	sf::Vector2f	GetPosition() {return (mPosition);}
 	sf::Vector2f	GetVelocity() {return (mVelocity);}

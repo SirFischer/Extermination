@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:44:10 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 9th June 2022 6:47:22 am
+ * Last Modified: Monday, 11th July 2022 7:43:57 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -25,6 +25,7 @@ class Enemy : public Entity
 {
 private:
 	EnemyState							mState = EnemyState::CHASE;
+	sf::Clock							mJumpClock;
 
 	virtual void	Init(Yuna::Core::ResourceManager *pResourceManager);
 	virtual void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);

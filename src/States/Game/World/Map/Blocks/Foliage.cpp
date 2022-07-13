@@ -4,7 +4,7 @@
  * File Created: Sunday, 5th June 2022 7:53:26 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 9th June 2022 9:54:36 pm
+ * Last Modified: Tuesday, 12th July 2022 7:38:59 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -34,6 +34,7 @@ Foliage::Foliage(const eFoliageType &pType)
 	}
 	mIsBreakable = true;
 	mSolid = false;
+	mHealth = 1.f;
 }
 
 Foliage::~Foliage()
