@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 8:54:32 pm
+ * Last Modified: Friday, 15th July 2022 9:14:59 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -183,7 +183,7 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 		}
 	}
 	//performance issues
-	while (mParticleEffects.size() > 10)
+	while (mParticleEffects.size() > 20)
 		mParticleEffects.pop_back();
 	mWindow->SetView(mCamera.GetView());
 	mCrateItem->SetIsValid(mMap.CanBlockBePlacedAt(mWindow->GetViewMousePos()));

@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 11th July 2022 9:33:26 pm
+ * Last Modified: Sunday, 24th July 2022 7:55:25 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -32,7 +32,7 @@ void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	(void)mDeltaTime;
 	(void)pEventHandler;
 	mPosition += mVelocity;
-	mSprite.setPosition(mPosition);
+	mSprite.setPosition(mPosition.x, mPosition.y);
 	if (mAnimations.size())
 	{
 		mAnimations[mCurrentAnimation].Update();
@@ -55,7 +55,6 @@ void	Entity::Render(Yuna::Core::Window *pWindow)
 		shape.setPosition(mPath.back().mPosition + sf::Vector2f(22, 22));
 		shape.setFillColor(sf::Color::Yellow);
 		pWindow->Draw(shape);
-
 	}
 }
 

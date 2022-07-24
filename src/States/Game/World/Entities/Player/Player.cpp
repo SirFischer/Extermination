@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 8:12:50 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 8:31:17 pm
+ * Last Modified: Sunday, 24th July 2022 7:52:54 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -147,7 +147,6 @@ void	Player::RenderArm(Yuna::Core::Window *pWindow)
 		mArm.setRotation(rotation);
 		mItemSprite.setRotation(rotation - 60.f);
 		mItemSprite.setPosition(mArm.getPosition() - sf::Vector2f(10.f * std::cos(((rotation - 60.f) / 180.f) * M_PI), 10.f * std::sin(((rotation - 60.f) / 180.f) * M_PI)));
-
 	}
 	else
 	{
@@ -160,9 +159,8 @@ void	Player::RenderArm(Yuna::Core::Window *pWindow)
 		mArm.setRotation(rotation);
 		mItemSprite.setRotation(rotation + 60.f);
 		mItemSprite.setPosition(mArm.getPosition() + sf::Vector2f(10.f * std::cos(((rotation + 60.f) / 180.f) * M_PI), 10.f * std::sin(((rotation + 60.f) / 180.f) * M_PI)));
-		
 	}
-	
+	pWindow->Draw(mItemSprite);
 	pWindow->Draw(mArm);
 }
 
@@ -170,7 +168,7 @@ void	Player::RenderArm(Yuna::Core::Window *pWindow)
 void	Player::Render(Yuna::Core::Window *pWindow)
 {
 	Entity::Render(pWindow);
-	
+
 	if (mInventory.GetSelectedItem())
 	{
 		mInventory.GetSelectedItem()->Render(pWindow);
@@ -178,10 +176,8 @@ void	Player::Render(Yuna::Core::Window *pWindow)
 
 	if (!mInventory.GetSelectedItem()->IsHands())
 	{
-		pWindow->Draw(mItemSprite);
 		RenderArm(pWindow);
 	}
-
 
 	auto tmpView = pWindow->GetView();
 	pWindow->ResetView(true);
