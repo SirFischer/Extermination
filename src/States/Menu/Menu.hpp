@@ -1,33 +1,29 @@
 /*
  * File: Menu.hpp
  * Project: Extermination
- * File Created: Saturday, 9th October 2021 10:06:35 pm
+ * File Created: Saturday, 24th September 2022 8:30:53 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 28th February 2022 3:45:50 pm
+ * Last Modified: Saturday, 24th September 2022 8:34:36 am
  * Modified By: Marek Fischer 
  * -----
- * Copyright - 2021 Deep Vertic
+ * Copyright - 2022 Deep Vertic
  */
 #pragma once
-#include "Yuna.hpp"
-#include "../States.hpp"
-#include "../../Actions.hpp"
+
+#include <Yuna.hpp>
 
 class Menu : public Yuna::Core::State
 {
 private:
-	void	InitMenuItems();
-	void	InitMenuControls();
-
-
+	
 	void	Update();
 	void	HandleEvents();
 	void	Render();
 public:
-	void	Init();
-
 	Menu(Yuna::Core::Window* tWindow);
 	~Menu();
+
+	void	Init();
 };
 

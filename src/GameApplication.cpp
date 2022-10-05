@@ -5,7 +5,7 @@
 GameApplication::GameApplication(/* args */)
 {
 	mStateManager.SetStateFactory(stateFactory);
-	mStateManager.SetEntryState(0);
+	mStateManager.SetEntryState(1);
 	mWindow.SetTitle("Extermination");
 	Yuna::Core::Console::Init();
 }
