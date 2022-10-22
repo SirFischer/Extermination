@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/extermination.dir/src/Actions.cpp.o CMakeFiles/extermination.dir/src/GameApplication.cpp.o CMakeFiles/extermination.dir/src/States/Menu/Menu.cpp.o CMakeFiles/extermination.dir/src/main.cpp.o -o extermination 
