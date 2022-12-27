@@ -4,12 +4,16 @@
  * File Created: Thursday, 7th July 2022 9:18:52 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 7:37:46 am
+ * Last Modified: Tuesday, 27th December 2022 9:12:29 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
  */
 #include "ProjectileManager.hpp"
+
+Yuna::Core::ResourceManager *ProjectileManager::mResourceManager = nullptr;
+std::list<Projectile *> ProjectileManager::mProjectiles = std::list<Projectile *>();
+sf::Sprite ProjectileManager::mSprite = sf::Sprite();
 
 ProjectileManager::ProjectileManager(Yuna::Core::ResourceManager *pResourceManager)
 {
@@ -47,6 +51,9 @@ void	ProjectileManager::HandleCollisions(Block *pBlock)
 			if (pBlock->IsBreakable())
 			{
 				pBlock->TakeDamage(projectile->mDamage);
+				ParticleManager::AddParticleEffect(
+				ParticleEffect(projectile->mPos, projectile->mKnockback * 40.f, 2.f, 10.f, (projectile->mAngle / 180.f) * M_PI + (M_PI / 2.f), M_PI / 4.f,
+				sf::Color(80, 80, 80)));
 			}
 			mProjectiles.remove(projectile);
 			break ;
@@ -54,7 +61,7 @@ void	ProjectileManager::HandleCollisions(Block *pBlock)
 	}
 }
 
-void					ProjectileManager::HandleCollisions(Entity *pEntity, std::list<ParticleEffect> *pList)
+void	ProjectileManager::HandleCollisions(Entity *pEntity)
 {
 	for (auto &projectile : mProjectiles)
 	{
@@ -62,14 +69,19 @@ void					ProjectileManager::HandleCollisions(Entity *pEntity, std::list<Particle
 		{
 			pEntity->TakeDamage(projectile->mDamage, projectile->mAngle, projectile->mKnockback);
 			mProjectiles.remove(projectile);
-			pList->push_front(ParticleEffect(projectile->mPos, projectile->mKnockback, 2.f, 50.f, (projectile->mAngle / 180.f) * M_PI, M_PI / 4.f));
-			pList->front().SetParticleColor(sf::Color(0x8b0000));
-			HandleCollisions(pEntity, pList);
+			ParticleManager::AddParticleEffect(
+				ParticleEffect(projectile->mPos, projectile->mKnockback * 40.f, 2.f, 50.f, (projectile->mAngle / 180.f) * M_PI, M_PI / 4.f,
+				sf::Color::Red));
+			HandleCollisions(pEntity);
 			break ;
 		}
 	}
 }
 
+void	ProjectileManager::Init(Yuna::Core::ResourceManager *pResourceManager)
+{
+	mResourceManager = pResourceManager;
+}
 
 
 void	ProjectileManager::Update(float pDeltatime)

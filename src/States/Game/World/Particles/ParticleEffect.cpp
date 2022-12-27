@@ -4,7 +4,7 @@
  * File Created: Tuesday, 12th July 2022 7:15:34 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 7:44:45 am
+ * Last Modified: Tuesday, 27th December 2022 9:16:43 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -12,7 +12,7 @@
 #include "ParticleEffect.hpp"
 
 
-ParticleEffect::ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount, float pDirection, float pSpread)
+ParticleEffect::ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount, float pDirection, float pSpread, sf::Color pColor)
 {
 	mForce = pForce;
 	mPosition = pPos;
@@ -20,14 +20,15 @@ ParticleEffect::ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, i
 	for (int i = 0; i < pCount; i++)
 	{
 		Particle particle;
-		particle.mColor = sf::Color::Red;
+		particle.mColor = pColor;
+		particle.mColor.a *= (rand() % 100) / 100.f;
 		particle.mPos = pPos;
 		mParticles.push_back(particle);
 	}
 	InitSpray(pDirection, pSpread);
 }
 
-ParticleEffect::ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount)
+ParticleEffect::ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount, sf::Color pColor)
 {
 	mForce = pForce;
 	mPosition = pPos;
@@ -35,7 +36,7 @@ ParticleEffect::ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, i
 	for (int i = 0; i < pCount; i++)
 	{
 		Particle particle;
-		particle.mColor = sf::Color::Red;
+		particle.mColor = pColor;
 		particle.mPos = pPos;
 		mParticles.push_back(particle);
 	}
@@ -56,8 +57,7 @@ void		ParticleEffect::InitSpray(float pDirection, float pSpread)
 		
 		float	newspread = distribution(generator);
 		newspread -= (newspread / 2.0f);
-		//float	spread = ((1.f/1000.f) * pSpread) * (float)(random() % 1000) - (tSpread / 2.0f);
-		float	angle = pDirection + newspread; //(tan(newspread / 2.0) * 2.f);
+		float	angle = pDirection + newspread;
 		float	forceVariation = ((1.f/1000.f) * mForce) * (float)(random() % 1000);
 		particle.mVelocity = sf::Vector2f(cos(angle) * (forceVariation), sin(angle) * (forceVariation));
 	}
@@ -80,19 +80,21 @@ void		ParticleEffect::SetParticleColor(sf::Color	pColor)
 }
 
 
-void		ParticleEffect::Update()
+void		ParticleEffect::Update(const float &pDeltatime)
 {
 	for (auto &particle : mParticles)
 	{
 		if (!particle.mIsHit)
 		{
+			particle.mPos += particle.mVelocity * pDeltatime;
 			particle.mVelocity.y += mGravity;
-			particle.mPos += particle.mVelocity;
 		}
 		if (mLifeTimeClock.getElapsedTime().asSeconds() > mLifeTime.asSeconds())
 		{
-			particle.mColor = sf::Color(particle.mColor.r, particle.mColor.g, particle.mColor.b, (255.f / (((mLifeTimeClock.getElapsedTime().asSeconds() - mLifeTime.asSeconds()) * 4.f) + 1.f)));
-			if (particle.mColor.a < 5.f)
+			if (particle.mOpacity <= 5.f)
+				mIsActive = false;
+			particle.mOpacity -=  ((255.f * pDeltatime) / mLifeTime.asSeconds());
+			if (particle.mOpacity <= 5.f)
 				mIsActive = false;
 		}
 	}
@@ -103,7 +105,12 @@ void		ParticleEffect::HandleCollision(Block *pBlock)
 	for (auto &particle : mParticles)
 	{
 		if (sf::FloatRect(pBlock->GetPosition(), pBlock->GetSize()).contains(particle.mPos))
+		{
+			particle.mVelocity = sf::Vector2f(0.f, 0.f);
 			particle.mIsHit = true;
+		} else {
+			particle.mIsHit = false;
+		}
 	}
 }
 
@@ -112,7 +119,7 @@ void		ParticleEffect::Render(Yuna::Core::Window *pWindow)
 	for (auto &particle : mParticles)
 	{
 		mCircle.setPosition(particle.mPos);
-		mCircle.setFillColor(particle.mColor);
+		mCircle.setFillColor(sf::Color(particle.mColor.r, particle.mColor.g, particle.mColor.b, particle.mOpacity));
 		pWindow->Draw(mCircle);
 	}
 }

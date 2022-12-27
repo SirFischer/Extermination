@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 7:48:50 am
+ * Last Modified: Sunday, 18th December 2022 8:34:24 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -20,14 +20,13 @@
 #include "Camera.hpp"
 #include "ProjectileManager.hpp"
 #include "ParticleEffect.hpp"
+#include "Base.hpp"
 
 class World
 {
 private:
 	std::shared_ptr<Player>					mPlayer;
 	std::list<std::shared_ptr<Entity>>		mEntities;
-	ProjectileManager						mProjectileManager;
-	std::list<ParticleEffect>				mParticleEffects;
 
 	Yuna::Core::Window						*mWindow = nullptr;
 
@@ -35,6 +34,7 @@ private:
 
 	Statistics 								*mStatistics = nullptr;
 	Map										mMap;
+	Base									mBase;
 
 	CrateItem								*mCrateItem = nullptr;
 

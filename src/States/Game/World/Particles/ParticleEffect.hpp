@@ -4,7 +4,7 @@
  * File Created: Tuesday, 12th July 2022 7:15:15 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 7:43:07 am
+ * Last Modified: Tuesday, 27th December 2022 9:12:14 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -23,6 +23,7 @@ struct Particle {
 	sf::Vector2f	mPos;
 	sf::Vector2f	mVelocity;
 	sf::Color		mColor;
+	float			mOpacity = 254.f;
 	bool			mIsHit = false;
 };
 
@@ -33,8 +34,8 @@ private:
 
 	sf::CircleShape			mCircle;
 
-	float					mGravity = 0.1f;
-	float					mForce = 0.1f;
+	float					mGravity = 6.f;
+	float					mForce = 100.f;
 	sf::Vector2f			mPosition;
 
 	sf::Clock				mLifeTimeClock;
@@ -47,8 +48,8 @@ private:
 public:
 	friend class Map;
 
-	ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount, float pDirection, float pSpread);
-	ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount);
+	ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount, float pDirection, float pSpread, sf::Color pColor);
+	ParticleEffect(sf::Vector2f pPos, float pForce, float pRadius, int pCount, sf::Color pColor);
 	~ParticleEffect();
 
 	bool operator == (const ParticleEffect& s) const { return mLifeTimeClock.getElapsedTime().asSeconds() == s.mLifeTimeClock.getElapsedTime().asSeconds(); }
@@ -57,7 +58,7 @@ public:
 
 	sf::Vector2f			GetInitialPosition() {return (mPosition);}
 
-	void					Update();
+	void					Update(const float &pDeltatime);
 	void					HandleCollision(Block *pBlock);
 	void					Render(Yuna::Core::Window *pWindow);
 

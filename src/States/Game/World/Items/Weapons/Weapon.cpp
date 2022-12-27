@@ -4,16 +4,15 @@
  * File Created: Wednesday, 16th February 2022 6:35:05 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 10th July 2022 9:05:17 pm
+ * Last Modified: Saturday, 17th December 2022 10:17:23 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
  */
 #include "Weapon.hpp"
 
-Weapon::Weapon(Yuna::Core::ResourceManager *pResourceManager, ProjectileManager *pProjectileManager)
+Weapon::Weapon(Yuna::Core::ResourceManager *pResourceManager)
 {
-	mProjectileManager = pProjectileManager;
 	mTexturePath = "assets/images/player/gun.png";
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/crosshair.png"));
 	
@@ -37,7 +36,7 @@ void	Weapon::Shoot(float pAngle, sf::Vector2f pPos)
 	bullet->mVelocity = sf::Vector2f(
 		std::cos((pAngle / 180.f) * M_PI) * mBulletSpeed,
 		std::sin((pAngle / 180.f) * M_PI) * mBulletSpeed);
-	mProjectileManager->AddProjectile(bullet);
+	ProjectileManager::AddProjectile(bullet);
 }
 
 void	Weapon::Render(Yuna::Core::Window *pWindow)

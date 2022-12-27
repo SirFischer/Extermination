@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 15th July 2022 9:14:59 pm
+ * Last Modified: Sunday, 18th December 2022 9:05:54 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -16,10 +16,11 @@
 
 
 World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
-:mProjectileManager(pResourceManager)
-,mStatistics(pStatistics)
+:mStatistics(pStatistics)
 ,mMap(pResourceManager, pWindow)
+,mBase(pResourceManager)
 {
+	ProjectileManager::Init(pResourceManager);
 	mWindow = pWindow;
 	mPlayer.reset(new Player());
 	mPlayer->Init(pResourceManager);
@@ -27,13 +28,14 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mPlayer->SetOrigin(12, 4);
 	mEntities.push_back(mPlayer);
 	mMap.Generate(mMapSize, 200, 3, 4, time(0));
+	mBase.SetPosition(sf::Vector2f(-100, mMap.GetBaseVerticalPosition()));
 	mCamera.SetView(pWindow->GetView());
 	sf::IntRect mapBounds = mMap.GetGlobalBounds();
 	mCamera.SetBoundries(sf::IntRect(mapBounds.left, -20000, mapBounds.width + mapBounds.left, 20000));
 	mCamera.SetZoom(0.85);
 
-	Weapon *weapon = new Weapon(pResourceManager, &mProjectileManager);
-	weapon->AddPrimaryAction([weapon, pWindow, cam = &mCamera, manager = &mProjectileManager, player = &mPlayer](){
+	Weapon *weapon = new Weapon(pResourceManager);
+	weapon->AddPrimaryAction([weapon, pWindow, cam = &mCamera, player = &mPlayer](){
 		sf::Vector2f pos;
 		sf::Vector2f playerPos = player->get()->GetPosition() + sf::Vector2f(35, 30);
 		pWindow->SetView(cam->GetView());
@@ -105,8 +107,8 @@ World::~World()
 
 void	World::HandleBulletCollisions(const sf::FloatRect &pRect)
 {
-	mMap.GetBlockTree()->get()->ForEach(pRect, [manager = &mProjectileManager](const std::shared_ptr<Block> &pBlock){
-		manager->HandleCollisions(pBlock.get());
+	mMap.GetBlockTree()->get()->ForEach(pRect, [](const std::shared_ptr<Block> &pBlock){
+		ProjectileManager::HandleCollisions(pBlock.get());
 	});
 }
 
@@ -139,8 +141,8 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 		mMap.UpdateEntity(entity.get());
 		entity->Update(pEventHandler, pDeltaTime);
 		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
-			auto path = mMap.GetPath(entity->GetPosition(), mPlayer->GetPosition());
-			entity->SetTarget(mPlayer->GetPosition());
+			auto path = mMap.GetPath(entity->GetPosition(), ((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
+			entity->SetTarget(((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
 			entity->SetPath(path);
 		}
 		//Resolve entity entity collision
@@ -152,14 +154,14 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 			}
 		}
 		if (entity.get() != mPlayer.get())
-			mProjectileManager.HandleCollisions(entity.get(), &mParticleEffects);
+			ProjectileManager::HandleCollisions(entity.get());
 		if (!entity->IsAlive())
 		{
 			mEntities.remove(entity);
 			break ;
 		}
 	}
-	mProjectileManager.Update(pDeltaTime);
+	ProjectileManager::Update(pDeltaTime);
 	mStatistics->SetPosition(mPlayer->GetPosition());
 	mStatistics->SetVelocity(mPlayer->GetVelocity());
 	mCamera.SetTargetPosition(sf::Vector2f(mPlayer->GetPosition().x + 150.f, mPlayer->GetPosition().y + 100.f));
@@ -168,23 +170,11 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 	{
 		background.Update(mCamera.GetPosition());
 	}
-	for (auto &particles : mParticleEffects)
-	{
-		if (particles.IsActive())
-		{
-			particles.Update();
-			HandleParticleCollisions(&particles);
-			//collision check with map
-		}
-		else
-		{
-			mParticleEffects.remove(particles);
-			break;
-		}
-	}
-	//performance issues
-	while (mParticleEffects.size() > 20)
-		mParticleEffects.pop_back();
+	ParticleManager::Update(pDeltaTime);
+	ParticleManager::ForEachParticleEffect([this](ParticleEffect &pEffect){
+		HandleParticleCollisions(&pEffect);
+	});
+
 	mWindow->SetView(mCamera.GetView());
 	mCrateItem->SetIsValid(mMap.CanBlockBePlacedAt(mWindow->GetViewMousePos()));
 	mWindow->ResetView(true);
@@ -198,11 +188,11 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	}
 	pWindow->SetView(mCamera.GetView());
 	mMap.Render(pWindow, mCamera.GetView());
-	mProjectileManager.Render(pWindow);
+	mBase.Render(pWindow);
+	ProjectileManager::Render(pWindow);
 	for (auto &entity : mEntities)
 		entity->Render(pWindow);
-	for (auto &particles : mParticleEffects)
-		particles.Render(pWindow);
+	ParticleManager::Render(pWindow);
 	pWindow->ResetView(true);
 }
 

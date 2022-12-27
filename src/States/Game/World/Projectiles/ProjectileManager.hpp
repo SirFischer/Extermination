@@ -4,7 +4,7 @@
  * File Created: Thursday, 7th July 2022 9:18:44 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 7:28:56 am
+ * Last Modified: Sunday, 18th December 2022 8:52:46 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -19,27 +19,27 @@
 #include "Block.hpp"
 #include "Entity.hpp"
 #include "ParticleEffect.hpp"
-
+#include "ParticleManager.hpp"
 
 class ProjectileManager
 {
 private:
-	//dependencies
-	Yuna::Core::ResourceManager *mResourceManager = nullptr;
+	// dependencies
+	static Yuna::Core::ResourceManager *mResourceManager;
 
-	std::list<Projectile *>	mProjectiles;
-	sf::Sprite				mSprite;
+	static std::list<Projectile *> mProjectiles;
+	static sf::Sprite mSprite;
 
 public:
+	
 	ProjectileManager(Yuna::Core::ResourceManager *pResourceManager);
 	~ProjectileManager();
 
-	void					AddProjectile(Projectile *pProjectile);
-	void					HandleCollisions(Block *pBlock);
-	void					HandleCollisions(Entity *pEntity, std::list<ParticleEffect> *pList);
+	static void AddProjectile(Projectile *pProjectile);
+	static void HandleCollisions(Block *pBlock);
+	static void HandleCollisions(Entity *pEntity);
 
-	void					Update(float pDeltatime);
-	void					Render(Yuna::Core::Window *pWindow);
+	static void Init(Yuna::Core::ResourceManager *pResourceManager);
+	static void Update(float pDeltatime);
+	static void Render(Yuna::Core::Window *pWindow);
 };
-
-

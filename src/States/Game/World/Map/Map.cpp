@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Wednesday, 13th July 2022 8:11:18 am
+ * Last Modified: Friday, 4th November 2022 3:14:55 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -189,6 +189,12 @@ bool	Map::CanBlockBePlacedAt(const sf::Vector2f &pPos)
 	});
 	return (canBePlaced);
 }
+
+float	Map::GetBaseVerticalPosition()
+{
+	return (mBlocks.front().GetPosition().y);
+}
+
 
 
 

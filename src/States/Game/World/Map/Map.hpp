@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Monday, 11th July 2022 7:15:13 am
+ * Last Modified: Friday, 4th November 2022 3:14:04 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -70,6 +70,7 @@ public:
 	void	LockPlayerToMap(Entity *pEntity);
 
 	bool	CanBlockBePlacedAt(const sf::Vector2f &pPos);
+	float	GetBaseVerticalPosition();
 	std::vector<Yuna::AI::PathNode>
 			GetPath(sf::Vector2f pP1, sf::Vector2f pP2);
 	sf::IntRect

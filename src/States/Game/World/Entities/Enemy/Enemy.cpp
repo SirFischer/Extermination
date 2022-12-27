@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:45:02 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 8:50:41 pm
+ * Last Modified: Saturday, 5th November 2022 11:27:46 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -40,7 +40,7 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	/**
 	 * Path-finding
 	 **/
-	if (mPath.size() && mState == EnemyState::CHASE)
+	if (mPath.size() && (mState == EnemyState::CHASE || mState == EnemyState::ATTACK))
 	{
 		//This is for recalcs so it doesn't move backwards if it's allready on the next node!
 		if (mPath.size() > 2)
@@ -84,6 +84,7 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 			mJumpClock.restart();
 		}
 	}
+
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
 }
@@ -100,5 +101,4 @@ void	Enemy::LoadAnimations()
 	mAnimations[eAnimationAction::WALK].AddFrame((AnimationFrame){.mRect = sf::IntRect(192, 64, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
 	mAnimations[eAnimationAction::FALL].AddFrame((AnimationFrame){.mRect = sf::IntRect(0, 128, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
 	mAnimations[eAnimationAction::FALL].AddFrame((AnimationFrame){.mRect = sf::IntRect(64, 128, 64, 64), .mDuration = sf::seconds(0.15f), .mAction = nullptr});
-
 }

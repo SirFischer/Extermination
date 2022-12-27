@@ -4,7 +4,7 @@
  * File Created: Saturday, 1st January 2022 9:42:55 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 8:12:20 pm
+ * Last Modified: Friday, 4th November 2022 3:23:04 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -49,8 +49,8 @@ void	Map::ApplyCollisionDetection(Entity *pEntity)
 
 void	Map::LockPlayerToMap(Entity *pEntity)
 {
-	if (pEntity->mPosition.x < 0)
-		pEntity->mPosition.x = 0;
+	if (pEntity->mPosition.x < 100)
+		pEntity->mPosition.x = 100;
 	if (pEntity->mPosition.x + pEntity->GetGlobalBounds().width > ((mLength - 1) * mGridSize))
 		pEntity->mPosition.x = ((mLength - 1) * mGridSize) - pEntity->GetGlobalBounds().width;
 }
