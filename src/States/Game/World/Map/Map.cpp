@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 4th November 2022 3:14:55 pm
+ * Last Modified: Saturday, 18th February 2023 2:51:29 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -42,11 +42,9 @@ void	Map::Update(float pDeltaTime, const sf::FloatRect &pRect)
 		if (pBlock->GetHealth() <= 0)
 		{
 			RemoveBlock(pBlock->GetPosition());
+			return ;
 		}
-		if (pBlock->IsBreakable() && pBlock->IsSolid() && pBlock->GetHealth() < 200.f)
-		{
-			pBlock->SetTextureRect(sf::IntRect(64, 0, 64, 64));
-		}
+		pBlock->Update();
 	});
 }
 

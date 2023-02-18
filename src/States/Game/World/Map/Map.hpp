@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:28 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Friday, 4th November 2022 3:14:04 pm
+ * Last Modified: Friday, 30th December 2022 12:00:53 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -18,11 +18,11 @@
 
 #include "Yuna.hpp"
 
-#include "Blocks/Block.hpp"
+#include "./Blocks/Block.hpp"
 #include "Blocks/Foliage.hpp"
 #include "../Entities/Entity.hpp"
 #include "Background.hpp"
-#include "ProjectileManager.hpp"
+#include "../Projectiles/ProjectileManager.hpp"
 
 
 class Map

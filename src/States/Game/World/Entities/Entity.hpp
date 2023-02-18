@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:07 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 12th July 2022 8:42:39 pm
+ * Last Modified: Thursday, 29th December 2022 11:41:44 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -13,7 +13,7 @@
 
 #include "Yuna.hpp"
 #include "Animation.hpp"
-#include "Config.hpp"
+#include "../../Config.hpp"
 #include "../Items/Item.hpp"
 
 enum class EntityType {

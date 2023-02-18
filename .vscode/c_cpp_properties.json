@@ -4,13 +4,13 @@
             "name": "Linux",
             "includePath": [
                 "${default}",
-                "${workspaceFolder}/src/**",
-                "${workspaceFolder}/Yuna/includes/**"
+				"${workspaceFolder}/src",
+				"${workspaceFolder}/src/**",
+				"${workspaceFolder}/Yuna/**",
             ],
             "defines": [],
-            "cStandard": "gnu17",
-            "cppStandard": "gnu++17",
-            "configurationProvider": "ms-vscode.makefile-tools"
+            "cStandard": "c17",
+            "cppStandard": "gnu++17"
         }
     ],
     "version": 4

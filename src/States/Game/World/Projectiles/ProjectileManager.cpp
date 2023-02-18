@@ -4,7 +4,7 @@
  * File Created: Thursday, 7th July 2022 9:18:52 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Tuesday, 27th December 2022 9:12:29 pm
+ * Last Modified: Thursday, 29th December 2022 9:39:02 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -53,7 +53,7 @@ void	ProjectileManager::HandleCollisions(Block *pBlock)
 				pBlock->TakeDamage(projectile->mDamage);
 				ParticleManager::AddParticleEffect(
 				ParticleEffect(projectile->mPos, projectile->mKnockback * 40.f, 2.f, 10.f, (projectile->mAngle / 180.f) * M_PI + (M_PI / 2.f), M_PI / 4.f,
-				sf::Color(80, 80, 80)));
+				pBlock->GetParticleColor()));
 			}
 			mProjectiles.remove(projectile);
 			break ;

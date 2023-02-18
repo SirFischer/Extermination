@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 18th December 2022 9:05:54 am
+ * Last Modified: Thursday, 29th December 2022 9:44:17 am
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -61,6 +61,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	CrateItem *testItem = new CrateItem(pResourceManager);
 	testItem->AddPrimaryAction([map = &mMap, pWindow, cam = &mCamera](){
 		auto block = std::make_shared<Crate>();
+		block->SetParticleColor(sf::Color(78, 53, 36));
 		block->SetSize(sf::Vector2f(64, 64));
 		pWindow->SetView(cam->GetView());
 		block->SetPosition(sf::Vector2f(pWindow->GetViewMousePos()));
@@ -191,7 +192,9 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	mBase.Render(pWindow);
 	ProjectileManager::Render(pWindow);
 	for (auto &entity : mEntities)
+	{
 		entity->Render(pWindow);
+	}
 	ParticleManager::Render(pWindow);
 	pWindow->ResetView(true);
 }

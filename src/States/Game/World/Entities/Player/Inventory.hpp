@@ -4,15 +4,16 @@
  * File Created: Saturday, 19th February 2022 3:09:55 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 3rd July 2022 1:25:22 pm
+ * Last Modified: Thursday, 29th December 2022 11:57:03 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
  */
 #pragma once
-#include "Item.hpp"
-#include "CrateItem.hpp"
-#include "Weapon.hpp"
+
+#include "../../Items/Item.hpp"
+#include "../../Items/CrateItem.hpp"
+#include "../../Items/Weapons/Weapon.hpp"
 #include "Actions.hpp"
 #include <vector>
 #include <memory>

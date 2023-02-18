@@ -4,7 +4,7 @@
  * File Created: Sunday, 6th March 2022 11:28:46 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 5th June 2022 7:52:41 pm
+ * Last Modified: Saturday, 18th February 2023 2:50:59 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -19,5 +19,7 @@ private:
 public:
 	Crate(/* args */);
 	~Crate();
+
+	void Update();
 };
 
