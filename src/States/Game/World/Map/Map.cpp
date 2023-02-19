@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 18th February 2023 2:51:29 pm
+ * Last Modified: Sunday, 19th February 2023 3:42:50 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -46,6 +46,8 @@ void	Map::Update(float pDeltaTime, const sf::FloatRect &pRect)
 		}
 		pBlock->Update();
 	});
+
+
 }
 
 void	Map::AddBlock(std::shared_ptr<Block> pBlock)

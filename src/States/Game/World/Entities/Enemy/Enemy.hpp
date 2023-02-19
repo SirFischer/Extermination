@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:44:10 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 5th November 2022 11:24:24 am
+ * Last Modified: Saturday, 18th February 2023 3:25:46 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -27,9 +27,8 @@ private:
 	EnemyState							mState = EnemyState::ATTACK;
 	sf::Clock							mJumpClock;
 
-	virtual void	Init(Yuna::Core::ResourceManager *pResourceManager);
-	virtual void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
-	void			LoadAnimations();
+	void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
+	void	LoadAnimations();
 
 
 	
@@ -38,5 +37,6 @@ public:
 	~Enemy();
 
 	EnemyState		GetEnemyState(){return (mState);}
+	void			Init(Yuna::Core::ResourceManager *pResourceManager);
 };
 

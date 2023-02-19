@@ -3,7 +3,7 @@
  * File Created: Thursday, 29th December 2022 11:32:03 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 29th December 2022 11:53:07 pm
+ * Last Modified: Sunday, 19th February 2023 3:39:08 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -14,20 +14,24 @@
 #include <list>
 
 #include "Entity.hpp"
+#include "Map.hpp"
 
 class EntityManager
 {
 	private:
-	static std::list<std::shared_ptr<Entity>>		mEntities;
-	
-	EntityManager();
+	std::list<std::shared_ptr<Entity>>		mEntities = std::list<std::shared_ptr<Entity>>();
+	Map										*mMap = nullptr;
 
 	public:
+
+	EntityManager(Map *pMap);
 	~EntityManager();
 
-	static void	AddEntity(std::shared_ptr<Entity> pEntity);
-	static void	RemoveEntity(std::shared_ptr<Entity> pEntity);
+	void	AddEntity(std::shared_ptr<Entity> pEntity);
+	void	RemoveEntity(std::shared_ptr<Entity> pEntity);
 
-	static void	Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime);
-	static void	Render(Yuna::Core::Window *pWindow);
+	void	ForEach(std::function<bool(std::shared_ptr<Entity>)> pFunction);
+
+	void	Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime);
+	void	Render(Yuna::Core::Window *pWindow);
 };

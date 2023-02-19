@@ -4,7 +4,7 @@
  * File Created: Sunday, 5th June 2022 8:19:12 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 18th June 2022 10:10:45 am
+ * Last Modified: Sunday, 19th February 2023 3:42:29 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -31,19 +31,20 @@ void		World::InitConsoleCommands(Yuna::Core::ResourceManager *pResourceManager)
 	Yuna::Core::Console::sCommand spawnEnemy;
 	reGenMapCommand.mHelpShort = "Spawn new enemies";
 	reGenMapCommand.mHelpLong = "Spawn x amount of enemies at (optional) x y coordinates.\nUsage:\nspawn_enemy [amount] [x] [y]\n";
-	reGenMapCommand.mFunction = [entities = &mEntities, pResourceManager](std::vector<std::string> tParams){
+	reGenMapCommand.mFunction = [pResourceManager, entityManager = &mEntityManager](std::vector<std::string> tParams){
 		if (tParams.size() != 1 && tParams.size() != 3)
 			return (Yuna::Core::Console::eCommandStatus::BAD_ARGUMENTS);
 		Yuna::Core::Console::AddString("Yes sir! Spawning enemies!");
 		for (int i = 0; i < std::stoi(tParams[0]); i++)
 		{
-			entities->push_back(std::make_shared<Enemy>());
-			entities->back()->Init(pResourceManager);
-			entities->back()->SetSize(38, 54);
+			auto enemy = std::make_shared<Enemy>();
+			enemy->Init(pResourceManager);
+			enemy->SetSize(38, 54);
 			if (tParams.size() == 3)
 			{
-				entities->back()->SetPosition(sf::Vector2f(std::stoi(tParams[1]), std::stoi(tParams[2])));
+				enemy->SetPosition(sf::Vector2f(std::stoi(tParams[1]), std::stoi(tParams[2])));
 			}
+			entityManager->AddEntity(enemy);
 		}
 		return (Yuna::Core::Console::eCommandStatus::SUCCESS);
 	};

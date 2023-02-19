@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 29th December 2022 9:44:17 am
+ * Last Modified: Sunday, 19th February 2023 3:47:29 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -19,6 +19,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 :mStatistics(pStatistics)
 ,mMap(pResourceManager, pWindow)
 ,mBase(pResourceManager)
+,mEntityManager(&mMap)
 {
 	ProjectileManager::Init(pResourceManager);
 	mWindow = pWindow;
@@ -26,7 +27,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mPlayer->Init(pResourceManager);
 	mPlayer->SetSize(38, 54);
 	mPlayer->SetOrigin(12, 4);
-	mEntities.push_back(mPlayer);
+	mEntityManager.AddEntity(mPlayer);
 	mMap.Generate(mMapSize, 200, 3, 4, time(0));
 	mBase.SetPosition(sf::Vector2f(-100, mMap.GetBaseVerticalPosition()));
 	mCamera.SetView(pWindow->GetView());
@@ -135,33 +136,28 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 		mCamera.GetView().getSize().y + (64 * 2.f)));
 	viewRect.left -= 500;
 	viewRect.width += 1000;
-	mMap.Update(pDeltaTime, viewRect);
+	
 	HandleBulletCollisions(viewRect);
-	for (auto &entity : mEntities)
-	{
-		mMap.UpdateEntity(entity.get());
-		entity->Update(pEventHandler, pDeltaTime);
-		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
-			auto path = mMap.GetPath(entity->GetPosition(), ((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
-			entity->SetTarget(((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
-			entity->SetPath(path);
+
+	mEntityManager.Update(pEventHandler, pDeltaTime);
+
+	mEntityManager.ForEach([this](std::shared_ptr<Entity> pEntity){
+		if (pEntity->GetType() == EntityType::ENEMY && pEntity->GetPathRecalcTime() > sf::seconds(1)) {
+			auto path = mMap.GetPath(pEntity->GetPosition(), ((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
+			pEntity->SetTarget(((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
+			pEntity->SetPath(path);
 		}
-		//Resolve entity entity collision
-		for (auto &entity2 : mEntities)
-		{
-			if (entity2 != entity)
-			{
-				entity->ResolveCollision(entity2.get());
-			}
-		}
-		if (entity.get() != mPlayer.get())
-			ProjectileManager::HandleCollisions(entity.get());
-		if (!entity->IsAlive())
-		{
-			mEntities.remove(entity);
-			break ;
-		}
-	}
+		
+		if (pEntity.get() != mPlayer.get())
+			ProjectileManager::HandleCollisions(pEntity.get());
+		
+		return (true);
+	});
+
+	mMap.Update(pDeltaTime, viewRect);
+
+
+
 	ProjectileManager::Update(pDeltaTime);
 	mStatistics->SetPosition(mPlayer->GetPosition());
 	mStatistics->SetVelocity(mPlayer->GetVelocity());
@@ -191,10 +187,7 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	mMap.Render(pWindow, mCamera.GetView());
 	mBase.Render(pWindow);
 	ProjectileManager::Render(pWindow);
-	for (auto &entity : mEntities)
-	{
-		entity->Render(pWindow);
-	}
+	mEntityManager.Render(pWindow);
 	ParticleManager::Render(pWindow);
 	pWindow->ResetView(true);
 }

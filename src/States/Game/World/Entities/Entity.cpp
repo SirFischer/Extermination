@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 12:20:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 24th July 2022 7:55:25 pm
+ * Last Modified: Sunday, 19th February 2023 3:15:28 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -82,13 +82,18 @@ void	Entity::ResolveCollision(Entity *pEntity)
 		return ;
 	if (sf::FloatRect(mPosition, mSize).intersects(sf::FloatRect(pEntity->mPosition, pEntity->mSize)))
 	{
+		if (pEntity->GetPosition() == mPosition)
+		{
+			mPosition.x += 1;
+			mPosition.y -= 1;
+		}
 		float pushForce = 1.0f;
 		sf::Vector2f delta = mPosition - pEntity->mPosition;
 		float distance = Yuna::Math::Distance(mPosition, pEntity->mPosition);
 		if (distance != 0)
 		{
 			mVelocity.x += pushForce * (delta.x / distance);
-			mVelocity.y += (pushForce * (delta.y / distance)) / 4.f;
+			//mVelocity.y += -std::abs((pushForce * (delta.y / distance)) / 4.f);
 		}
 	}
 }

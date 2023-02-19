@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 18th December 2022 8:34:24 am
+ * Last Modified: Sunday, 19th February 2023 3:42:32 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -15,6 +15,7 @@
 
 #include "Entities/Player/Player.hpp"
 #include "Entities/Enemy/Enemy.hpp"
+#include "Entities/EntityManager.hpp"
 #include "Map/Map.hpp"
 #include "../Statistics.hpp"
 #include "Camera.hpp"
@@ -26,19 +27,14 @@ class World
 {
 private:
 	std::shared_ptr<Player>					mPlayer;
-	std::list<std::shared_ptr<Entity>>		mEntities;
-
 	Yuna::Core::Window						*mWindow = nullptr;
-
 	Camera									mCamera;
-
 	Statistics 								*mStatistics = nullptr;
 	Map										mMap;
 	Base									mBase;
-
 	CrateItem								*mCrateItem = nullptr;
-
 	std::vector<Background>					mBackgrounds;
+	EntityManager							mEntityManager;
 
 	const uint32_t							mMapSize = 100;
 
