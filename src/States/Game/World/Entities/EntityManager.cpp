@@ -3,7 +3,7 @@
  * File Created: Thursday, 29th December 2022 11:42:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 19th February 2023 3:47:25 pm
+ * Last Modified: Saturday, 25th February 2023 4:16:47 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -22,6 +22,12 @@ EntityManager::~EntityManager()
 
 void	EntityManager::AddEntity(std::shared_ptr<Entity> pEntity)
 {
+	mEntities.push_back(pEntity);
+}
+
+void	EntityManager::AddPlayer(std::shared_ptr<Entity> pEntity)
+{
+	mPlayer = pEntity;
 	mEntities.push_back(pEntity);
 }
 
@@ -59,6 +65,16 @@ void	EntityManager::Update(Yuna::Core::EventHandler *pEventHandler, float pDelta
 			RemoveEntity(entity);
 			continue;
 		}
+
+		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
+			const sf::Vector2f target = ((Enemy *)entity.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition();
+			auto path = mMap->GetPath(entity->GetPosition(), target);
+			entity->SetTarget(target);
+			entity->SetPath(path);
+		}
+
+		if (entity.get() != mPlayer.get())
+			ProjectileManager::HandleCollisions(entity.get());
 
 		mMap->UpdateEntity(entity.get());
 

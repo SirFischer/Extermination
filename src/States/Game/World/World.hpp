@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:30 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 19th February 2023 3:42:32 pm
+ * Last Modified: Saturday, 25th February 2023 4:19:43 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -35,6 +35,7 @@ private:
 	CrateItem								*mCrateItem = nullptr;
 	std::vector<Background>					mBackgrounds;
 	EntityManager							mEntityManager;
+	sf::FloatRect							mViewRect;
 
 	const uint32_t							mMapSize = 100;
 
@@ -44,6 +45,8 @@ private:
 
 	void	HandleBulletCollisions(const sf::FloatRect &pRect);
 	void	HandleParticleCollisions(ParticleEffect *pEffect);
+
+	void 	UpdateViewRect();
 
 public:
 	World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow);

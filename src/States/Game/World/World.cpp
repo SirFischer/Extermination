@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 19th February 2023 3:47:29 pm
+ * Last Modified: Saturday, 25th February 2023 4:20:49 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -27,7 +27,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mPlayer->Init(pResourceManager);
 	mPlayer->SetSize(38, 54);
 	mPlayer->SetOrigin(12, 4);
-	mEntityManager.AddEntity(mPlayer);
+	mEntityManager.AddPlayer(mPlayer);
 	mMap.Generate(mMapSize, 200, 3, 4, time(0));
 	mBase.SetPosition(sf::Vector2f(-100, mMap.GetBaseVerticalPosition()));
 	mCamera.SetView(pWindow->GetView());
@@ -95,17 +95,24 @@ void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)
 	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
 	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.06f, 0.0f));
 	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/Mountains.png").get());
-	
-	// mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
-	// mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.05f, 0.15f));
-	// mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/clouds_bg.png").get());
-	
+		
 }
 
 World::~World()
 {
 }
 
+void	World::UpdateViewRect()
+{
+	auto viewRect = sf::FloatRect(
+		sf::Vector2f(mCamera.GetView().getCenter().x - ((mCamera.GetView().getSize().x / 2.f) + 64), 
+		mCamera.GetView().getCenter().y - ((mCamera.GetView().getSize().y / 2.f) + 64)),
+		sf::Vector2f(mCamera.GetView().getSize().x + (64 * 2.f),
+		mCamera.GetView().getSize().y + (64 * 2.f)));
+	viewRect.left -= 500;
+	viewRect.width += 1000;
+	mViewRect = viewRect;
+}
 
 void	World::HandleBulletCollisions(const sf::FloatRect &pRect)
 {
@@ -129,34 +136,13 @@ void	World::HandleParticleCollisions(ParticleEffect *pEffect)
 
 void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 {
-	auto viewRect = sf::FloatRect(
-		sf::Vector2f(mCamera.GetView().getCenter().x - ((mCamera.GetView().getSize().x / 2.f) + 64), 
-		mCamera.GetView().getCenter().y - ((mCamera.GetView().getSize().y / 2.f) + 64)),
-		sf::Vector2f(mCamera.GetView().getSize().x + (64 * 2.f),
-		mCamera.GetView().getSize().y + (64 * 2.f)));
-	viewRect.left -= 500;
-	viewRect.width += 1000;
+	UpdateViewRect();
 	
-	HandleBulletCollisions(viewRect);
+	HandleBulletCollisions(mViewRect);
 
 	mEntityManager.Update(pEventHandler, pDeltaTime);
 
-	mEntityManager.ForEach([this](std::shared_ptr<Entity> pEntity){
-		if (pEntity->GetType() == EntityType::ENEMY && pEntity->GetPathRecalcTime() > sf::seconds(1)) {
-			auto path = mMap.GetPath(pEntity->GetPosition(), ((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
-			pEntity->SetTarget(((Enemy *)mPlayer.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition());
-			pEntity->SetPath(path);
-		}
-		
-		if (pEntity.get() != mPlayer.get())
-			ProjectileManager::HandleCollisions(pEntity.get());
-		
-		return (true);
-	});
-
-	mMap.Update(pDeltaTime, viewRect);
-
-
+	mMap.Update(pDeltaTime, mViewRect);
 
 	ProjectileManager::Update(pDeltaTime);
 	mStatistics->SetPosition(mPlayer->GetPosition());

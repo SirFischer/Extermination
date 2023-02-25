@@ -4,7 +4,7 @@
  * File Created: Monday, 24th January 2022 6:45:02 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 5th November 2022 11:27:46 am
+ * Last Modified: Saturday, 25th February 2023 4:24:05 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -31,6 +31,15 @@ void	Enemy::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mPosition.y = -random() % 500 - 200;
 	mSpeed = 55.f;
 	LoadAnimations();
+}
+
+void	Enemy::TakeDamage(float pDamage)
+{
+	Entity::TakeDamage(pDamage);
+	const bool gotEnraged = random() % 100 < 50;
+	if (gotEnraged)
+		mState = EnemyState::WILD_CHASE;
+
 }
 
 void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
