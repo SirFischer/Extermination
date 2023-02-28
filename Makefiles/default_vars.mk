@@ -40,11 +40,11 @@ DEPS			:=	$(patsubst %.o,%.d,$(OBJS))
 
 UNAME			:=	$(shell uname -s)
 
-INC_DIRS		+=	Yuna/includes Yuna/mfGUI/includes
+INC_DIRS		+=	Yuna/includes Yuna/mfGUI/include
 
 INC_DIRS		:= $(foreach d, $(INC_DIRS), -I $d)
 
-LIBDEP			:=	Yuna/Yuna.a Yuna/mfGUI/mfGUI.a
+LIBDEP			:=	Yuna/Yuna.a Yuna/mfGUI/lib/libMFGUId.a
 
 
 # This is a minimal set of ANSI/VT100 color codes

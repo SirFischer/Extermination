@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 9:12:49 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 25th February 2023 4:20:49 pm
+ * Last Modified: Sunday, 26th February 2023 3:38:09 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -19,7 +19,8 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 :mStatistics(pStatistics)
 ,mMap(pResourceManager, pWindow)
 ,mBase(pResourceManager)
-,mEntityManager(&mMap)
+,mEntityManager(pResourceManager, &mMap)
+,mWaveManager(&mEntityManager)
 {
 	ProjectileManager::Init(pResourceManager);
 	mWindow = pWindow;
@@ -132,6 +133,10 @@ void	World::HandleParticleCollisions(ParticleEffect *pEffect)
 	});
 }
 
+void	World::NextWave()
+{
+	mWaveManager.NextWave();
+}
 
 
 void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)

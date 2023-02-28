@@ -4,7 +4,7 @@
  * File Created: Saturday, 23rd October 2021 7:33:45 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 19th February 2023 3:42:50 pm
+ * Last Modified: Sunday, 26th February 2023 3:40:22 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -193,6 +193,11 @@ bool	Map::CanBlockBePlacedAt(const sf::Vector2f &pPos)
 float	Map::GetBaseVerticalPosition()
 {
 	return (mBlocks.front().GetPosition().y);
+}
+
+sf::Vector2f Map::GetSpawnPoint()
+{
+	return sf::Vector2f(mSize.x - (mGridSize * 2), -mSize.y - mGridSize);
 }
 
 

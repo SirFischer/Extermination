@@ -4,7 +4,7 @@
  * File Created: Friday, 22nd October 2021 2:26:53 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Sunday, 24th July 2022 7:35:11 pm
+ * Last Modified: Sunday, 26th February 2023 3:22:44 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -36,6 +36,12 @@ void	Game::Init()
 	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
 	mWindow->SetVSync(true);
 	mWindow->SetCursorVisibility(false);
+
+	//HUD
+	mHUD.InitNextWaveButton([world = &mWorld](){
+		Yuna::Core::Console::AddString("Next Wave");
+		world->NextWave();
+	});
 }
 
 void	Game::Update()
@@ -85,6 +91,7 @@ void	Game::HandleEvents()
 	while (mWindow->PollEvent(event))
 	{
 		mEventHandler.HandleEvent(event);
+		mHUD.HandleNextWaveButton(event);
 	}
 }
 
@@ -92,8 +99,8 @@ void	Game::Render()
 {
 	mWindow->Clear(sf::Color::Cyan);
 	mWorld.Render(mWindow);
-	mHUD.Render(mWindow);
 	mf::GUI::Render();
+	if (mWorld.GetEnemyCount() == 0) mHUD.RenderNextWaveButton(mWindow);
 	mStatistics.Render(mWindow);
 	mWindow->Render();
 }

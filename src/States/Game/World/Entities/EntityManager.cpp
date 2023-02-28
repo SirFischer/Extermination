@@ -3,7 +3,7 @@
  * File Created: Thursday, 29th December 2022 11:42:13 pm
  * Author: Marek Fischer
  * -----
- * Last Modified: Saturday, 25th February 2023 4:16:47 pm
+ * Last Modified: Sunday, 26th February 2023 3:38:47 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2022 Deep Vertic
@@ -11,9 +11,10 @@
 
 #include "EntityManager.hpp"
 
-EntityManager::EntityManager(Map *pMap)
+EntityManager::EntityManager(Yuna::Core::ResourceManager *pResourceManager, Map *pMap)
 {
 	mMap = pMap;
+	mResourceManager = pResourceManager;
 }
 
 EntityManager::~EntityManager()
@@ -36,6 +37,14 @@ void	EntityManager::RemoveEntity(std::shared_ptr<Entity> pEntity)
 	mEntities.remove(pEntity);
 }
 
+void	EntityManager::SpawnEnemy()
+{
+	auto enemy = std::make_shared<Enemy>();
+	enemy->Init(mResourceManager);
+	enemy->SetPosition(mMap->GetSpawnPoint());
+	std::cout << "Spawning enemy at " << enemy->GetPosition().x << ", " << enemy->GetPosition().y << std::endl;
+	mEntities.push_back(enemy);
+}
 
 void	EntityManager::ForEach(std::function<bool(std::shared_ptr<Entity>)> pFunction)
 {

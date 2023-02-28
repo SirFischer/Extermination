@@ -4,7 +4,7 @@
  * File Created: Wednesday, 27th October 2021 5:49:04 am
  * Author: Marek Fischer
  * -----
- * Last Modified: Thursday, 9th June 2022 9:54:52 pm
+ * Last Modified: Sunday, 26th February 2023 2:37:05 pm
  * Modified By: Marek Fischer 
  * -----
  * Copyright - 2021 Deep Vertic
@@ -25,8 +25,9 @@ void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 {
 	int segmentCounter = 0;
 	float pA = 0, pB = (((float)random() / (float)RAND_MAX) * 2.0f) - 1.0f;
-	for (auto &block : mBlocks)
+	for (uint32_t i = 4; i < mBlocks.size(); i++)
 	{
+		auto &block = mBlocks[i];
 		sf::Vector2f	pos = block.GetPosition();
 		uint32_t		wl = mBlocks.size() / pSegments;
 		if (!wl)
@@ -44,6 +45,11 @@ void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 			block.SetPosition(pos);
 		}
 		segmentCounter++;
+	}
+	// make starting platform flat for base
+	for (uint32_t i = 0; i < 4 && i < mBlocks.size(); i++)
+	{
+		mBlocks[i].SetPosition(sf::Vector2f(mBlocks[i].GetPosition().x, mBlocks[5].GetPosition().y));;
 	}
 }
 
