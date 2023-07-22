@@ -17,8 +17,14 @@ jobs:
     - name: Update
       run: sudo apt update
 
+    - name: Install dependencies
+      run: sudo apt install -y build-essential cmake ninja-build libsfml-dev libboost-container-dev
+
     - name: Checkout submodules
       run: git submodule update --init --recursive
+
+    - name: Generate Ninja for mfGUI
+      run: cd Yuna/mfGUI && cmake -G Ninja && cd ../..
 
     - name: compilation
       run: make
