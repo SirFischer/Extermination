@@ -42,7 +42,6 @@ void	EntityManager::SpawnEnemy()
 	auto enemy = std::make_shared<Enemy>();
 	enemy->Init(mResourceManager);
 	enemy->SetPosition(mMap->GetSpawnPoint());
-	std::cout << "Spawning enemy at " << enemy->GetPosition().x << ", " << enemy->GetPosition().y << std::endl;
 	mEntities.push_back(enemy);
 }
 
@@ -77,6 +76,10 @@ void	EntityManager::Update(Yuna::Core::EventHandler *pEventHandler, float pDelta
 
 		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
 			const sf::Vector2f target = ((Enemy *)entity.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition();
+			//check if player is close enough to recalculate path
+			if (std::abs(mPlayer->GetPosition().x - entity->GetPosition().x) < 100 && std::abs(mPlayer->GetPosition().y - entity->GetPosition().y) < 100)
+				((Enemy *)entity.get())->SetEnemyState(EnemyState::CHASE);
+
 			auto path = mMap->GetPath(entity->GetPosition(), target);
 			entity->SetTarget(target);
 			entity->SetPath(path);

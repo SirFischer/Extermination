@@ -16,6 +16,7 @@
 #include "../../Actions.hpp"
 #include "Config.hpp"
 #include "HUD/HUD.hpp"
+#include "Console.hpp"
 
 class Game : public Yuna::Core::State
 {
@@ -24,6 +25,7 @@ private:
 
 	sf::Clock	mFPSClock;
 	Statistics	mStatistics;
+	GameConsole	mConsole;
 	HUD			mHUD;
 
 	void	Update();

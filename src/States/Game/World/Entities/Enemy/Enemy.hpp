@@ -38,6 +38,8 @@ public:
 
 	void			TakeDamage(float pDamage);
 
+	void			SetEnemyState(const EnemyState& pState){mState = pState;}
+
 	EnemyState		GetEnemyState(){return (mState);}
 
 
