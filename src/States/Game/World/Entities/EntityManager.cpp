@@ -26,6 +26,12 @@ void	EntityManager::AddEntity(std::shared_ptr<Entity> pEntity)
 	mEntities.push_back(pEntity);
 }
 
+void	EntityManager::AddBase(std::shared_ptr<Entity> pEntity)
+{
+	mBase = pEntity;
+	mEntities.push_back(pEntity);
+}
+
 void	EntityManager::AddPlayer(std::shared_ptr<Entity> pEntity)
 {
 	mPlayer = pEntity;
@@ -75,12 +81,16 @@ void	EntityManager::Update(Yuna::Core::EventHandler *pEventHandler, float pDelta
 		}
 
 		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
-			const sf::Vector2f target = ((Enemy *)entity.get())->GetEnemyState() == EnemyState::ATTACK ? sf::Vector2f(0, 0) : mPlayer->GetPosition();
+			const auto target = ((Enemy *)entity.get())->GetEnemyState() == EnemyState::ATTACK ? mBase : mPlayer;
+
+			if (!target)
+				break ;
+
 			//check if player is close enough to recalculate path
 			if (std::abs(mPlayer->GetPosition().x - entity->GetPosition().x) < 100 && std::abs(mPlayer->GetPosition().y - entity->GetPosition().y) < 100)
 				((Enemy *)entity.get())->SetEnemyState(EnemyState::CHASE);
 
-			auto path = mMap->GetPath(entity->GetPosition(), target);
+			auto path = mMap->GetPath(entity->GetPosition(), target->GetPosition());
 			entity->SetTarget(target);
 			entity->SetPath(path);
 		}

@@ -23,6 +23,7 @@ class EntityManager
 {
 	private:
 	std::shared_ptr<Entity>					mPlayer = nullptr;
+	std::shared_ptr<Entity>					mBase = nullptr;
 	std::list<std::shared_ptr<Entity>>		mEntities = std::list<std::shared_ptr<Entity>>();
 	Map										*mMap = nullptr;
 	Yuna::Core::ResourceManager				*mResourceManager = nullptr;
@@ -33,10 +34,17 @@ class EntityManager
 	~EntityManager();
 
 	uint16_t	GetEntityCount() {return (mEntities.size());}
-	uint16_t	GetEnemyCount() {return (mEntities.size() - 1);}
+	uint16_t	GetEnemyCount() {
+		uint16_t count = 0;
+		for (auto &entity : mEntities)
+			if (entity->GetType() == EntityType::ENEMY)
+				count++;
+		return (count);
+	}
 
 	void	AddEntity(std::shared_ptr<Entity> pEntity);
 	void	AddPlayer(std::shared_ptr<Entity> pEntity);
+	void	AddBase(std::shared_ptr<Entity> pEntity);
 	void	RemoveEntity(std::shared_ptr<Entity> pEntity);
 
 	void	SpawnEnemy();

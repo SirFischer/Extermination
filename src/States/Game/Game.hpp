@@ -32,8 +32,12 @@ private:
 	void	HandleEvents();
 	void	Render();
 	
+	//Init functions
 	void	InitGameControls();
 	void	InitGameCommands();
+
+	//Misc
+	void	UpdateFPS();
 
 	//Commands
 	void	InitExitCommand(bool *active, Yuna::Core::eStateControls *action);

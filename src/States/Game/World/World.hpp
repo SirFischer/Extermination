@@ -12,6 +12,7 @@
 #pragma once
 
 #include <math.h>
+#include <memory>
 
 #include "Entities/Player/Player.hpp"
 #include "Entities/Enemy/Enemy.hpp"
@@ -24,6 +25,8 @@
 #include "Base.hpp"
 #include "WaveManager.hpp"
 
+# define MAP_SIZE 100
+
 class World
 {
 private:
@@ -32,7 +35,7 @@ private:
 	Camera									mCamera;
 	Statistics 								*mStatistics = nullptr;
 	Map										mMap;
-	Base									mBase;
+	std::shared_ptr<Base>					mBase;
 	CrateItem								*mCrateItem = nullptr;
 	std::vector<Background>					mBackgrounds;
 	EntityManager							mEntityManager;
@@ -40,11 +43,10 @@ private:
 	
 	sf::FloatRect							mViewRect;
 
-	const uint32_t							mMapSize = 100;
-
 	void	InitItems();
 	void	InitConsoleCommands(Yuna::Core::ResourceManager *pResourceManager);
 	void	InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager);
+	void	InitBase(Yuna::Core::ResourceManager *pResourceManager);
 
 	void	HandleBulletCollisions(const sf::FloatRect &pRect);
 	void	HandleParticleCollisions(ParticleEffect *pEffect);

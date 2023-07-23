@@ -15,6 +15,7 @@
 #include "Animation.hpp"
 #include "../../Config.hpp"
 #include "../Items/Item.hpp"
+#include "ParticleManager.hpp"
 
 enum class EntityType {
 	ENTITY,
@@ -37,9 +38,11 @@ protected:
 	sf::Vector2f			mSize = sf::Vector2f(48, 64);
 	sf::Vector2f			mOrigin = sf::Vector2f(0, 0);
 	sf::Vector2f			mVelocity = sf::Vector2f(0, 0);
-	sf::Vector2f			mTarget = sf::Vector2f(0, 0);
+	std::shared_ptr<Entity>	mTarget;
 	float					mHealth = 100.f;
 	float					mSpeed = 100.f;
+	float					mRange = 50.f;
+	float					mAttackSpeed = 1.f;
 	float					mJumpForce = 650.f;
 	bool					mFacingLeft = false;
 	bool					mOnGround = false;
@@ -47,6 +50,7 @@ protected:
 	//Time
 	sf::Clock				mFallClock;
 	sf::Clock				mPathRecalculationClock;
+	sf::Clock				mAttackClock;
 
 	std::shared_ptr<Item>	mEquipedItem;
 	EntityType				mType = EntityType::ENTITY;
@@ -70,16 +74,16 @@ public:
 	virtual void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
 	virtual void	Render(Yuna::Core::Window *pWindow);
 
-	virtual void	Attack(Entity *pTarget);
+	virtual void	Attack(std::shared_ptr<Entity> pTarget);
 	virtual void	TakeDamage(float pDamage);
-	virtual void	TakeDamage(float pDamage, float pAngle, float pPower);
+	virtual void	TakeDamage(float pDamage, sf::Vector2f pPos, float pAngle, float pPower);
 
 	void			ResolveCollision(Entity *pEntity);
 
 	void			SetSize(float pX, float pY) {mSize = sf::Vector2f(pX, pY);}
 	void			SetOrigin(float pX, float pY) {mOrigin = sf::Vector2f(pX, pY);}
 	void			SetPath(const std::vector<Yuna::AI::PathNode> &pPath) {mPath = pPath; mPathRecalculationClock.restart();}
-	void			SetTarget(const sf::Vector2f &pTarget) {mTarget = pTarget;}
+	void			SetTarget(const std::shared_ptr<Entity> &pTarget) {mTarget = pTarget;}
 	void			SetPosition(const sf::Vector2f &pPosition) {mPosition = pPosition;}
 
 	bool			IsAlive(){return (mHealth > 0.f);}
@@ -90,7 +94,7 @@ public:
 	sf::FloatRect	GetGlobalBounds() {return (sf::FloatRect(mPosition + mOrigin, mSize));}
 	EntityType		GetType() {return (mType);}
 	sf::Time		GetPathRecalcTime() {return (mPathRecalculationClock.getElapsedTime());}
-	sf::Vector2f	GetTarget() {return (mTarget);}
+	std::shared_ptr<Entity>	GetTarget() {return (mTarget);}
 
 	/**
 	 * Controls

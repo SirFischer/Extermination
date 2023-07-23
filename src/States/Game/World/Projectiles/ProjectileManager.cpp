@@ -67,11 +67,8 @@ void	ProjectileManager::HandleCollisions(Entity *pEntity)
 	{
 		if (pEntity->GetGlobalBounds().intersects(sf::FloatRect(projectile->mPos, sf::Vector2f(8, 4))))
 		{
-			pEntity->TakeDamage(projectile->mDamage, projectile->mAngle, projectile->mKnockback);
+			pEntity->TakeDamage(projectile->mDamage, projectile->mPos, projectile->mAngle, projectile->mKnockback);
 			mProjectiles.remove(projectile);
-			ParticleManager::AddParticleEffect(
-				ParticleEffect(projectile->mPos, projectile->mKnockback * 40.f, 2.f, 50.f, (projectile->mAngle / 180.f) * M_PI, M_PI / 4.f,
-				sf::Color::Red));
 			HandleCollisions(pEntity);
 			break ;
 		}

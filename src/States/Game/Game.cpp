@@ -54,12 +54,7 @@ void	Game::Update()
 	{
 		mWorld.Update(&mEventHandler, mDeltaTime);
 	}
-	if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
-	{
-		mFPSClock.restart();
-		mStatistics.SetFPS(mFPS);
-		mStatistics.SetFrameTime(mFrameTime);
-	}
+	UpdateFPS();
 	mStatistics.Update();
 }
 
@@ -81,4 +76,14 @@ void	Game::Render()
 	if (mWorld.GetEnemyCount() == 0) mHUD.RenderNextWaveButton(mWindow);
 	mStatistics.Render(mWindow);
 	mWindow->Render();
+}
+
+void	Game::UpdateFPS()
+{
+	if (mFPSClock.getElapsedTime().asSeconds() > 1.f)
+	{
+		mFPSClock.restart();
+		mStatistics.SetFPS(mFPS);
+		mStatistics.SetFrameTime(mFrameTime);
+	}
 }

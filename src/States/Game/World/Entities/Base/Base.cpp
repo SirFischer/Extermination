@@ -21,6 +21,12 @@ Base::~Base()
 {
 }
 
+void	Base::Update(float pDeltaTime)
+{
+	(void)pDeltaTime;
+}
+
+
 void	Base::SetPosition(const sf::Vector2f &pPos)
 {
 	mBaseSprite.setPosition(pPos.x, pPos.y - mBaseSprite.getGlobalBounds().height + 16);

@@ -12,8 +12,9 @@
 #pragma once
 
 #include "Yuna.hpp"
+#include "Entity.hpp"
 
-class Base
+class Base : public Entity
 {
 private:
 	sf::Sprite	mBaseSprite;
@@ -23,6 +24,8 @@ public:
 	~Base();
 
 	void		SetPosition(const sf::Vector2f &pPos);
+
+	void		Update(float pDeltaTime);
 
 	void		Render(Yuna::Core::Window *pWindow);
 

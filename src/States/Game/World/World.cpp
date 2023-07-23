@@ -18,7 +18,6 @@
 World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
 :mStatistics(pStatistics)
 ,mMap(pResourceManager, pWindow)
-,mBase(pResourceManager)
 ,mEntityManager(pResourceManager, &mMap)
 ,mWaveManager(&mEntityManager)
 {
@@ -29,13 +28,13 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mPlayer->SetSize(38, 54);
 	mPlayer->SetOrigin(12, 4);
 	mEntityManager.AddPlayer(mPlayer);
-	mMap.Generate(mMapSize, 200, 3, 4, time(0));
-	mBase.SetPosition(sf::Vector2f(-100, mMap.GetBaseVerticalPosition()));
+	mMap.Generate(MAP_SIZE, 200, 3, 4, time(0));
 	mCamera.SetView(pWindow->GetView());
 	sf::IntRect mapBounds = mMap.GetGlobalBounds();
 	mCamera.SetBoundries(sf::IntRect(mapBounds.left, -20000, mapBounds.width + mapBounds.left, 20000));
 	mCamera.SetZoom(0.85);
 
+	// TEST ITEMS
 	Weapon *weapon = new Weapon(pResourceManager);
 	weapon->AddPrimaryAction([weapon, pWindow, cam = &mCamera, player = &mPlayer](){
 		sf::Vector2f pos;
@@ -77,26 +76,12 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	});
 	mPlayer->EquipItem(testItem);
 	mCrateItem = testItem;
-
+	////////////
 
 	InitBackgrounds(pResourceManager);
 	InitConsoleCommands(pResourceManager);
+	InitBase(pResourceManager);
 
-}
-
-void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)
-{
-	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
-	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/background_1.png").get());
-
-	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
-	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.03f, 0.0f));
-	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/featherclouds.png").get());
-	
-	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
-	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.06f, 0.0f));
-	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/Mountains.png").get());
-		
 }
 
 World::~World()
@@ -176,15 +161,35 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	}
 	pWindow->SetView(mCamera.GetView());
 	mMap.Render(pWindow, mCamera.GetView());
-	mBase.Render(pWindow);
 	ProjectileManager::Render(pWindow);
 	mEntityManager.Render(pWindow);
 	ParticleManager::Render(pWindow);
 	pWindow->ResetView(true);
 }
 
+void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)
+{
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/background_1.png").get());
+
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.03f, 0.0f));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/featherclouds.png").get());
+	
+	mBackgrounds.push_back(Background(sf::Vector2i(mCamera.GetView().getSize())));
+	mBackgrounds.back().SetMoveFactor(sf::Vector2f(0.06f, 0.0f));
+	mBackgrounds.back().LoadBackground(pResourceManager->LoadTexture("assets/textures/Mountains.png").get());
+		
+}
 
 void	World::InitItems()
 {
 	
+}
+
+void	World::InitBase(Yuna::Core::ResourceManager *pResourceManager)
+{
+	mBase = std::make_shared<Base>(pResourceManager);
+	mBase->SetPosition(sf::Vector2f(-100, mMap.GetBaseVerticalPosition()));
+	mEntityManager.AddBase(mBase);
 }

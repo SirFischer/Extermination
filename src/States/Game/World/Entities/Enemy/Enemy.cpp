@@ -45,6 +45,7 @@ void	Enemy::TakeDamage(float pDamage)
 void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 {
 	Entity::Update(pEventHandler, mDeltaTime);
+	const sf::Vector2f targetPos = mTarget ? mTarget->GetPosition() : sf::Vector2f(0, 0);
 
 	/**
 	 * Path-finding
@@ -81,11 +82,11 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	}
 	else if (mState == EnemyState::WILD_CHASE || mPath.size() <= 2)
 	{
-		if (mTarget.x > mPosition.x)
+		if (targetPos.x > mPosition.x)
 			WalkRight(mDeltaTime);
-		if (mTarget.x < mPosition.x)
+		if (targetPos.x < mPosition.x)
 			WalkLeft(mDeltaTime);
-		if (mTarget.y <= mPosition.y - 32 && mOnGround)
+		if (targetPos.y <= mPosition.y - 32 && mOnGround)
 			Jump(mDeltaTime);
 		if (mJumpClock.getElapsedTime().asSeconds() > 2.f)
 		{
@@ -93,6 +94,17 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 			mJumpClock.restart();
 		}
 	}
+
+	//check if enemy is within range of target and attack
+	if (mTarget && mTarget->GetType() != EntityType::ENEMY)
+	{
+		const float distance = sqrt(pow(mPosition.x - mTarget->GetPosition().x, 2) + pow(mPosition.y - mTarget->GetPosition().y, 2));
+		if (distance < mRange)
+		{
+			Attack(mTarget);
+		}
+	}
+
 
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
