@@ -38,6 +38,7 @@ protected:
 	sf::Vector2f			mSize = sf::Vector2f(48, 64);
 	sf::Vector2f			mOrigin = sf::Vector2f(0, 0);
 	sf::Vector2f			mVelocity = sf::Vector2f(0, 0);
+	sf::Color				mBloodColor = sf::Color::Red;
 	std::shared_ptr<Entity>	mTarget;
 	float					mHealth = 100.f;
 	float					mSpeed = 100.f;

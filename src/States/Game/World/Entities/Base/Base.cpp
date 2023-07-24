@@ -15,6 +15,7 @@ Base::Base(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mBaseSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/Base_00.png"));
 	mBaseSprite.setPosition(0, 0);
+	mBloodColor = sf::Color(100, 100, 100);
 }
 
 Base::~Base()

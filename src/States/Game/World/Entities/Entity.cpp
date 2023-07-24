@@ -70,8 +70,7 @@ void	Entity::Attack(std::shared_ptr<Entity> pTarget)
 	{
 		mAttackClock.restart();
 		//calculate angle
-		sf::Vector2f delta = pTarget->GetPosition() - mPosition;
-		float rotation = -((std::atan2(delta.x, delta.y) / M_PI) * 180.f) - 90.f;
+		float rotation = Yuna::Math::Angle(mPosition, pTarget->GetPosition());
 		pTarget->TakeDamage(20.f, pTarget->GetPosition(), rotation, 10);
 	}
 }
@@ -87,7 +86,7 @@ void	Entity::TakeDamage(float pDamage, sf::Vector2f pPos, float pAngle, float pP
 	mVelocity += sf::Vector2f(std::cos((pAngle / 180.f) * M_PI) * pPower, std::sin((pAngle / 180.f) * M_PI) * pPower);
 	ParticleManager::AddParticleEffect(
 				ParticleEffect(pPos, pPower * 40.f, 2.f, 50.f, (pAngle / 180.f) * M_PI, M_PI / 4.f,
-				sf::Color::Red));
+				mBloodColor));
 }
 
 

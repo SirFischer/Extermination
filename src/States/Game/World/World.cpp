@@ -42,8 +42,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 		pWindow->SetView(cam->GetView());
 		pos = sf::Vector2f(pWindow->GetViewMousePos());
 		pWindow->ResetView(true);
-		sf::Vector2f delta = playerPos - pos;
-		float rotation = -((std::atan2(delta.x, delta.y) / M_PI) * 180.f) - 90.f;
+		float rotation = ((Yuna::Math::Angle(playerPos, pos) / M_PI) * 180.f);
 		playerPos += sf::Vector2f(std::cos((rotation / 180.f) * M_PI) * 15.f, std::sin((rotation / 180.f) * M_PI) * 15.f);
 		weapon->Shoot(rotation, playerPos);
 		if (rotation < 90.f && rotation > -90.f)

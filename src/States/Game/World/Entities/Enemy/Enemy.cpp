@@ -16,6 +16,7 @@ Enemy::Enemy()
 {
 	mType = EntityType::ENEMY;
 	mSpeed = 60;
+	mBloodColor = sf::Color::Green;
 }
 
 Enemy::~Enemy()
