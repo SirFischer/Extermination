@@ -13,27 +13,19 @@
 
 Base::Base(Yuna::Core::ResourceManager *pResourceManager)
 {
-	mBaseSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/Base_00.png"));
-	mBaseSprite.setPosition(0, 0);
+	mPhysicsEnabled = false;
+	mSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/Base_00.png"));
+	mSprite.setPosition(0, 0);
 	mBloodColor = sf::Color(100, 100, 100);
+	mType = EntityType::BASE;
+	mSize = sf::Vector2f(mSprite.getGlobalBounds().width - 10, mSprite.getGlobalBounds().height - 10);
 }
 
 Base::~Base()
 {
 }
 
-void	Base::Update(float pDeltaTime)
-{
-	(void)pDeltaTime;
-}
-
-
 void	Base::SetPosition(const sf::Vector2f &pPos)
 {
-	mBaseSprite.setPosition(pPos.x, pPos.y - mBaseSprite.getGlobalBounds().height + 16);
-}
-
-void	Base::Render(Yuna::Core::Window *pWindow)
-{
-	pWindow->Draw(mBaseSprite);
+	mPosition = sf::Vector2f(pPos.x, pPos.y - mSprite.getGlobalBounds().height + 16);
 }

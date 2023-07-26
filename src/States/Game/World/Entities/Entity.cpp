@@ -27,15 +27,21 @@ void	Entity::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mSize = sf::Vector2f(mSprite.getGlobalBounds().width, mSprite.getGlobalBounds().height);
 }
 
-void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
+void	Entity::HandlePhysics(float pDeltaTime)
 {
-	(void)mDeltaTime;
-	(void)pEventHandler;
 	if (mOnGround) {
 		mFallClock.restart();
 		mVelocity.y = std::min(mVelocity.y, 0.f);
 	}
 	mPosition += mVelocity;
+	mVelocity.y += (25.f * pDeltaTime);
+}
+
+
+void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
+{
+	(void)pEventHandler;
+	if (mPhysicsEnabled) HandlePhysics(mDeltaTime);
 	mSprite.setPosition(mPosition.x, mPosition.y);
 	if (mAnimations.size())
 	{
@@ -43,7 +49,6 @@ void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 		sf::IntRect rect = mAnimations[mCurrentAnimation].GetCurrentFrame();
 		mSprite.setTextureRect((mFacingLeft) ? sf::IntRect(rect.left + 64, rect.top, -rect.width, rect.height) : rect);
 	}
-	mVelocity.y += (25.f * mDeltaTime);
 	mCurrentAnimation = eAnimationAction::IDLE;
 	
 }

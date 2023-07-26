@@ -99,8 +99,7 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	//check if enemy is within range of target and attack
 	if (mTarget && mTarget->GetType() != EntityType::ENEMY)
 	{
-		const float distance = sqrt(pow(mPosition.x - mTarget->GetPosition().x, 2) + pow(mPosition.y - mTarget->GetPosition().y, 2));
-		if (distance < mRange)
+		if (mTarget->GetGlobalBounds().intersects(GetGlobalBounds()))
 		{
 			Attack(mTarget);
 		}

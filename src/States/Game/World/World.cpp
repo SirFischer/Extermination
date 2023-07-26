@@ -189,6 +189,6 @@ void	World::InitItems()
 void	World::InitBase(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mBase = std::make_shared<Base>(pResourceManager);
-	mBase->SetPosition(sf::Vector2f(-100, mMap.GetBaseVerticalPosition()));
+	mBase->SetPosition(sf::Vector2f(0, mMap.GetBaseVerticalPosition()));
 	mEntityManager.AddBase(mBase);
 }

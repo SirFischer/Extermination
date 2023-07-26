@@ -49,6 +49,8 @@ void	Map::ApplyCollisionDetection(Entity *pEntity)
 
 void	Map::LockPlayerToMap(Entity *pEntity)
 {
+	if (pEntity->GetType() == EntityType::BASE) return ;
+
 	if (pEntity->mPosition.x < 100)
 		pEntity->mPosition.x = 100;
 	if (pEntity->mPosition.x + pEntity->GetGlobalBounds().width > ((mLength - 1) * mGridSize))

@@ -20,7 +20,8 @@
 enum class EntityType {
 	ENTITY,
 	PLAYER,
-	ENEMY
+	ENEMY,
+	BASE
 };
 
 class Entity
@@ -47,6 +48,7 @@ protected:
 	float					mJumpForce = 650.f;
 	bool					mFacingLeft = false;
 	bool					mOnGround = false;
+	bool					mPhysicsEnabled = true;
 
 	//Time
 	sf::Clock				mFallClock;
@@ -63,6 +65,8 @@ protected:
 		Animation>			mAnimations;
 	eAnimationAction		mCurrentAnimation = eAnimationAction::IDLE;
 	
+	virtual void	HandlePhysics(float pDeltaTime);
+
 public:
 	friend class Map;
 
