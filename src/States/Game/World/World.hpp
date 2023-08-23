@@ -24,12 +24,14 @@
 #include "ParticleEffect.hpp"
 #include "Base.hpp"
 #include "WaveManager.hpp"
+#include "Inventory.hpp"
 
 # define MAP_SIZE 100
 
 class World
 {
 private:
+	std::shared_ptr<Inventory>				mInventory;
 	std::shared_ptr<Player>					mPlayer;
 	Yuna::Core::Window						*mWindow = nullptr;
 	Camera									mCamera;

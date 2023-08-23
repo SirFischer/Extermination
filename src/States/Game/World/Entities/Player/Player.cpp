@@ -12,7 +12,8 @@
 #include "Player.hpp"
 
 
-Player::Player(/* args */)
+Player::Player(std::shared_ptr<Inventory> pInventory)
+: mInventory(pInventory)
 {
 	mType = EntityType::PLAYER;
 }
@@ -50,7 +51,7 @@ void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mArm.setTexture(*pResourceManager->LoadTexture("assets/images/player/Soldier_01_arm.png"));
 	mItemSprite.setScale(0.35, 0.35);
 	//tmp should be added by world
-	mInventory.AddItem(std::make_shared<Hands>());
+	mInventory->AddItem(std::make_shared<Hands>());
 }
 
 void	Player::HandleEvents(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
@@ -73,27 +74,27 @@ void	Player::HandleEvents(Yuna::Core::EventHandler *pEventhandler, float mDeltaT
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::USE_ITEM_1))
 	{
-		if (mInventory.GetSelectedItem())
+		if (mInventory->GetSelectedItem())
 		{
-			mInventory.GetSelectedItem()->UsePrimaryAction();
+			mInventory->GetSelectedItem()->UsePrimaryAction();
 		}
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::USE_ITEM_2))
 	{
-		if (mInventory.GetSelectedItem())
+		if (mInventory->GetSelectedItem())
 		{
-			mInventory.GetSelectedItem()->UseSecondaryAction();
+			mInventory->GetSelectedItem()->UseSecondaryAction();
 		}
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::NEXT_ITEM))
 	{
-		mInventory.NextItem();
+		mInventory->NextItem();
 		pEventhandler->SetEventState((uint32_t)eAction::NEXT_ITEM, false);
 	}
 
 	if (pEventhandler->GetEventState((uint32_t)eAction::PREVIOUS_ITEM))
 	{
-		mInventory.PreviousItem();
+		mInventory->PreviousItem();
 		pEventhandler->SetEventState((uint32_t)eAction::PREVIOUS_ITEM, false);
 	}
 	
@@ -104,7 +105,7 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	static Item*	lastItem = nullptr;
 	Entity::Update(pEventhandler, mDeltaTime);
 	mArm.setPosition(mPosition + sf::Vector2f((mFacingLeft ? 36 : 28), 38));
-	mInventory.Update();
+	mInventory->Update();
 	HandleEvents(pEventhandler, mDeltaTime);
 
 	if (mFallClock.getElapsedTime() > sf::seconds(0.8)) mCurrentAnimation = eAnimationAction::FALL;
@@ -112,9 +113,9 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;
 
-	if (lastItem != mInventory.GetSelectedItem())
+	if (lastItem != mInventory->GetSelectedItem())
 	{
-		lastItem = mInventory.GetSelectedItem();
+		lastItem = mInventory->GetSelectedItem();
 		if (lastItem->IsHands())
 			mSprite.setTexture(mArmTexture);
 		else
@@ -128,7 +129,7 @@ void	Player::EquipItem(Item *pItem)
 {
 	if (pItem)
 	{
-		mInventory.AddItem(std::shared_ptr<Item>(pItem));
+		mInventory->AddItem(std::shared_ptr<Item>(pItem));
 	}
 }
 
@@ -169,19 +170,18 @@ void	Player::Render(Yuna::Core::Window *pWindow)
 {
 	Entity::Render(pWindow);
 
-	if (mInventory.GetSelectedItem())
+	if (mInventory->GetSelectedItem())
 	{
-		mInventory.GetSelectedItem()->Render(pWindow);
+		mInventory->GetSelectedItem()->Render(pWindow);
 	}
 
-	if (!mInventory.GetSelectedItem()->IsHands())
+	if (!mInventory->GetSelectedItem()->IsHands())
 	{
 		RenderArm(pWindow);
 	}
 
 	auto tmpView = pWindow->GetView();
 	pWindow->ResetView(true);
-	mInventory.Render(pWindow);
 	pWindow->SetView(tmpView);
 }
 

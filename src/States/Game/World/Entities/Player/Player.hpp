@@ -23,7 +23,7 @@ private:
 	//dependencies
 	Yuna::Core::ResourceManager *mResourceManager = nullptr;
 
-	Inventory	mInventory;
+	std::shared_ptr<Inventory>	mInventory;
 	sf::Sprite	mArm;
 	sf::Sprite	mItemSprite;
 
@@ -36,7 +36,7 @@ private:
 	void	HandleEvents(Yuna::Core::EventHandler *tEventhandler, float mDeltaTime);
 
 public:
-	Player(/* args */);
+	Player(std::shared_ptr<Inventory> pInventory);
 	~Player();
 
 	void	Init(Yuna::Core::ResourceManager *pResourceManager);

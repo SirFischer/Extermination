@@ -138,6 +138,7 @@ void	Entity::WalkRight(float mDeltaTime)
 
 void	Entity::Jump(float mDeltaTime)
 {
+	if (!mOnGround) return ;
 	mVelocity.y = -(mJumpForce * mDeltaTime);
 }
 

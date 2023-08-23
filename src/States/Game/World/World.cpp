@@ -23,7 +23,8 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 {
 	ProjectileManager::Init(pResourceManager);
 	mWindow = pWindow;
-	mPlayer.reset(new Player());
+	mInventory = std::make_shared<Inventory>();
+	mPlayer = std::make_shared<Player>(mInventory);
 	mPlayer->Init(pResourceManager);
 	mPlayer->SetSize(38, 54);
 	mPlayer->SetOrigin(12, 4);
@@ -164,6 +165,7 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	mEntityManager.Render(pWindow);
 	ParticleManager::Render(pWindow);
 	pWindow->ResetView(true);
+	mInventory->Render(pWindow);
 }
 
 void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)

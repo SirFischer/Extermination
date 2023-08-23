@@ -90,7 +90,6 @@ public:
 	void			SetPath(const std::vector<Yuna::AI::PathNode> &pPath) {mPath = pPath; mPathRecalculationClock.restart();}
 	void			SetTarget(const std::shared_ptr<Entity> &pTarget) {mTarget = pTarget;}
 	void			SetPosition(const sf::Vector2f &pPosition) {mPosition = pPosition;}
-
 	bool			IsAlive(){return (mHealth > 0.f);}
 	bool			IsFacingLeft(){return (mFacingLeft);}
 
@@ -99,6 +98,9 @@ public:
 	sf::FloatRect	GetGlobalBounds() {return (sf::FloatRect(mPosition + mOrigin, mSize));}
 	EntityType		GetType() {return (mType);}
 	sf::Time		GetPathRecalcTime() {return (mPathRecalculationClock.getElapsedTime());}
+	std::vector<
+	Yuna::AI::PathNode> *GetCurrentPath(){return &mPath;}
+
 	std::shared_ptr<Entity>	GetTarget() {return (mTarget);}
 
 	/**

@@ -13,6 +13,11 @@
 
 #include "../Entity.hpp"
 #include "../../Map/Map.hpp"
+#include <stack>
+
+//AIStates
+#include "ChaseState.hpp"
+#include "WildChaseState.hpp"
 
 enum class EnemyState {
 	IDLE,
@@ -24,8 +29,8 @@ enum class EnemyState {
 class Enemy : public Entity
 {
 private:
-	EnemyState							mState = EnemyState::ATTACK;
-	sf::Clock							mJumpClock;
+	EnemyState								mState = EnemyState::ATTACK;
+	std::stack<std::unique_ptr<AIState>>	mAIStates;
 
 	void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
 	void	LoadAnimations();
@@ -44,5 +49,6 @@ public:
 
 
 	void			Init(Yuna::Core::ResourceManager *pResourceManager);
+
 };
 

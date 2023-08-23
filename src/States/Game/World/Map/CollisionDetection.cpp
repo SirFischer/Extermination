@@ -20,6 +20,7 @@ void	Map::ApplyCollisionDetection(Entity *pEntity)
 	sf::Vector2f rayDir = pEntity->mVelocity;
 	float collisionTime;
 	std::vector<std::pair<sf::FloatRect, float>>	collisionTimes;
+	pEntity->mOnGround = false;
 	for (auto &a : list)
 	{
 		for (auto &b : *a)
