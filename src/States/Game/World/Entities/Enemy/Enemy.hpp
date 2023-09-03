@@ -12,24 +12,18 @@
 #pragma once
 
 #include "../Entity.hpp"
+#include "EnemyState.hpp"
 #include "../../Map/Map.hpp"
 #include <stack>
 
 //AIStates
 #include "ChaseState.hpp"
 #include "WildChaseState.hpp"
-
-enum class EnemyState {
-	IDLE,
-	CHASE,
-	WILD_CHASE,
-	ATTACK
-};
+#include "AttackState.hpp"
 
 class Enemy : public Entity
 {
 private:
-	EnemyState								mState = EnemyState::ATTACK;
 	std::stack<std::unique_ptr<AIState>>	mAIStates;
 
 	void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
@@ -43,9 +37,7 @@ public:
 
 	void			TakeDamage(float pDamage);
 
-	void			SetEnemyState(const EnemyState& pState){mState = pState;}
-
-	EnemyState		GetEnemyState(){return (mState);}
+	AIState::State	GetEnemyState(){return (mAIStates.top()->GetState());}
 
 
 	void			Init(Yuna::Core::ResourceManager *pResourceManager);

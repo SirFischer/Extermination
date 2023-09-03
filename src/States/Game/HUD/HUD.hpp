@@ -16,10 +16,11 @@
 class HUD
 {
 private:
+	Yuna::Core::ResourceManager *mResourceManager;
 	mf::Button *mNextWaveButton = nullptr;
 
 public:
-	HUD(/* args */);
+	HUD(Yuna::Core::ResourceManager *pResourceManager);
 	~HUD();
 
 	void	InitNextWaveButton(const std::function<void()> &pClickAction);

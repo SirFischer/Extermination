@@ -18,6 +18,7 @@ CrateItem::CrateItem(Yuna::Core::ResourceManager *pResourceManager)
 	mTexturePath = "assets/textures/crate.png";
 	mSprite.setTexture(*pResourceManager->LoadTexture(mTexturePath));
 	mSprite.setColor(sf::Color(150, 150, 150, 180));
+	mIsOneClick = true;
 
 	mIcon.setTexture(*pResourceManager->LoadTexture(mTexturePath));
 	mIcon.setScale(0.8, 0.8);

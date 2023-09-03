@@ -77,6 +77,9 @@ void	Player::HandleEvents(Yuna::Core::EventHandler *pEventhandler, float mDeltaT
 		if (mInventory->GetSelectedItem())
 		{
 			mInventory->GetSelectedItem()->UsePrimaryAction();
+			if (mInventory->GetSelectedItem()->IsOneClick()) {
+				pEventhandler->SetEventState((uint32_t)eAction::USE_ITEM_1, false);
+			}
 		}
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::USE_ITEM_2))

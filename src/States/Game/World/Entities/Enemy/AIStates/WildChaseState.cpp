@@ -3,7 +3,7 @@
 
 WildChaseState::WildChaseState()
 {
-
+	mState = State::WILD_CHASE;
 }
 
 void WildChaseState::Update(Entity *pEntity, std::stack<std::unique_ptr<AIState>> *pStates, float pDeltaTime)

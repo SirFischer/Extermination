@@ -17,6 +17,7 @@ Game::Game(Yuna::Core::Window* tWindow)
 ,mWorld(&mResourceManager, &mStatistics, mWindow)
 ,mStatistics(&mResourceManager)
 ,mConsole(&mEventHandler)
+,mHUD(&mResourceManager)
 {
 	
 }

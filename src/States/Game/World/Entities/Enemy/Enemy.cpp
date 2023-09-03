@@ -17,7 +17,11 @@ Enemy::Enemy()
 	mType = EntityType::ENEMY;
 	mSpeed = 60;
 	mBloodColor = sf::Color::Green;
-	mAIStates.push(std::make_unique<ChaseState>());
+	const bool randomState = (random() % 100) < 30;
+	if (randomState)
+		mAIStates.push(std::make_unique<ChaseState>());
+	else
+		mAIStates.push(std::make_unique<AttackState>());
 }
 
 Enemy::~Enemy()
@@ -39,8 +43,10 @@ void	Enemy::TakeDamage(float pDamage)
 {
 	Entity::TakeDamage(pDamage);
 	const bool gotEnraged = random() % 100 < 50;
-	if (gotEnraged)
+	if (gotEnraged) {
+		mAIStates.push(std::make_unique<ChaseState>());
 		mAIStates.push(std::make_unique<WildChaseState>());
+	}
 
 }
 

@@ -14,6 +14,7 @@
 Weapon::Weapon(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mTexturePath = "assets/images/player/gun.png";
+	mIsOneClick = true;
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/crosshair.png"));
 	
 	mIcon.setTexture(*pResourceManager->LoadTexture(mTexturePath));

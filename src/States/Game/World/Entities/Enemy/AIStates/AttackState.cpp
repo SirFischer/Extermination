@@ -1,12 +1,12 @@
-#include "ChaseState.hpp"
+#include "AttackState.hpp"
 #include "Entity.hpp"
 
-ChaseState::ChaseState()
+AttackState::AttackState()
 {
-	mState = State::CHASE;
+	mState = State::ATTACK;
 }
 
-void ChaseState::Update(Entity *pEntity, std::stack<std::unique_ptr<AIState>> *pStates, float pDeltaTime)
+void AttackState::Update(Entity *pEntity, std::stack<std::unique_ptr<AIState>> *pStates, float pDeltaTime)
 {
 	(void)pStates;
 
@@ -18,6 +18,7 @@ void ChaseState::Update(Entity *pEntity, std::stack<std::unique_ptr<AIState>> *p
 	auto position = pEntity->GetPosition();
 	sf::FloatRect globalBounds = pEntity->GetGlobalBounds();
 
+	//remove goal posts as you go to follow next node
 	if (path->size() > 2)
 	{
 		if (globalBounds.contains(path->at(1).mPosition + sf::Vector2f(32, 32)))
@@ -26,9 +27,13 @@ void ChaseState::Update(Entity *pEntity, std::stack<std::unique_ptr<AIState>> *p
 			path->pop_back();
 		}
 	}
-	if (globalBounds.contains(path->back().mPosition + sf::Vector2f(32, 32)))
-		path->pop_back();
 
+	if (globalBounds.contains(path->back().mPosition + sf::Vector2f(32, 32)))
+	{
+		path->pop_back();
+	}
+
+	//navigate to next node
 	if (path->size())
 	{
 		if (path->back().mPosition.x > position.x)

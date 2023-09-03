@@ -14,7 +14,8 @@
 
 #include "Yuna.hpp"
 
-HUD::HUD(/* args */)
+HUD::HUD(Yuna::Core::ResourceManager *pResourceManager)
+:mResourceManager(pResourceManager)
 {
 }
 
@@ -25,10 +26,14 @@ HUD::~HUD()
 void	HUD::InitNextWaveButton(const std::function<void()> &pClickAction)
 {
 	mNextWaveButton = mf::Button::Create();
-	mNextWaveButton->SetPosition(0, 0);
-	mNextWaveButton->SetSize(100, 100);
-	mNextWaveButton->SetBackground(sf::Color::Red);
-	mNextWaveButton->AddEventListener(mf::eEvent::LEFT_CLICK, pClickAction);
+	mNextWaveButton->SetPosition(0, 0)
+	->SetSize(210, 50)
+	->SetTextFont(*mResourceManager->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
+	->SetText("Next wave")
+	->SetBackground(*mResourceManager->LoadTexture("assets/textures/button.png"))
+	->SetTextPosition(10, 5)
+	->SetPosition(50, 50)->SetPositionPercentage(true, true)
+	->AddEventListener(mf::eEvent::LEFT_CLICK, pClickAction);
 	
 }
 

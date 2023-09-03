@@ -50,12 +50,14 @@ void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 		mSprite.setTextureRect((mFacingLeft) ? sf::IntRect(rect.left + 64, rect.top, -rect.width, rect.height) : rect);
 	}
 	mCurrentAnimation = eAnimationAction::IDLE;
+	mHealthBar.Update((mHealth / mMaxHealth) * 100.f, mPosition + mHealthBarOffset);
 	
 }
 
 void	Entity::Render(Yuna::Core::Window *pWindow)
 {
 	pWindow->Draw(mSprite);
+	mHealthBar.Render(pWindow);
 
 	if (Config::mRenderPathNodes && mPath.size())
 	{

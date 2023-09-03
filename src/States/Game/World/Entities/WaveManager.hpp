@@ -11,6 +11,7 @@
 
 #pragma once
 #include <stdint.h>
+#include <string>
 #include "EntityManager.hpp"
 #include "Enemy.hpp"
 
@@ -20,7 +21,18 @@ private:
 	EntityManager *mEntityManager;
 
 	uint16_t mWaveNumber = 0;
-	uint16_t mWaveSize = 5;
+	uint16_t mBuyingPower = 50;
+	uint16_t mBuyingPowerIncrease = 10;
+
+	struct EnemyType {
+		uint16_t	mPrice;
+		uint16_t	mPowerLevel;
+		std::string	mType;
+	};
+
+	std::vector<EnemyType> mEnemyTypes;
+
+	void	initDictionary();
 	
 public:
 	WaveManager(EntityManager *pEntityManager);

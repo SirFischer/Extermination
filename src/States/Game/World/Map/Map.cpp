@@ -197,7 +197,7 @@ float	Map::GetBaseVerticalPosition()
 
 sf::Vector2f Map::GetSpawnPoint()
 {
-	return sf::Vector2f(mSize.x - (mGridSize * 2), -mSize.y - mGridSize);
+	return sf::Vector2f(mSize.x - (mGridSize * 10), -mSize.y - mGridSize);
 }
 
 

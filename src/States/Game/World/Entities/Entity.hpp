@@ -16,6 +16,7 @@
 #include "../../Config.hpp"
 #include "../Items/Item.hpp"
 #include "ParticleManager.hpp"
+#include "HealthBar.hpp"
 
 enum class EntityType {
 	ENTITY,
@@ -40,8 +41,11 @@ protected:
 	sf::Vector2f			mOrigin = sf::Vector2f(0, 0);
 	sf::Vector2f			mVelocity = sf::Vector2f(0, 0);
 	sf::Color				mBloodColor = sf::Color::Red;
+	HealthBar				mHealthBar;
+	sf::Vector2f			mHealthBarOffset = sf::Vector2f(0, -50);
 	std::shared_ptr<Entity>	mTarget;
 	float					mHealth = 100.f;
+	float					mMaxHealth = 100.f;
 	float					mSpeed = 100.f;
 	float					mRange = 50.f;
 	float					mAttackSpeed = 1.f;

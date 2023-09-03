@@ -25,6 +25,7 @@ protected:
 	std::string				mTexturePath;
 
 	bool					mIsHands = false;
+	bool					mIsOneClick = false;
 
 public:
 	Item();
@@ -39,6 +40,7 @@ public:
 
 	std::string		GetItemTexturePath(){return (mTexturePath);}
 	bool			IsHands(){return (mIsHands);}
+	bool			IsOneClick(){return (mIsOneClick);}
 	
 	virtual void	Render(Yuna::Core::Window *pWindow);
 	virtual void	RenderIcon(Yuna::Core::Window *pWindow);
