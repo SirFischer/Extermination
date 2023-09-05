@@ -29,6 +29,10 @@ void	Menu::Init()
 	Yuna::Core::Console::InitUI();
 	Yuna::Core::Console::mEventHandler = &mEventHandler;
 	Yuna::Core::Console::mActionNames = GetActionNames();
+
+	mHoverSound = mResourceManager.LoadSound("assets/sounds/menu/buttonHover.wav");
+	
+	mClickSound = mResourceManager.LoadSound("assets/sounds/menu/buttonClick.wav");
 }
 
 void	Menu::Update()

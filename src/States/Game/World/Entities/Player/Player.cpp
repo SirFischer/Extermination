@@ -52,6 +52,18 @@ void	Player::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mItemSprite.setScale(0.35, 0.35);
 	//tmp should be added by world
 	mInventory->AddItem(std::make_shared<Hands>());
+
+	//healthbar
+	mHealthBar.AddFrame(0, 10, pResourceManager->LoadTexture("assets/images/player/PlayerHealth0.png").get());
+	mHealthBar.AddFrame(10, 30, pResourceManager->LoadTexture("assets/images/player/PlayerHealth20.png").get());
+	mHealthBar.AddFrame(30, 50, pResourceManager->LoadTexture("assets/images/player/PlayerHealth60.png").get());
+	mHealthBar.AddFrame(50, 70, pResourceManager->LoadTexture("assets/images/player/PlayerHealth80.png").get());
+	mHealthBar.AddFrame(70, 100, pResourceManager->LoadTexture("assets/images/player/PlayerHealth100.png").get());
+	
+	mHealthBar.SetOrigin(sf::Vector2f(32, 32));
+	mHealthBar.SetScale(sf::Vector2f(0.60f, 0.60f));
+	mHealthBarOffset = sf::Vector2f(32, 16);
+
 }
 
 void	Player::HandleEvents(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
@@ -107,6 +119,7 @@ void	Player::Update(Yuna::Core::EventHandler *pEventhandler, float mDeltaTime)
 {
 	static Item*	lastItem = nullptr;
 	Entity::Update(pEventhandler, mDeltaTime);
+	mHealthBar.Mirror(mFacingLeft);
 	mArm.setPosition(mPosition + sf::Vector2f((mFacingLeft ? 36 : 28), 38));
 	mInventory->Update();
 	HandleEvents(pEventhandler, mDeltaTime);

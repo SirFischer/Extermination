@@ -17,6 +17,10 @@
 class Menu : public Yuna::Core::State
 {
 private:
+
+	sf::Sound	mHoverSound;
+	sf::Sound	mClickSound;
+
 	void	InitMenuItems();
 	void	InitMenuControls();
 

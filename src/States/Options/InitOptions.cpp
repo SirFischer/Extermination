@@ -18,7 +18,7 @@ void	Options::InitOptionsItems()
 
 
 	auto btn = mf::Button::Create()
-	->SetClickEvent([this](){
+	->SetClickEvent([this, clickSound = &mClickSound](){
 		if (this->mAudioOptionsList)
 			this->mAudioOptionsList->SetDisabled(true);
 		if (this->mControlsOptionsList)
@@ -26,13 +26,14 @@ void	Options::InitOptionsItems()
 		if (this->mMainOptionsList)
 			this->mMainOptionsList->SetDisabled(true);
 		(this->mGraphicsOptionsList)->SetDisabled(false);
+		Utils::playClickSound(clickSound);
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Graphics")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(200, 50)
 	->SetTextPosition(10, 5);
-	Utils::initBtnHover(btn, &mResourceManager);
+	Utils::initBtnHover(btn, &mResourceManager, &mHoverSound);
 
 	auto btn2 = mf::Button::Create()
 	->SetClickEvent([this](){
@@ -43,13 +44,14 @@ void	Options::InitOptionsItems()
 		if (this->mMainOptionsList)
 			this->mMainOptionsList->SetDisabled(true);
 		this->mControlsOptionsList->SetDisabled(false);
+		Utils::playClickSound(&mClickSound);
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Controls")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(200, 50)
 	->SetTextPosition(10, 5);
-	Utils::initBtnHover(btn2, &mResourceManager);
+	Utils::initBtnHover(btn2, &mResourceManager, &mHoverSound);
 
 
 	mf::GUI::AddWidget(mf::List::Create()
@@ -61,10 +63,11 @@ void	Options::InitOptionsItems()
 	->AddWidget(btn2));
 
 	auto btn3 = mf::Button::Create()
-	->SetClickEvent([this](){
+	->SetClickEvent([this, clickSound = &mClickSound](){
 		this->mActive = false;
 		this->mStateAction = Yuna::Core::eStateControls::PREVIOUS_STATE;
 		this->mNextState = (uint8_t)eStates::MENU;
+		Utils::playClickSound(clickSound);
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Back")
@@ -73,7 +76,7 @@ void	Options::InitOptionsItems()
 	->SetTextPosition(10, 5)
 	->SetPosition(1, 93)->SetPositionPercentage(true, true);
 
-	Utils::initBtnHover(btn3, &mResourceManager);
+	Utils::initBtnHover(btn3, &mResourceManager, &mHoverSound);
 
 	mf::GUI::AddWidget(btn3);
 	

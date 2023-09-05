@@ -19,6 +19,9 @@ public:
 	HealthBar(/* args */);
 	~HealthBar();
 
+	void	SetScale(sf::Vector2f pScale);
+	void	SetOrigin(sf::Vector2f pOrigin);
+	void	Mirror(bool mirrored);
 	void	AddFrame(float pMin, float pMax, sf::Texture *pTexture);
 
 	void	Update(float pHealth, sf::Vector2f pPosition);

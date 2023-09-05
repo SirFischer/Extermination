@@ -17,6 +17,16 @@ void ChaseState::Update(Entity *pEntity, std::stack<std::unique_ptr<AIState>> *p
 
 	auto position = pEntity->GetPosition();
 	sf::FloatRect globalBounds = pEntity->GetGlobalBounds();
+	auto target = pEntity->GetTarget();
+
+	if (target && target->GetType() != EntityType::ENEMY)
+	{
+		if (target->GetGlobalBounds().intersects(globalBounds))
+		{
+			pEntity->Attack(target);
+			return ;
+		}
+	}
 
 	if (path->size() > 2)
 	{

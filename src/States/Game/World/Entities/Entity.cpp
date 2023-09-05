@@ -51,7 +51,6 @@ void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	}
 	mCurrentAnimation = eAnimationAction::IDLE;
 	mHealthBar.Update((mHealth / mMaxHealth) * 100.f, mPosition + mHealthBarOffset);
-	
 }
 
 void	Entity::Render(Yuna::Core::Window *pWindow)

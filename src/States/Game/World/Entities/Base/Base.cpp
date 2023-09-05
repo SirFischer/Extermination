@@ -15,7 +15,6 @@ Base::Base(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mPhysicsEnabled = false;
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/Base_00.png"));
-	mSprite.setPosition(0, 0);
 	mBloodColor = sf::Color(100, 100, 100);
 	mMaxHealth = 2000.f;
 	mHealth = mMaxHealth;
@@ -31,6 +30,8 @@ Base::Base(Yuna::Core::ResourceManager *pResourceManager)
 	mHealthBar.AddFrame(70, 80, pResourceManager->LoadTexture("assets/textures/Base/Base-health-80%.png").get());
 	mHealthBar.AddFrame(80, 90, pResourceManager->LoadTexture("assets/textures/Base/Base-health-90%.png").get());
 	mHealthBar.AddFrame(90, 100, pResourceManager->LoadTexture("assets/textures/Base/Base-health-100%.png").get());
+	mHealthBar.SetScale(sf::Vector2f(0.45f, 0.45f));
+	mHealthBarOffset = sf::Vector2f(156, 70);
 }
 
 Base::~Base()

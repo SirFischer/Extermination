@@ -57,14 +57,6 @@ void	Enemy::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	mAIStates.top()->Update(this, &mAIStates, mDeltaTime);
 
 	//check if enemy is within range of target and attack
-	if (mTarget && mTarget->GetType() != EntityType::ENEMY)
-	{
-		if (mTarget->GetGlobalBounds().intersects(GetGlobalBounds()))
-		{
-			Attack(mTarget);
-		}
-	}
-
 
 	mVelocity.x *= ((mOnGround) ? 0.9f : 0.93f);
 	mOnGround = false;

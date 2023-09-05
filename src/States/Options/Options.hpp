@@ -40,6 +40,9 @@ private:
 	eAction		mActionToBind;
 	mf::Button	*mButtonToBind = NULL;
 
+	sf::Sound	mHoverSound;
+	sf::Sound 	mClickSound;
+
 public:
 	void	Init();
 

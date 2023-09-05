@@ -27,10 +27,11 @@ void	Options::InitGraphicsOptions()
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(275, 50)
 	->SetTextPosition(10, 5)
-	->SetClickEvent([this, fullscreen]() {
+	->SetClickEvent([this, fullscreen, clickSound = &mClickSound]() {
 		this->mWindow->SetFullscreen(!this->mWindow->IsFullscreen());
+		Utils::playClickSound(clickSound);
 		fullscreen->SetText(std::string("Fullscreen ") + (this->mWindow->IsFullscreen() ? "On" : "Off"));
 	});
-	Utils::initBtnHover(fullscreen, &mResourceManager);
+	Utils::initBtnHover(fullscreen, &mResourceManager, &mHoverSound);
 	mGraphicsOptionsList->AddWidget(fullscreen);
 }

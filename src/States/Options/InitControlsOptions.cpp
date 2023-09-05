@@ -42,15 +42,16 @@ void	Options::InitButtonBinding(std::string pText, eAction pAction)
 	btn->SetSize(516, 64)->SetTextPosition(10, 5);
 	btn->SetPosition(250, -15);
 	btn->SetTextPosition(10, 5);
-	Utils::initBtnHover(btn, &mResourceManager);
+	Utils::initBtnHover(btn, &mResourceManager, &mHoverSound);
 	eAction *tmpAction = &mActionToBind;
 	bool	*tmpListen = &mListenToNextEvent;
 	mf::Button **tmpBtn = &mButtonToBind;
-	btn->SetClickEvent([pAction, tmpAction, tmpListen, btn, tmpBtn](){
+	btn->SetClickEvent([pAction, tmpAction, tmpListen, btn, tmpBtn, clickSound = &mClickSound](){
 		*tmpAction = pAction;
 		*tmpListen = true;
 		*tmpBtn = btn;
 		btn->SetText("Press any key");
+		Utils::playClickSound(clickSound);
 	});
 }
 
@@ -75,7 +76,7 @@ void	Options::InitControlsOptions()
 	->SetSize(300, 50)
 	->SetTextPosition(10, 5)
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
-	Utils::initBtnHover(restoreDefaults, &mResourceManager);
+	Utils::initBtnHover(restoreDefaults, &mResourceManager, &mHoverSound);
 	mControlsOptionsList->AddWidget(restoreDefaults);
 	auto space = mf::Container::Create();
 	space->SetSize(0, 50);
@@ -96,10 +97,11 @@ void	Options::InitControlsOptions()
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetText("Save")
 	->SetTextPosition(10, 5);
-	Utils::initBtnHover(saveBtn, &mResourceManager);
-	saveBtn->SetClickEvent([](){
+	Utils::initBtnHover(saveBtn, &mResourceManager, &mHoverSound);
+	saveBtn->SetClickEvent([clickSound = &mClickSound](){
 		std::cout << "saving to console...\n";
 		Yuna::Core::Console::WriteBindingsToFile("assets/scripts/UserBindings.cfg");
+		Utils::playClickSound(clickSound);
 	});
 
 }

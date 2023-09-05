@@ -32,6 +32,10 @@ void	Options::Init()
 	Yuna::Core::Console::ProcessFile("assets/scripts/DefaultBindings.cfg");
 	Yuna::Core::Console::ProcessFile("assets/scripts/UserBindings.cfg");
 	InitControlsOptions();
+
+	mHoverSound = mResourceManager.LoadSound("assets/sounds/menu/buttonHover.wav");
+
+	mClickSound = mResourceManager.LoadSound("assets/sounds/menu/buttonClick.wav");
 }
 
 void	Options::Update()

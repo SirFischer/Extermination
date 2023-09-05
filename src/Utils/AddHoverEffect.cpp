@@ -10,12 +10,16 @@
  * Copyright - 2022 Deep Vertic
  */
 #include "Utils/Utils.hpp"
+#include <SFML/Audio.hpp>
 
 namespace Utils {
 
-void initBtnHover(mf::Button *pBtn, Yuna::Core::ResourceManager *pResourceManager)
+void initBtnHover(mf::Button *pBtn, Yuna::Core::ResourceManager *pResourceManager, sf::Sound *pHoverSound)
 {
-	pBtn->AddEventListener(mf::eEvent::ENTERED, [pBtn, pResourceManager](){
+	pBtn->AddEventListener(mf::eEvent::ENTERED, [pBtn, pResourceManager, pHoverSound](){
+		pHoverSound->setPlayingOffset(sf::seconds(0.10f));
+		pHoverSound->play();
+	
 		pBtn->SetBackground(*(pResourceManager->LoadTexture("assets/textures/button-hover.png")));
 		pBtn->SetTextPosition(10 + (4 * (pBtn->GetSize().x / 128)), 9);
 	});
