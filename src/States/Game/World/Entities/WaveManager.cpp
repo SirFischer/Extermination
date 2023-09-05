@@ -35,7 +35,7 @@ void	WaveManager::initDictionary()
 void	WaveManager::NextWave()
 {
 	int currentBuyingPower = mBuyingPower;
-	mBuyingPower += mBuyingPowerIncrease;
+	mBuyingPower *= mBuyingPowerIncrease;
 	mWaveNumber++;
 	
 	while (currentBuyingPower > 10)

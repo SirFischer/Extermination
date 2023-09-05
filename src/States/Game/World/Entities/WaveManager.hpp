@@ -22,7 +22,7 @@ private:
 
 	uint16_t mWaveNumber = 0;
 	uint16_t mBuyingPower = 50;
-	uint16_t mBuyingPowerIncrease = 10;
+	float mBuyingPowerIncrease = 1.2;
 
 	struct EnemyType {
 		uint16_t	mPrice;
