@@ -13,6 +13,7 @@
 
 #include "../../Items/Item.hpp"
 #include "../../Items/CrateItem.hpp"
+#include "../../Items/GrateItem.hpp"
 #include "../../Items/Weapons/Weapon.hpp"
 #include "Actions.hpp"
 #include <vector>

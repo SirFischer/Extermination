@@ -13,6 +13,7 @@
 
 #include "Items/CrateItem.hpp"
 #include "Map/Blocks/Crate.hpp"
+#include "Map/Blocks/Grate.hpp"
 
 
 World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
@@ -76,6 +77,27 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	});
 	mPlayer->EquipItem(testItem);
 	mCrateItem = testItem;
+
+
+	//GRATE
+	GrateItem *testItem2 = new GrateItem(pResourceManager);
+	testItem2->AddPrimaryAction([map = &mMap, pWindow, cam = &mCamera](){
+		auto block = std::make_shared<Grate>();
+		block->SetParticleColor(sf::Color(78, 53, 36));
+		block->SetSize(sf::Vector2f(64, 64));
+		pWindow->SetView(cam->GetView());
+		block->SetPosition(sf::Vector2f(pWindow->GetViewMousePos()));
+		pWindow->ResetView(true);
+		map->AddBlock(block);
+	});
+	testItem2->AddSecondaryAction([map = &mMap, pWindow, cam = &mCamera]() {
+		pWindow->SetView(cam->GetView());
+		map->RemoveBlock(pWindow->GetViewMousePos());
+		pWindow->ResetView(true);
+	});
+	mPlayer->EquipItem(testItem2);
+	mGrateItem = testItem2;
+
 	////////////
 
 	InitBackgrounds(pResourceManager);
@@ -150,6 +172,7 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 
 	mWindow->SetView(mCamera.GetView());
 	mCrateItem->SetIsValid(mMap.CanBlockBePlacedAt(mWindow->GetViewMousePos()));
+	mGrateItem->SetIsValid(mMap.CanBlockBePlacedAt(mWindow->GetViewMousePos()));
 	mWindow->ResetView(true);
 }
 

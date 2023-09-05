@@ -25,6 +25,7 @@ void	Map::AddPathNode(std::shared_ptr<Block> tBlock)
 	if (tBlock->IsBreakable())
 	{
 		node->mIsBreakable = true;
+		node->mCostToBreak = tBlock->GetHealth();
 		AddNode(node);
 	}
 
@@ -159,8 +160,8 @@ void	Map::UpdatePathsInRange(const sf::FloatRect &pRect)
 					pNode->mConnectedPaths.back().cost = Yuna::Math::Distance(pNode2->mPosition, pNode->mPosition);
 					if (pNode2->mIsBreakable || pNode->mIsBreakable)
 					{
-						pNode2->mConnectedPaths.back().cost += 2000.f;
-						pNode->mConnectedPaths.back().cost += 2000.f;
+						pNode2->mConnectedPaths.back().cost += 2000.f + pNode2->mCostToBreak;
+						pNode->mConnectedPaths.back().cost += 2000.f + pNode->mCostToBreak;
 					}
 					return ;
 				}

@@ -25,6 +25,7 @@ class Block : public Yuna::World::Object
 {
 protected:
 	bool			mIsBreakable = false;
+	bool			mShootThrough = false;
 	bool			mSolid = true;
 	sf::Color		mColor = sf::Color(255, 255, 255, 255);
 	sf::Color		mParticleColor = sf::Color(255, 255, 255, 255);
@@ -62,4 +63,5 @@ public:
 
 	bool			IsSolid() {return (mSolid);}
 	bool			IsBreakable() const {return (mIsBreakable);}
+	bool			IsShootThrough() const {return (mShootThrough);}
 };

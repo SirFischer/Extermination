@@ -48,14 +48,15 @@ void	ProjectileManager::HandleCollisions(Block *pBlock)
 		if (sf::FloatRect(pBlock->GetPosition(), pBlock->GetSize()).intersects(sf::FloatRect(projectile->mPos, sf::Vector2f(8, 4))) ||
 			projectile->mLifeClock.getElapsedTime().asSeconds() > 5.f)
 		{
-			if (pBlock->IsBreakable())
+			if (pBlock->IsBreakable() && !pBlock->IsShootThrough())
 			{
 				pBlock->TakeDamage(projectile->mDamage);
 				ParticleManager::AddParticleEffect(
 				ParticleEffect(projectile->mPos, projectile->mKnockback * 40.f, 2.f, 10.f, (projectile->mAngle / 180.f) * M_PI + (M_PI / 2.f), M_PI / 4.f,
 				pBlock->GetParticleColor()));
 			}
-			mProjectiles.remove(projectile);
+			if (!pBlock->IsShootThrough())
+				mProjectiles.remove(projectile);
 			break ;
 		}
 	}

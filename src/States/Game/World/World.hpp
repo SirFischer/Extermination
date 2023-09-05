@@ -39,6 +39,7 @@ private:
 	Map										mMap;
 	std::shared_ptr<Base>					mBase;
 	CrateItem								*mCrateItem = nullptr;
+	GrateItem								*mGrateItem = nullptr;
 	std::vector<Background>					mBackgrounds;
 	EntityManager							mEntityManager;
 	WaveManager								mWaveManager;
