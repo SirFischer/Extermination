@@ -15,6 +15,7 @@
 
 #include "Entity.hpp"
 #include "Enemy/Enemy.hpp"
+#include "Enemy/Dog/Dog.hpp"
 #include "Map.hpp"
 #include "ProjectileManager.hpp"
 #include "Yuna.hpp"
@@ -47,7 +48,15 @@ class EntityManager
 	void	AddBase(std::shared_ptr<Entity> pEntity);
 	void	RemoveEntity(std::shared_ptr<Entity> pEntity);
 
-	void	SpawnEnemy();
+	template <typename T>
+	void	SpawnEnemy()
+	{
+		static_assert(std::is_base_of<Enemy, T>::value, "T must inherit from Enemy");
+		auto enemy = std::make_shared<T>();
+		enemy->Init(mResourceManager);
+		enemy->SetPosition(mMap->GetSpawnPoint());
+		mEntities.push_back(enemy);
+	}
 
 	void	ForEach(std::function<bool(std::shared_ptr<Entity>)> pFunction);
 

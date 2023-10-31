@@ -43,13 +43,10 @@ void	EntityManager::RemoveEntity(std::shared_ptr<Entity> pEntity)
 	mEntities.remove(pEntity);
 }
 
-void	EntityManager::SpawnEnemy()
-{
-	auto enemy = std::make_shared<Enemy>();
-	enemy->Init(mResourceManager);
-	enemy->SetPosition(mMap->GetSpawnPoint());
-	mEntities.push_back(enemy);
-}
+
+//forward declare SpawnEnemy<Dog>
+template <>
+void	EntityManager::SpawnEnemy<Dog>();
 
 void	EntityManager::ForEach(std::function<bool(std::shared_ptr<Entity>)> pFunction)
 {

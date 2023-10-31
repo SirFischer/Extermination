@@ -10,6 +10,8 @@
  */
 
 #include "WaveManager.hpp"
+#include "Dog.hpp"
+
 
 WaveManager::WaveManager(EntityManager *pEntityManager)
 : mEntityManager(pEntityManager)
@@ -27,9 +29,9 @@ void	WaveManager::initDictionary()
 	mEnemyTypes.push_back((EnemyType){.mPrice = 10, .mPowerLevel = 1, .mType = "Enemy"});
 	mEnemyTypes.push_back((EnemyType){.mPrice = 20, .mPowerLevel = 2, .mType = "Enemy"});
 	mEnemyTypes.push_back((EnemyType){.mPrice = 30, .mPowerLevel = 3, .mType = "Enemy"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 40, .mPowerLevel = 1, .mType = "Other Enemy"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 50, .mPowerLevel = 2, .mType = "Other Enemy"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 60, .mPowerLevel = 3, .mType = "Other Enemy"});
+	mEnemyTypes.push_back((EnemyType){.mPrice = 40, .mPowerLevel = 1, .mType = "Dog"});
+	mEnemyTypes.push_back((EnemyType){.mPrice = 50, .mPowerLevel = 2, .mType = "Dog"});
+	mEnemyTypes.push_back((EnemyType){.mPrice = 60, .mPowerLevel = 3, .mType = "Dog"});
 }
 
 void	WaveManager::NextWave()
@@ -45,7 +47,10 @@ void	WaveManager::NextWave()
 		{
 			currentBuyingPower -= mEnemyTypes[random].mPrice;
 			//add type and powerlevel to spawn queue TODO when adding more enemies
-			mEntityManager->SpawnEnemy();
+			if (mEnemyTypes[random].mType == "Enemy")
+				mEntityManager->SpawnEnemy<Enemy>();
+			else if (mEnemyTypes[random].mType == "Dog")
+				mEntityManager->SpawnEnemy<Dog>();
 		}
 	}
 }
