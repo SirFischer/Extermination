@@ -1,4 +1,5 @@
 #include "ChaseState.hpp"
+#include "WildChaseState.hpp"
 #include "Entity.hpp"
 
 ChaseState::ChaseState()
@@ -16,11 +17,15 @@ void ChaseState::Update(Entity *pEntity, std::stack<std::unique_ptr<AIState>> *p
 		return ; //No path, maybe make them IDLE? 
 
 	auto position = pEntity->GetPosition();
+	
 	sf::FloatRect globalBounds = pEntity->GetGlobalBounds();
 	auto target = pEntity->GetTarget();
 
+	//float distanceFromTarget = Yuna::Math::Distance(position, target->GetPosition());
+
 	if (target && target->GetType() != EntityType::ENEMY)
 	{
+		
 		if (target->GetGlobalBounds().intersects(globalBounds))
 		{
 			pEntity->Attack(target);

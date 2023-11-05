@@ -34,5 +34,7 @@ public:
 
 	void		AddFrame(AnimationFrame pFrame) {mFrames.push_back(pFrame);};
 	void		Update();
-	sf::IntRect	GetCurrentFrame() { return (mFrames[mCurrentFrame].mRect); };
+	sf::IntRect	GetCurrentFrame();
+
+	Animation	InvertXAxis();
 };

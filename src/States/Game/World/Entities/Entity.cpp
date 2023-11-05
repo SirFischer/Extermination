@@ -43,13 +43,11 @@ void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 	(void)pEventHandler;
 	if (mPhysicsEnabled) HandlePhysics(mDeltaTime);
 	mSprite.setPosition(mPosition.x, mPosition.y);
-	if (mAnimations.size())
-	{
-		mAnimations[mCurrentAnimation].Update();
-		sf::IntRect rect = mAnimations[mCurrentAnimation].GetCurrentFrame();
-		mSprite.setTextureRect((mFacingLeft) ? sf::IntRect(rect.left + 64, rect.top, -rect.width, rect.height) : rect);
-	}
-	mCurrentAnimation = eAnimationAction::IDLE;
+	if (mFallClock.getElapsedTime() > sf::seconds(0.8)) mAnimations.SetCurrentAnimation(eAnimationAction::FALL);
+	mAnimations.Update();
+	sf::IntRect rect = mAnimations.GetCurrentFrame(mFacingLeft);
+	if (rect.left != -1) mSprite.setTextureRect(rect);
+	mAnimations.SetCurrentAnimation(eAnimationAction::IDLE);
 	mHealthBar.Update((mHealth / mMaxHealth) * 100.f, mPosition + mHealthBarOffset);
 }
 
@@ -127,19 +125,20 @@ void	Entity::WalkLeft(float mDeltaTime)
 {
 	mVelocity.x -= mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
 	mFacingLeft = true;
-	mCurrentAnimation = eAnimationAction::WALK;
+	mAnimations.SetCurrentAnimation(eAnimationAction::WALK);
 }
 
 void	Entity::WalkRight(float mDeltaTime)
 {
 	mVelocity.x += mSpeed * mDeltaTime * ((mOnGround) ? 1.0f : 0.5f);
 	mFacingLeft = false;
-	mCurrentAnimation = eAnimationAction::WALK;
+	mAnimations.SetCurrentAnimation(eAnimationAction::WALK);
 }
 
 void	Entity::Jump(float mDeltaTime)
 {
 	if (!mOnGround) return ;
 	mVelocity.y = -(mJumpForce * mDeltaTime);
+	mAnimations.SetCurrentAnimation(eAnimationAction::WALK);
 }
 

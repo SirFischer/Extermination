@@ -77,7 +77,8 @@ void	EntityManager::Update(Yuna::Core::EventHandler *pEventHandler, float pDelta
 			continue;
 		}
 
-		if (entity->GetType() == EntityType::ENEMY && entity->GetPathRecalcTime() > sf::seconds(1)) {
+		if (entity->GetType() == EntityType::ENEMY &&
+			(entity->GetPathRecalcTime() > sf::seconds(3) || entity->GetCurrentPath()->empty())) {
 			const auto target = (((Enemy *)entity.get())->GetEnemyState() == AIState::State::ATTACK) ? mBase : mPlayer;
 
 			if (!target)

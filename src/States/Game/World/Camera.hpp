@@ -22,7 +22,7 @@ private:
 	float			mActiveAreaRadius = 100.f;
 	float			mLinearVelocity = 0;
 	float			mSpeed = 8.0f;
-	float			mZoom = 1;
+	float			mZoom = 1.2;
 	sf::IntRect		mTargetArea = sf::IntRect(0, 0, 50, 50);
 	sf::Vector2f	mSize = sf::Vector2f(900, 800);
 	sf::Vector2f	mVelocity = sf::Vector2f(0, 0);

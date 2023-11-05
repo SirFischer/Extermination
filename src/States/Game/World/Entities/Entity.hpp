@@ -16,6 +16,7 @@
 #include "../../Config.hpp"
 #include "../Items/Item.hpp"
 #include "ParticleManager.hpp"
+#include "AnimationManager.hpp"
 #include "HealthBar.hpp"
 
 enum class EntityType {
@@ -28,13 +29,6 @@ enum class EntityType {
 class Entity
 {
 protected:
-	enum class				eAnimationAction
-	{
-		IDLE,
-		WALK,
-		FALL
-	};
-
 	sf::Sprite				mSprite;
 	sf::Vector2f			mPosition = sf::Vector2f(100, -400);
 	sf::Vector2f			mSize = sf::Vector2f(48, 64);
@@ -64,10 +58,7 @@ protected:
 	std::vector<
 	Yuna::AI::PathNode>		mPath;
 
-	std::map<
-		eAnimationAction,
-		Animation>			mAnimations;
-	eAnimationAction		mCurrentAnimation = eAnimationAction::IDLE;
+	AnimationManager		mAnimations;
 	
 	virtual void	HandlePhysics(float pDeltaTime);
 

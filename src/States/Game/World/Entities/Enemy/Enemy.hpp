@@ -26,7 +26,6 @@ class Enemy : public Entity
 private:
 	std::stack<std::unique_ptr<AIState>>	mAIStates;
 
-	void	Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
 	void	LoadAnimations();
 
 
@@ -41,6 +40,7 @@ public:
 
 
 	void			Init(Yuna::Core::ResourceManager *pResourceManager);
+	void			Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime);
 
 };
 
