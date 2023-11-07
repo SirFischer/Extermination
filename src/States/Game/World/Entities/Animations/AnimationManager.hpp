@@ -6,7 +6,8 @@ enum class				eAnimationAction
 {
 	IDLE,
 	WALK,
-	FALL
+	FALL,
+	HURT
 };
 
 class AnimationManager

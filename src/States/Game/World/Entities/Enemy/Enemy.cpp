@@ -47,6 +47,7 @@ void	Enemy::TakeDamage(float pDamage)
 		mAIStates.push(std::make_unique<ChaseState>());
 		mAIStates.push(std::make_unique<WildChaseState>());
 	}
+	mAnimations.SetCurrentAnimation(eAnimationAction::HURT);
 
 }
 
