@@ -11,10 +11,11 @@
 
 #include "EntityManager.hpp"
 
-EntityManager::EntityManager(Yuna::Core::ResourceManager *pResourceManager, Map *pMap)
+EntityManager::EntityManager(Yuna::Core::ResourceManager *pResourceManager, Map *pMap, PickableManager *pPickableManager)
 {
 	mMap = pMap;
 	mResourceManager = pResourceManager;
+	mPickableManager = pPickableManager;
 }
 
 EntityManager::~EntityManager()
@@ -73,6 +74,7 @@ void	EntityManager::Update(Yuna::Core::EventHandler *pEventHandler, float pDelta
 
 		if (!entity->IsAlive()) {
 			it++;
+			mPickableManager->addPickable(Pickable(mResourceManager, entity->GetPosition()));
 			RemoveEntity(entity);
 			continue;
 		}

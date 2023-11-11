@@ -24,6 +24,7 @@
 #include "ParticleEffect.hpp"
 #include "Base.hpp"
 #include "WaveManager.hpp"
+#include "PickableManager.hpp"
 #include "Inventory.hpp"
 
 # define MAP_SIZE 100
@@ -43,6 +44,7 @@ private:
 	std::vector<Background>					mBackgrounds;
 	EntityManager							mEntityManager;
 	WaveManager								mWaveManager;
+	PickableManager							mPickableManager;
 	
 	sf::FloatRect							mViewRect;
 

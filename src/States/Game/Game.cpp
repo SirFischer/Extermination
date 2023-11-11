@@ -32,7 +32,6 @@ void	Game::Init()
 	InitGameControls();
 	InitGameCommands();
 	mConsole.Init();
-	mWindow->SetVSync(true);
 	mWindow->SetCursorVisibility(false);
 
 	//HUD

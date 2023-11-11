@@ -19,7 +19,7 @@
 World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatistics, Yuna::Core::Window *pWindow)
 :mStatistics(pStatistics)
 ,mMap(pResourceManager, pWindow)
-,mEntityManager(pResourceManager, &mMap)
+,mEntityManager(pResourceManager, &mMap, &mPickableManager)
 ,mWaveManager(&mEntityManager)
 {
 	ProjectileManager::Init(pResourceManager);
@@ -98,6 +98,13 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 	mPlayer->EquipItem(testItem2);
 	mGrateItem = testItem2;
 
+	//COINS
+	Pickable testPickable(pResourceManager, sf::Vector2f(100, 100));
+	mPickableManager.addPickable(testPickable);
+
+	Pickable testPickable2(pResourceManager, sf::Vector2f(300, 100));
+	mPickableManager.addPickable(testPickable2);
+
 	////////////
 
 	InitBackgrounds(pResourceManager);
@@ -152,7 +159,18 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 	
 	HandleBulletCollisions(mViewRect);
 
+	mPickableManager.update(pDeltaTime);
+
 	mEntityManager.Update(pEventHandler, pDeltaTime);
+
+	auto pickable = mPickableManager.checkCollision(mPlayer->GetGlobalBounds());
+	if (pickable)
+	{
+		mPickableManager.removePickable(*pickable);
+
+		if (pickable->getType() == PickableType::COIN)
+			mStatistics->SetCoins(mStatistics->GetCoins() + 1);
+	}
 
 	mMap.Update(pDeltaTime, mViewRect);
 
@@ -185,6 +203,7 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	pWindow->SetView(mCamera.GetView());
 	mMap.Render(pWindow, mCamera.GetView());
 	ProjectileManager::Render(pWindow);
+	mPickableManager.render(pWindow);
 	mEntityManager.Render(pWindow);
 	ParticleManager::Render(pWindow);
 	pWindow->ResetView(true);

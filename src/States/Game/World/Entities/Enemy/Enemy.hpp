@@ -23,8 +23,9 @@
 
 class Enemy : public Entity
 {
-private:
+protected:
 	std::stack<std::unique_ptr<AIState>>	mAIStates;
+	int										mCurrencyDrop = 10;
 
 	void	LoadAnimations();
 

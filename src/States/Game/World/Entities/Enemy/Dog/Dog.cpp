@@ -10,6 +10,7 @@ Dog::~Dog()
 
 void	Dog::Init(Yuna::Core::ResourceManager *pResourceManager)
 {
+	mCurrencyDrop = 8;
 	mSprite.setTexture(*pResourceManager->LoadTexture("assets/images/enemy/Dog/Dog.png"));
 	mSprite.setTextureRect(sf::IntRect(0, 0, 64, 64));
 	mSize = sf::Vector2f(mSprite.getGlobalBounds().width - 10, mSprite.getGlobalBounds().height - 10);

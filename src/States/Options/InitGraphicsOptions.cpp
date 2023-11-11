@@ -15,12 +15,15 @@
 
 void	Options::InitGraphicsOptions()
 {
+	// Graphics options
 	mGraphicsOptionsList = mf::List::Create()
 	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
 	->SetSize(95, 95)->SetSizePercentage(true, true)
 	->SetPosition(2.5, 2.5)->SetPositionPercentage(true, true);
 	mOptionsContainer->AddWidget(mGraphicsOptionsList);
 	mGraphicsOptionsList->SetDisabled(true);
+
+	// Fullscreen
 	mf::Button *fullscreen = mf::Button::Create();
 	fullscreen->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
 	->SetText("Fullscreen Off")
@@ -34,4 +37,30 @@ void	Options::InitGraphicsOptions()
 	});
 	Utils::initBtnHover(fullscreen, &mResourceManager, &mHoverSound);
 	mGraphicsOptionsList->AddWidget(fullscreen);
+
+
+	// VSync
+	mf::Button *vsync = mf::Button::Create();
+	vsync->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+	->SetText("VSync Off")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
+	->SetSize(275, 50)
+	->SetTextPosition(10, 5)
+	->SetClickEvent([this, vsync, clickSound = &mClickSound]() {
+		this->mWindow->SetVSync(!this->mWindow->IsVSync());
+		Utils::playClickSound(clickSound);
+		vsync->SetText(std::string("VSync ") + (this->mWindow->IsVSync() ? "On" : "Off"));
+	});
+	Utils::initBtnHover(vsync, &mResourceManager, &mHoverSound);
+	mGraphicsOptionsList->AddWidget(vsync);
+
+	// FPS
+	mf::Slider *fps = mf::Slider::Create();
+	fps->SetSize(275, 40)
+	->SetBackgroundColor(sf::Color(100, 100, 100, 255))
+	->SetDirection(mf::eDirection::HORIZONTAL)
+	->SetValue(60);
+	mGraphicsOptionsList->AddWidget(fps);
+
+
 }

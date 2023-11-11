@@ -27,11 +27,7 @@ void	WaveManager::initDictionary()
 {
 	//enemy types and powerlevels?
 	mEnemyTypes.push_back((EnemyType){.mPrice = 10, .mPowerLevel = 1, .mType = "Enemy"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 20, .mPowerLevel = 2, .mType = "Enemy"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 30, .mPowerLevel = 3, .mType = "Enemy"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 40, .mPowerLevel = 1, .mType = "Dog"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 50, .mPowerLevel = 2, .mType = "Dog"});
-	mEnemyTypes.push_back((EnemyType){.mPrice = 60, .mPowerLevel = 3, .mType = "Dog"});
+	mEnemyTypes.push_back((EnemyType){.mPrice = 15, .mPowerLevel = 1, .mType = "Dog"});
 }
 
 void	WaveManager::NextWave()

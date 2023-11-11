@@ -52,7 +52,10 @@
 		"streambuf": "cpp",
 		"cinttypes": "cpp",
 		"typeinfo": "cpp",
-		"set": "cpp"
+		"set": "cpp",
+		"strstream": "cpp",
+		"complex": "cpp",
+		"cfenv": "cpp"
 	},
 	"cmake.configureOnOpen": false
 	

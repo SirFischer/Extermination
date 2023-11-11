@@ -21,6 +21,7 @@ private:
 
 	uint32_t		mFPS = 0;
 	float			mFrameTime = 0;
+	int				mCoins = 0;
 	float			mMinFrameTime = 999;
 	float			mMaxFrameTime = 0;
 	sf::Vector2f	mPosition = sf::Vector2f(0, 0);
@@ -28,9 +29,11 @@ private:
 
 	sf::Text		mFPSText;
 	sf::Text		mPlayerTransformText;
+	sf::Text		mCoinCounterText;
 
 	void			InitFPSText();
 	void			InitPlayerTransformText();
+	void			InitCoinCounter();
 
 public:
 	Statistics(Yuna::Core::ResourceManager *pResourceManager);
@@ -43,9 +46,11 @@ public:
 	float			GetFrameTime(){return (mFrameTime);}
 	sf::Vector2f	GetPosition(){return (mPosition);}
 	sf::Vector2f	GetVelocity(){return (mVelocity);}
+	int				GetCoins(){return (mCoins);}
 
 	void			SetFPS(uint32_t pFPS){mFPS = pFPS;}
 	void			SetFrameTime(float pFrameTime);
 	void			SetPosition(sf::Vector2f pPosition){mPosition = pPosition;}
 	void			SetVelocity(sf::Vector2f pVelocity){mVelocity = pVelocity;}
+	void			SetCoins(int pCoins){mCoins = pCoins;}
 };

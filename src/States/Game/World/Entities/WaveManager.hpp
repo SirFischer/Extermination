@@ -21,7 +21,7 @@ private:
 	EntityManager *mEntityManager;
 
 	uint16_t mWaveNumber = 0;
-	uint16_t mBuyingPower = 50;
+	uint16_t mBuyingPower = 20;
 	float mBuyingPowerIncrease = 1.2;
 
 	struct EnemyType {

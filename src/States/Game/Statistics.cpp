@@ -17,7 +17,7 @@ Statistics::Statistics(Yuna::Core::ResourceManager *pResourceManager)
 	
 	InitFPSText();
 	InitPlayerTransformText();
-	
+	InitCoinCounter();
 }
 
 Statistics::~Statistics(){
@@ -39,6 +39,15 @@ void	Statistics::InitPlayerTransformText()
 	mPlayerTransformText.setPosition(0, mPlayerTransformText.getCharacterSize());
 }
 
+void	Statistics::InitCoinCounter()
+{
+	mCoinCounterText.setFont(*(mResourceManager->LoadFont("assets/fonts/FiraCode-VariableFont_wght.ttf")));
+	mCoinCounterText.setFillColor(sf::Color::Black);
+	mCoinCounterText.setCharacterSize(15);
+	mCoinCounterText.setPosition(0, mCoinCounterText.getCharacterSize() * 2);
+}
+
+
 void	Statistics::Update()
 {
 	mFPSText.setString("avg. fps: " + std::to_string(mFPS) +
@@ -51,12 +60,14 @@ void	Statistics::Update()
 	" Y: " + std::to_string(mPosition.y) +
 	"  velocity X: " + std::to_string(mVelocity.x) +
 	" Y: " + std::to_string(mVelocity.y));
+	mCoinCounterText.setString("coins: " + std::to_string(mCoins));
 }
 
 void	Statistics::Render(Yuna::Core::Window *pWindow)
 {
 	pWindow->Draw(mFPSText);
 	pWindow->Draw(mPlayerTransformText);
+	pWindow->Draw(mCoinCounterText);
 }
 
 void	Statistics::SetFrameTime(float pFrameTime)

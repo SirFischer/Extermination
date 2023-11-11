@@ -18,6 +18,7 @@
 #include "Enemy/Dog/Dog.hpp"
 #include "Map.hpp"
 #include "ProjectileManager.hpp"
+#include "PickableManager.hpp"
 #include "Yuna.hpp"
 
 class EntityManager
@@ -28,10 +29,14 @@ class EntityManager
 	std::list<std::shared_ptr<Entity>>		mEntities = std::list<std::shared_ptr<Entity>>();
 	Map										*mMap = nullptr;
 	Yuna::Core::ResourceManager				*mResourceManager = nullptr;
+	PickableManager							*mPickableManager = nullptr;
 
 	public:
 
-	EntityManager(Yuna::Core::ResourceManager *pResourceManager, Map *pMap);
+	EntityManager(
+		Yuna::Core::ResourceManager *pResourceManager,
+		Map *pMap,
+		PickableManager *pPickableManager);
 	~EntityManager();
 
 	uint16_t	GetEntityCount() {return (mEntities.size());}
