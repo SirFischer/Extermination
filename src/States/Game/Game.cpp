@@ -34,6 +34,11 @@ void	Game::Init()
 	mConsole.Init();
 	mWindow->SetCursorVisibility(false);
 
+	//Post-effect
+	mPostEffectShader = mResourceManager.LoadShader("assets/shaders/post-effects.frag");
+
+	std::cout << "Game initialized" << std::endl;
+
 	//HUD
 	mHUD.InitNextWaveButton([world = &mWorld](){
 		Yuna::Core::Console::AddString("Next Wave");
@@ -75,7 +80,7 @@ void	Game::Render()
 	mf::GUI::Render();
 	if (mWorld.GetEnemyCount() == 0) mHUD.RenderNextWaveButton(mWindow);
 	mStatistics.Render(mWindow);
-	mWindow->Render();
+	mWindow->Render(mPostEffectShader.get());
 }
 
 void	Game::UpdateFPS()

@@ -24,6 +24,7 @@ void	Options::InitButtonBinding(std::string pText, eAction pAction)
 	text->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf");
 	text->SetBackgroundColor(sf::Color::Transparent);
 	text->SetText(pText);
+	text->SetTextColor(sf::Color::White);
 	text->SetSize(250, 100);
 	auto btn = mf::Button::Create();
 	container->AddWidget(btn);
@@ -38,7 +39,7 @@ void	Options::InitButtonBinding(std::string pText, eAction pAction)
 			break;
 		}
 	}
-	btn->SetText(mEventHandler.GetBindingNames()[tmp]);
+	btn->SetText(mEventHandler.GetBindingNames()[tmp])->SetTextColor(sf::Color::White);
 	btn->SetSize(516, 64)->SetTextPosition(10, 5);
 	btn->SetPosition(250, -15);
 	btn->SetTextPosition(10, 5);
@@ -74,6 +75,7 @@ void	Options::InitControlsOptions()
 	restoreDefaults->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
 	->SetText("Restore defaults")
 	->SetSize(300, 50)
+	->SetTextColor(sf::Color::White)
 	->SetTextPosition(10, 5)
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
 	Utils::initBtnHover(restoreDefaults, &mResourceManager, &mHoverSound);
@@ -96,6 +98,7 @@ void	Options::InitControlsOptions()
 	saveBtn->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetText("Save")
+	->SetTextColor(sf::Color::White)
 	->SetTextPosition(10, 5);
 	Utils::initBtnHover(saveBtn, &mResourceManager, &mHoverSound);
 	saveBtn->SetClickEvent([clickSound = &mClickSound](){

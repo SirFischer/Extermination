@@ -14,6 +14,7 @@ void	Menu::InitMenuItems()
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Play")
+	->SetTextColor(sf::Color::White)
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetTextPosition(10, 5)
 	->SetPosition(3, 200)->SetPositionPercentage(true, false);
@@ -30,6 +31,7 @@ void	Menu::InitMenuItems()
 	->SetText("Options")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetTextPosition(10, 5)
+	->SetTextColor(sf::Color::White)
 	->SetSize(160, 50)
 	->SetPosition(3, 300)->SetPositionPercentage(true, false);
 	Utils::initBtnHover(btnOptions, &mResourceManager, &mHoverSound);
@@ -51,6 +53,7 @@ void	Menu::InitMenuItems()
 	})
 	->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
 	->SetText("Exit")
+	->SetTextColor(sf::Color::White)
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetTextPosition(10, 5)
 	->SetPosition(1, 93)->SetPositionPercentage(true, true);

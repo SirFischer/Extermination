@@ -20,7 +20,8 @@ void	Dog::Init(Yuna::Core::ResourceManager *pResourceManager)
 	mPosition.y = -random() % 500 - 200;
 	mSpeed = 85.f;
 	mHealth = 45.f;
-	mJumpForce = 700.f;
+	mJumpForce = 600.f;
+	mExtraJumpForce = 12.f;
 	LoadAnimations();
 }
 

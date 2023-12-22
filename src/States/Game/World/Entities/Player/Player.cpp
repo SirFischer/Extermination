@@ -85,9 +85,9 @@ void	Player::HandleEvents(Yuna::Core::EventHandler *pEventhandler, float mDeltaT
 	{
 		WalkLeft(mDeltaTime);
 	}
-	if (pEventhandler->GetEventState((uint32_t)eAction::JUMP) && mOnGround)
+	if (pEventhandler->GetEventState((uint32_t)eAction::JUMP))
 	{
-		mVelocity.y = -(mJumpForce * mDeltaTime);
+		Jump(mDeltaTime);
 	}
 	if (pEventhandler->GetEventState((uint32_t)eAction::CROUCH))
 	{

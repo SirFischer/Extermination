@@ -26,14 +26,15 @@ void	Options::InitGraphicsOptions()
 	// Fullscreen
 	mf::Button *fullscreen = mf::Button::Create();
 	fullscreen->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("Fullscreen Off")
+	->SetText("Fullscreen: Off")
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(275, 50)
+	->SetTextColor(sf::Color::White)
 	->SetTextPosition(10, 5)
 	->SetClickEvent([this, fullscreen, clickSound = &mClickSound]() {
 		this->mWindow->SetFullscreen(!this->mWindow->IsFullscreen());
 		Utils::playClickSound(clickSound);
-		fullscreen->SetText(std::string("Fullscreen ") + (this->mWindow->IsFullscreen() ? "On" : "Off"));
+		fullscreen->SetText(std::string("Fullscreen: ") + (this->mWindow->IsFullscreen() ? "On" : "Off"));
 	});
 	Utils::initBtnHover(fullscreen, &mResourceManager, &mHoverSound);
 	mGraphicsOptionsList->AddWidget(fullscreen);
@@ -42,14 +43,15 @@ void	Options::InitGraphicsOptions()
 	// VSync
 	mf::Button *vsync = mf::Button::Create();
 	vsync->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("VSync Off")
+	->SetText(std::string("VSync: ") + (this->mWindow->IsVSync() ? "On" : "Off"))
+	->SetTextColor(sf::Color::White)
 	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
 	->SetSize(275, 50)
 	->SetTextPosition(10, 5)
 	->SetClickEvent([this, vsync, clickSound = &mClickSound]() {
 		this->mWindow->SetVSync(!this->mWindow->IsVSync());
 		Utils::playClickSound(clickSound);
-		vsync->SetText(std::string("VSync ") + (this->mWindow->IsVSync() ? "On" : "Off"));
+		vsync->SetText(std::string("VSync: ") + (this->mWindow->IsVSync() ? "On" : "Off"));
 	});
 	Utils::initBtnHover(vsync, &mResourceManager, &mHoverSound);
 	mGraphicsOptionsList->AddWidget(vsync);

@@ -55,7 +55,8 @@
 		"set": "cpp",
 		"strstream": "cpp",
 		"complex": "cpp",
-		"cfenv": "cpp"
+		"cfenv": "cpp",
+		"optional": "cpp"
 	},
 	"cmake.configureOnOpen": false
 	

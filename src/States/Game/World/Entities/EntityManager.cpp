@@ -64,6 +64,7 @@ void	EntityManager::Update(Yuna::Core::EventHandler *pEventHandler, float pDelta
 	while (it != mEntities.end())
 	{
 		auto entity = *it;
+		mMap->UpdateEntity(entity.get());
 		entity->Update(pEventHandler, pDeltaTime);
 
 		ForEach([entity](std::shared_ptr<Entity> pEntity2){
@@ -94,7 +95,7 @@ void	EntityManager::Update(Yuna::Core::EventHandler *pEventHandler, float pDelta
 		if (entity.get() != mPlayer.get())
 			ProjectileManager::HandleCollisions(entity.get());
 
-		mMap->UpdateEntity(entity.get());
+		
 
 		it++;
 	}

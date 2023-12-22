@@ -43,7 +43,10 @@ void	Map::ApplyCollisionDetection(Entity *pEntity)
 			pEntity->mVelocity.x += collisionNormal.x * std::abs(pEntity->mVelocity.x) * (1.f - collisionTime);
 			pEntity->mVelocity.y += collisionNormal.y * std::abs(pEntity->mVelocity.y) * (1.f - collisionTime);
 			if (collisionNormal.y < 0.f)
+			{
 				pEntity->mOnGround = true;
+				pEntity->mJumping = false;
+			}
 		}
 	}
 }

@@ -29,17 +29,23 @@ void	Entity::Init(Yuna::Core::ResourceManager *pResourceManager)
 
 void	Entity::HandlePhysics(float pDeltaTime)
 {
-	if (mOnGround) {
+	if (mOnGround)
+	{
 		mFallClock.restart();
 		mVelocity.y = std::min(mVelocity.y, 0.f);
 	}
 	mPosition += mVelocity;
-	mVelocity.y += (25.f * pDeltaTime);
+	//apply gravity, stronger when falling
+	if (!mOnGround)
+	{
+		mVelocity.y += (25.f * pDeltaTime) * (mVelocity.y < 0 ? 1 : 1.5f);
+	}
 }
 
 
 void	Entity::Update(Yuna::Core::EventHandler *pEventHandler, float mDeltaTime)
 {
+	
 	(void)pEventHandler;
 	if (mPhysicsEnabled) HandlePhysics(mDeltaTime);
 	mSprite.setPosition(mPosition.x, mPosition.y);
@@ -136,9 +142,17 @@ void	Entity::WalkRight(float mDeltaTime)
 }
 
 void	Entity::Jump(float mDeltaTime)
-{
-	if (!mOnGround) return ;
-	mVelocity.y = -(mJumpForce * mDeltaTime);
-	mAnimations.SetCurrentAnimation(eAnimationAction::WALK);
+{	
+
+	if (mJumping && mVelocity.y < mJumpForce * mDeltaTime) //long jump
+	{
+		mVelocity.y += -(mExtraJumpForce * mDeltaTime);
+	}
+	else if (mOnGround) //short jump
+	{
+		mJumping = true;
+		mVelocity.y = -(mJumpForce * mDeltaTime);
+	}
+	mAnimations.SetCurrentAnimation(eAnimationAction::WALK); //make jump animation
 }
 

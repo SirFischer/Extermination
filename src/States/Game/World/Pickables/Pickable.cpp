@@ -5,7 +5,7 @@ Pickable::Pickable(Yuna::Core::ResourceManager *pResourceManager, sf::Vector2f p
 : mPosition(position)
 {
 
-	mSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/Coin.png"));
+	mSprite.setTexture(*pResourceManager->LoadTexture("assets/textures/Coin_3.png"));
 	mSprite.setOrigin(mSprite.getGlobalBounds().width / 2, mSprite.getGlobalBounds().height / 2);
 	mSprite.setPosition(mPosition);
 	mType = PickableType::COIN;

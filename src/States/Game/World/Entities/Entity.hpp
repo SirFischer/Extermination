@@ -43,9 +43,11 @@ protected:
 	float					mSpeed = 100.f;
 	float					mRange = 50.f;
 	float					mAttackSpeed = 1.f;
-	float					mJumpForce = 650.f;
+	float					mJumpForce = 500.f;
+	float					mExtraJumpForce = 10.f;
 	bool					mFacingLeft = false;
 	bool					mOnGround = false;
+	bool					mJumping = false;
 	bool					mPhysicsEnabled = true;
 
 	//Time
