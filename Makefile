@@ -30,29 +30,29 @@ Yuna.a:
 	make -C Yuna/.
 
 obj:
-	@echo "$(_BLUE)Creating object directories...$(_END)"
+	@echo -e "$(_BLUE)Creating object directories...$(_END)"
 	@mkdir -p $@ $(SRC_DIR)
 
 -include $(DEPS)
 
 obj/%.o: src/%.cpp
-	@echo "$(_YELLOW)Compiling $(notdir $<)...$(_END)"
-	$(CC) $(CFLAGS) $(INC_DIRS) $(INCLUDES) -MMD -c $< -o $@
+	@echo -e "$(_YELLOW)Compiling $(notdir $<)...$(_END)"
+	@$(CC) $(CFLAGS) $(INC_DIRS) $(INCLUDES) -MMD -c $< -o $@
 
 $(NAME): $(OBJS)
-	@echo "$(_BLUE)Linking binary...$(_END)"
-	$(CC) $(CFLAGS) $(INCLUDES) $^ $(LIBDEP) -o $@ $(CLIBS)
-	@echo "$(_GREEN)Done!$(_END)"
+	@echo -e "$(_BLUE)Linking binary...$(_END)"
+	@$(CC) $(CFLAGS) $(INCLUDES) $^ $(LIBDEP) -o $@ $(CLIBS)
+	@echo -e "$(_GREEN)Done!$(_END)"
 
 test:	all
 	./$(NAME)
 
 clean:
-	@echo "$(_YELLOW)Cleaning OBJs...$(_END)"
+	@echo -e "$(_YELLOW)Cleaning OBJs...$(_END)"
 	rm -rf obj
 
 fclean: clean
-	@echo "$(_YELLOW)Deleting executable...$(_END)"
+	@echo -e "$(_YELLOW)Deleting executable...$(_END)"
 	rm -rf $(NAME)
 
 re: fclean all
