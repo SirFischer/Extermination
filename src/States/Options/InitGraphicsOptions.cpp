@@ -57,6 +57,103 @@ void	Options::InitGraphicsOptions()
 	Utils::initBtnHover(vsync, &mResourceManager, &mHoverSound);
 	mGraphicsOptionsList->AddWidget(vsync);
 
+	// Resolution options
+	mf::Container *resolutionContainer = mf::Container::Create();
+	resolutionContainer->SetBackground(sf::Color(0, 0, 0, 0));
+	resolutionContainer->SetSize(100, 240);
+	resolutionContainer->SetSizePercentage(true, false);
+	
+	mf::Text *resolutionHeader = mf::Text::Create();
+	resolutionHeader->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+	->SetText("Resolution:")
+	->SetCharacterSize(20)
+	->SetTextColor(sf::Color::White)
+	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
+	->SetClickThrough(true)
+	->SetPosition(10, 5);
+	resolutionContainer->AddWidget(resolutionHeader);
+	
+	// Resolution preset buttons container
+	mf::Container *presetButtonsContainer = mf::Container::Create();
+	presetButtonsContainer->SetBackground(sf::Color(0, 0, 0, 0))
+	->SetPosition(0, 30)
+	->SetSize(275, 110);
+	resolutionContainer->AddWidget(presetButtonsContainer);
+	
+	// Preset button for 1280x720
+	mf::Button *res720p = mf::Button::Create();
+	res720p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+	->SetText("1280 x 720")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
+	->SetSize(260, 50)
+	->SetPosition(0, 0)
+	->SetTextColor(sf::Color::White)
+	->SetTextPosition(10, 5)
+	->SetClickEvent([this, clickSound = &mClickSound]() {
+		this->mWindow->SetSize(sf::Vector2i(1280, 720));
+		this->mWindow->Create();
+		this->mWindow->ResetView(true);
+		Utils::playClickSound(clickSound);
+	});
+	Utils::initBtnHover(res720p, &mResourceManager, &mHoverSound);
+	presetButtonsContainer->AddWidget(res720p);
+	
+	// Preset button for 1600x900
+	mf::Button *res900p = mf::Button::Create();
+	res900p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+	->SetText("1600 x 900")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
+	->SetSize(260, 50)
+	->SetPosition(0, 55)
+	->SetTextColor(sf::Color::White)
+	->SetTextPosition(10, 5)
+	->SetClickEvent([this, clickSound = &mClickSound]() {
+		this->mWindow->SetSize(sf::Vector2i(1600, 900));
+		this->mWindow->Create();
+		this->mWindow->ResetView(true);
+		Utils::playClickSound(clickSound);
+	});
+	Utils::initBtnHover(res900p, &mResourceManager, &mHoverSound);
+	presetButtonsContainer->AddWidget(res900p);
+	
+	// Preset button for 1920x1080
+	mf::Button *res1080p = mf::Button::Create();
+	res1080p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+	->SetText("1920 x 1080")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
+	->SetSize(260, 50)
+	->SetPosition(0, 110)
+	->SetTextColor(sf::Color::White)
+	->SetTextPosition(10, 5)
+	->SetClickEvent([this, clickSound = &mClickSound]() {
+		this->mWindow->SetSize(sf::Vector2i(1920, 1080));
+		this->mWindow->Create();
+		this->mWindow->ResetView(true);
+		Utils::playClickSound(clickSound);
+	});
+	Utils::initBtnHover(res1080p, &mResourceManager, &mHoverSound);
+	presetButtonsContainer->AddWidget(res1080p);
+	
+	// Preset button for 2560x1440
+	mf::Button *res1440p = mf::Button::Create();
+	res1440p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
+	->SetText("2560 x 1440")
+	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
+	->SetSize(260, 50)
+	->SetPosition(0, 165)
+	->SetTextColor(sf::Color::White)
+	->SetTextPosition(10, 5)
+	->SetClickEvent([this, clickSound = &mClickSound]() {
+		this->mWindow->SetSize(sf::Vector2i(2560, 1440));
+		this->mWindow->Create();
+		this->mWindow->ResetView(true);
+		Utils::playClickSound(clickSound);
+	});
+	Utils::initBtnHover(res1440p, &mResourceManager, &mHoverSound);
+	presetButtonsContainer->AddWidget(res1440p);
+	
+	mGraphicsOptionsList->AddWidget(resolutionContainer);
+
 	// FPS
 	mf::Container *fpsContainer = mf::Container::Create();
 	fpsContainer->SetBackground(sf::Color(0, 0, 0, 0));
