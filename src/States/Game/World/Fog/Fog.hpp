@@ -37,5 +37,5 @@ public:
 	~Fog();
 
 	void	Render(Yuna::Core::Window *pWindow);
-	void	Update(float pDeltaTime, const sf::Vector2f &pCameraPosition);
+	void	Update(float pDeltaTime, const sf::View &pCameraView);
 };

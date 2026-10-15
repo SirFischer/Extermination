@@ -188,7 +188,7 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 	{
 		background.Update(mCamera.GetPosition());
 	}
-	mFog.Update(pDeltaTime, mCamera.GetPosition());
+	mFog.Update(pDeltaTime, mCamera.GetView());
 	MuzzleFlashManager::Update(pDeltaTime);
 	ParticleManager::Update(pDeltaTime);
 	ParticleManager::ForEachParticleEffect([this](ParticleEffect &pEffect){

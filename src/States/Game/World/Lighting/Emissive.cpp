@@ -28,10 +28,13 @@ void	Emissive::Init()
 			const float d = std::sqrt(dx * dx + dy * dy) / radius;
 
 			float a = 0.f;
-			if (d <= kGradientInner)
-				a = 1.f;
-			else if (d < 1.f)
-				a = std::pow(1.f - (d - kGradientInner) / (1.f - kGradientInner), kGradientFalloff);
+			if (d < 1.f)
+			{
+				const float t = (d <= kGradientInner)
+					? 0.f
+					: (d - kGradientInner) / (1.f - kGradientInner);
+				a = std::pow(1.f - t, kGradientFalloff) * kGradientPeak;
+			}
 
 			if (a < 0.f)
 				a = 0.f;

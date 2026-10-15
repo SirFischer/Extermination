@@ -6,8 +6,9 @@
 namespace Emissive
 {
 	inline constexpr unsigned int	kGradientSize		= 256;
-	inline constexpr float			kGradientInner		= 0.15f;
+	inline constexpr float			kGradientInner		= 0.0f;
 	inline constexpr float			kGradientFalloff	= 2.2f;
+	inline constexpr float			kGradientPeak		= 0.85f;
 
 	void	Init();
 	void	DrawLight(Yuna::Core::Window *pWindow,

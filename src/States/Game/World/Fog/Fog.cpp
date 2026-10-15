@@ -96,8 +96,6 @@ Fog::~Fog()
 
 void	Fog::GenerateFog()
 {
-	const sf::Vector2u windowSize = sf::Vector2u(1920, 1080);
-
 	for (int layer = 0; layer < kLayerCount; ++layer)
 	{
 		std::vector<sf::Uint8> pixels(kTextureSize * kTextureSize * 4);
@@ -130,26 +128,31 @@ void	Fog::GenerateFog()
 
 		mFogSprites[layer].setPosition(0.f, 0.f);
 		mFogSprites[layer].setTexture(mFogTextures[layer]);
-		mFogSprites[layer].setScale(static_cast<float>(windowSize.x) / static_cast<float>(kTextureSize),
-									static_cast<float>(windowSize.y) / static_cast<float>(kTextureSize));
 	}
 }
 
-void	Fog::Update(float pDeltaTime, const sf::Vector2f &pCameraPosition)
+void	Fog::Update(float pDeltaTime, const sf::View &pCameraView)
 {
 	mDrift += pDeltaTime;
 
-	// Match Background's convention: the camera position is its centre, so
-	// subtract half the reference viewport before applying the parallax factor.
-	const sf::Vector2f centred = pCameraPosition - sf::Vector2f(960.f, 540.f);
+	const sf::Vector2f camPos = pCameraView.getCenter();
+	const sf::Vector2f viewSize = pCameraView.getSize();
 
 	for (int layer = 0; layer < kLayerCount; ++layer)
 	{
+		// The fog is drawn in camera space, so each sprite is centred on the
+		// camera and the texture rect supplies the parallax. Without the
+		// reposition the sprite would stay pinned to the world origin and the
+		// camera would simply scroll away from it.
+		mFogSprites[layer].setPosition(camPos - viewSize * 0.5f);
+		mFogSprites[layer].setScale(viewSize.x / static_cast<float>(kTextureSize),
+									viewSize.y / static_cast<float>(kTextureSize));
+
 		// Parallax with the camera, plus a slow rightward drift so the fog
 		// keeps moving even when the player stands still.
-		const float offsetX = centred.x * mMoveFactors[layer].x
+		const float offsetX = camPos.x * mMoveFactors[layer].x
 							+ mDrift * mSpeeds[layer];
-		const float offsetY = centred.y * mMoveFactors[layer].y;
+		const float offsetY = camPos.y * mMoveFactors[layer].y;
 
 		mFogSprites[layer].setTextureRect(sf::IntRect(
 			static_cast<int>(offsetX),
