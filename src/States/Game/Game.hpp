@@ -28,9 +28,6 @@ private:
 	GameConsole	mConsole;
 	HUD			mHUD;
 
-	//Post-effect
-	std::shared_ptr<sf::Shader>  mPostEffectShader = nullptr;
-
 	void	Update();
 	void	HandleEvents();
 	void	Render();

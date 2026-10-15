@@ -34,9 +34,6 @@ void	Game::Init()
 	mConsole.Init();
 	mWindow->SetCursorVisibility(false);
 
-	//Post-effect
-	mPostEffectShader = mResourceManager.LoadShader("assets/shaders/post-effects.frag");
-
 	std::cout << "Game initialized" << std::endl;
 
 	//HUD
@@ -78,10 +75,18 @@ void	Game::Render()
 {
 	mWindow->Clear(sf::Color::Cyan);
 	mWorld.Render(mWindow);
+
+	// dim quad - screen space, after the world, before the UI
+	sf::RectangleShape dim(sf::Vector2f(mWindow->GetSize()));
+	dim.setFillColor(sf::Color(0, 0, 0, 166));
+	mWindow->Draw(dim);
+
+	// UI is drawn after the quad so it stays bright
+	if (mWorld.GetInventory()) mWorld.GetInventory()->Render(mWindow);
 	mf::GUI::Render();
 	if (mWorld.GetEnemyCount() == 0) mHUD.RenderNextWaveButton(mWindow);
 	mStatistics.Render(mWindow);
-	mWindow->Display(mPostEffectShader.get());
+	mWindow->Display();
 }
 
 void	Game::UpdateFPS()

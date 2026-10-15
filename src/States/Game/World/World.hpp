@@ -26,6 +26,9 @@
 #include "WaveManager.hpp"
 #include "PickableManager.hpp"
 #include "Inventory.hpp"
+#include "Lighting/Emissive.hpp"
+#include "Lighting/MuzzleFlash.hpp"
+#include "Fog/Fog.hpp"
 
 # define MAP_SIZE 100
 
@@ -45,6 +48,7 @@ private:
 	EntityManager							mEntityManager;
 	WaveManager								mWaveManager;
 	PickableManager							mPickableManager;
+	Fog										mFog;
 	
 	sf::FloatRect							mViewRect;
 
@@ -64,6 +68,8 @@ public:
 
 	uint16_t	GetEntityCount() {return (mEntityManager.GetEntityCount());}
 	uint16_t	GetEnemyCount() {return (mEntityManager.GetEnemyCount());}
+
+	std::shared_ptr<Inventory>	GetInventory() {return (mInventory);}
 
 	float		GetNextWaveTimeLeft() {return (mWaveManager.GetAutoLaunchTimeLeft());}
 
