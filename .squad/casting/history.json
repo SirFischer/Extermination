@@ -1,0 +1,25 @@
+{
+  "universe_usage_history": [
+    {
+      "assignment_id": "extermination-initial-cast",
+      "universe": "descriptive",
+      "agent_count": 4,
+      "assigned_at": "2026-10-15T13:15:10.945Z"
+    }
+  ],
+  "assignment_cast_snapshots": {
+    "extermination-initial-cast": {
+      "assignment_id": "extermination-initial-cast",
+      "universe": "descriptive",
+      "assigned_at": "2026-10-15T13:15:10.945Z",
+      "agents": {
+        "lead": "Lead",
+        "engine": "Engine",
+        "gameplay": "Gameplay",
+        "tester": "Tester"
+      }
+    }
+  },
+  "transaction_id": "368ff2f0-0666-4aa9-bc2e-1a01e9f2c152",
+  "registry_revision": 2
+}

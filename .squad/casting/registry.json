@@ -1,0 +1,41 @@
+{
+  "schema": "squad-agent-provenance/v1",
+  "schema_version": 1,
+  "revision": 2,
+  "generated_at": "2026-10-15T13:15:10.945Z",
+  "agents": {
+    "lead": {
+      "persistent_name": "Lead",
+      "role": "Lead / Architect / Reviewer",
+      "universe": "descriptive",
+      "created_at": "2026-10-15T13:15:10.945Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "engine": {
+      "persistent_name": "Engine",
+      "role": "Engine Developer",
+      "universe": "descriptive",
+      "created_at": "2026-10-15T13:15:10.945Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "gameplay": {
+      "persistent_name": "Gameplay",
+      "role": "Gameplay Developer",
+      "universe": "descriptive",
+      "created_at": "2026-10-15T13:15:10.945Z",
+      "legacy_named": false,
+      "status": "active"
+    },
+    "tester": {
+      "persistent_name": "Tester",
+      "role": "Tester / QA",
+      "universe": "descriptive",
+      "created_at": "2026-10-15T13:15:10.945Z",
+      "legacy_named": false,
+      "status": "active"
+    }
+  },
+  "transaction_id": "368ff2f0-0666-4aa9-bc2e-1a01e9f2c152"
+}

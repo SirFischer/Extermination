@@ -71,14 +71,26 @@
 		"statusBar.background": "#2e93be",
 		"statusBar.foreground": "#e7e7e7",
 		"statusBarItem.hoverBackground": "#4babd4",
-		"statusBarItem.remoteBackground": "#2e93be",
+		"statusBarItem.remoteBackground": "#9a2577",
 		"statusBarItem.remoteForeground": "#e7e7e7",
 		"titleBar.activeBackground": "#2e93be",
 		"titleBar.activeForeground": "#e7e7e7",
 		"titleBar.inactiveBackground": "#2e93be99",
-		"titleBar.inactiveForeground": "#e7e7e799"
+		"titleBar.inactiveForeground": "#e7e7e799",
+		"activityBar.activeBorder": "#15202b",
+		"activityBarTop.activeBackground": "#4babd4",
+		"activityBarTop.activeBorder": "#15202b",
+		"activityBarTop.background": "#4babd4",
+		"activityBarTop.foreground": "#15202b",
+		"activityBarTop.inactiveForeground": "#15202b99",
+		"commandCenter.foreground": "#e7e7e7",
+		"statusBar.debuggingBackground": "#2e93be",
+		"statusBar.debuggingForeground": "#e7e7e7",
+		"statusBar.inactiveBackground": "#2e93be"
 	},
 	"peacock.color": "#2e93be",
-	"makefile.configureOnOpen": false
+	"makefile.configureOnOpen": false,
+  "cmake.sourceDirectory": "/home/mfischer/Marek/Work/DeepVertic/Games/Extermination/Yuna/mfGUI",
+  "chat.newSession.defaultMode": "Squad"
 	
 }
