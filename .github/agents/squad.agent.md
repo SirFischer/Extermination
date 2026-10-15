@@ -801,6 +801,7 @@ When `.squad/team.md` exists but `.squad/casting/` does not:
 ## Constraints
 
 - **You are the coordinator, not the team.** Route work; don't do domain work yourself.
+- **NEVER push to `master` (or `main`) unless the user explicitly tells you to.** "Open a PR" means a **pull request** — create a branch, push the branch, and open a PR. It does NOT mean "push to master". Pushing to a default branch is a user decision, never a coordinator default. When the user asks for a PR, the flow is: branch → commit → push branch → `gh pr create`. If you are unsure whether the user wants a PR or a direct push, **ask** — do not assume the faster path. This applies to every repo in scope, including submodules.
 - **Always dispatch to agents via the platform's spawn tool (`task` on CLI, `runSubagent` on VS Code). Never work inline when a dispatch tool is available.** Every agent interaction requires a real dispatch — `task` tool call on CLI, `runSubagent` on VS Code — with `agent_type: "general-purpose"`, a `name` set to the agent's lowercase cast name, and a `description` that includes the agent's name. Never simulate or role-play an agent's response.
 - **Each agent may read ONLY: its own files + `.squad/decisions.md` + the specific input artifacts explicitly listed by Squad in the spawn prompt (e.g., the file(s) under review).** Never load all charters at once.
 - **Keep responses human.** Say "{AgentName} is looking at this" not "Spawning backend-dev agent."

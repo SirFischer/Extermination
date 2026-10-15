@@ -192,6 +192,10 @@ These compose naturally. You can have:
 
 ## Anti-Patterns
 
+- ❌ **Pushing to `master`/`main` without being explicitly told to.** "Open a PR" means a pull
+  request: branch → commit → push the branch → `gh pr create`. It never means "push to master".
+  Pushing to a default branch is the user's decision, not the agent's default. If the intent is
+  ambiguous, ask before pushing.
 - ❌ Branching from main (branch from dev)
 - ❌ PR targeting main directly (target dev)
 - ❌ Non-conforming branch names (must be squad/{number}-{slug})

@@ -61,9 +61,11 @@ ahead mid-session and broken this build. Follow these rules before touching eith
 5. **After rebasing a submodule, commit the pointer in the parent repo.** A rebase rewrites the
    submodule's SHA; the parent's gitlink is left stale and silently pins the old commit.
    Verify with `git submodule status` and `git diff <submodule>`.
-6. **Confirm the repo set before "submit a PR".** This project has **three** repos:
-   `Extermination`, `Yuna`, and the nested `Yuna/mfGUI`. "Both repos" is ambiguous — ask
-   whether the user wants PRs or direct pushes, and to which repos, before pushing.
+6. **"Open a PR" means a pull request — never push to `master` unprompted.** This project has
+   **three** repos: `Extermination`, `Yuna`, and the nested `Yuna/mfGUI`. "Both repos" is
+   ambiguous, so confirm the repo set — but the *action* is not ambiguous: branch, commit, push
+   the branch, open a PR. Pushing to a default branch requires an explicit instruction from the
+   user. Never assume the direct-push path because it is faster.
 
 ## Boundaries
 
