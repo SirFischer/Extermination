@@ -16,7 +16,7 @@ CC				:=	g++
 NAME			:=	sandbox
 #*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*#*
 
-CFLAGS			:=	-Wall -Werror -Wextra -std=c++17
+CFLAGS			:=	-Wall -Werror -Wextra -std=c++26
 
 CLIBS			+= -lsfml-graphics -lsfml-window -lsfml-system -lsfml-network -lsfml-audio
 

@@ -9,16 +9,41 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Update
       run: sudo apt update
 
     - name: Install dependencies
-      run: sudo apt install -y build-essential cmake ninja-build libsfml-dev libboost-container-dev
+      run: sudo apt install -y build-essential cmake ninja-build libsfml-dev libboost-container-dev software-properties-common
+
+    # The project builds with -std=c++26 (Makefiles/default_vars.mk), which needs
+    # GCC 15+. ubuntu-24.04 ships GCC 13, so pull a newer toolchain from the
+    # ubuntu-toolchain-r/test PPA (publishes gcc-15/g++-15 for noble).
+    - name: Install GCC 15
+      run: |
+        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        sudo apt update
+        sudo apt install -y gcc-15 g++-15
+
+    # The Makefiles hard-assign `CC := g++` (immediate assignment), so CC/CXX
+    # environment variables are ignored and `g++` is resolved from PATH.
+    # Repointing the gcc/g++ alternatives is therefore the only way to make
+    # both the main build and the Yuna submodule build use GCC 15.
+    - name: Use GCC 15 as default gcc/g++
+      run: |
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-15 100
+        sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-15 100
+        sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-15 100
+        g++ --version
+        echo "int main(){return __cplusplus == 202400 ? 0 : 1;}" > /tmp/cxx26_probe.cpp
+        g++ -std=c++26 /tmp/cxx26_probe.cpp -o /tmp/cxx26_probe
+        /tmp/cxx26_probe
+        echo "GCC 15 accepts -std=c++26 (__cplusplus == 202400)"
 
     - name: Checkout submodules
       run: git submodule update --init --recursive

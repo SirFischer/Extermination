@@ -24,6 +24,11 @@ private:
 	uint16_t mBuyingPower = 20;
 	float mBuyingPowerIncrease = 1.2;
 
+	//Auto-launch countdown: the next wave starts on its own once this reaches
+	//zero, unless the player presses the next-wave button first.
+	static constexpr float mAutoLaunchDelay = 30.f;
+	float mAutoLaunchTimer = mAutoLaunchDelay;
+
 	struct EnemyType {
 		uint16_t	mPrice;
 		uint16_t	mPowerLevel;
@@ -39,6 +44,12 @@ public:
 	~WaveManager();
 
 	void NextWave();
+
+	//Advances the auto-launch countdown and launches the wave when it expires.
+	//Only runs while no wave is in progress (i.e. no enemies alive).
+	void Update(float pDeltaTime);
+
+	float	GetAutoLaunchTimeLeft() {return (mAutoLaunchTimer);}
 
 };
 

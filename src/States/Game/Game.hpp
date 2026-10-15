@@ -46,6 +46,9 @@ private:
 	void	InitExitCommand(bool *active, Yuna::Core::eStateControls *action);
 	void	InitQtreeRenderingCommand();
 	void	InitPathNodeRenderingCommand();
+	void	InitHistoryCommand();
+	void	InitStatsCommand();
+	void	InitNextWaveCommand();
 
 
 public:

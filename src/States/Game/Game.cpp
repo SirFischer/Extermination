@@ -58,6 +58,7 @@ void	Game::Update()
 	if (!mConsole.IsOpen())
 	{
 		mWorld.Update(&mEventHandler, mDeltaTime);
+		mHUD.UpdateNextWaveButton(mWorld.GetNextWaveTimeLeft());
 	}
 	UpdateFPS();
 	mStatistics.Update();

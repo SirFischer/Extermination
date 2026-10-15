@@ -65,6 +65,8 @@ public:
 	uint16_t	GetEntityCount() {return (mEntityManager.GetEntityCount());}
 	uint16_t	GetEnemyCount() {return (mEntityManager.GetEnemyCount());}
 
+	float		GetNextWaveTimeLeft() {return (mWaveManager.GetAutoLaunchTimeLeft());}
+
 	void	NextWave();
 
 	void	Update(Yuna::Core::EventHandler	*pEventHandler, float pDeltaTime);

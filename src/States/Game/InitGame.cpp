@@ -25,4 +25,7 @@ void	Game::InitGameCommands()
 	InitExitCommand(&mActive, &mStateAction);
 	InitQtreeRenderingCommand();
 	InitPathNodeRenderingCommand();
+	InitHistoryCommand();
+	InitStatsCommand();
+	InitNextWaveCommand();
 }

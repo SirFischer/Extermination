@@ -38,6 +38,7 @@ void	WaveManager::NextWave()
 	int currentBuyingPower = mBuyingPower;
 	mBuyingPower = (uint16_t)std::min((float)std::numeric_limits<uint16_t>::max(), mBuyingPower * mBuyingPowerIncrease);
 	mWaveNumber++;
+	mAutoLaunchTimer = mAutoLaunchDelay;
 	
 	while (currentBuyingPower > 10)
 	{
@@ -57,4 +58,19 @@ void	WaveManager::NextWave()
 		else if (mEnemyTypes[random].mType == "Dog")
 			mEntityManager->SpawnEnemy<Dog>();
 	}
+}
+
+void	WaveManager::Update(float pDeltaTime)
+{
+	//The countdown only runs between waves: while enemies are alive a wave is
+	//still in progress, so the timer stays parked at its full value.
+	if (mEntityManager->GetEnemyCount() > 0)
+	{
+		mAutoLaunchTimer = mAutoLaunchDelay;
+		return ;
+	}
+
+	mAutoLaunchTimer -= pDeltaTime;
+	if (mAutoLaunchTimer <= 0.f)
+		NextWave();
 }

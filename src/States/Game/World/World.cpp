@@ -159,6 +159,8 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 {
 	UpdateViewRect();
 	
+	mWaveManager.Update(pDeltaTime);
+
 	HandleBulletCollisions(mViewRect);
 
 	mPickableManager.update(pDeltaTime);

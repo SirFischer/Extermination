@@ -25,6 +25,8 @@ public:
 
 	void	InitNextWaveButton(const std::function<void()> &pClickAction);
 	void	HandleNextWaveButton(sf::Event &pEvent);
+	void	UpdateNextWaveButton(float pTimeLeft);
+	void	CenterNextWaveButtonText();
 	void	RenderNextWaveButton(Yuna::Core::Window *pWindow);
 	
 };
