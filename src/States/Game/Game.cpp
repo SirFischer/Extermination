@@ -81,7 +81,7 @@ void	Game::Render()
 	mf::GUI::Render();
 	if (mWorld.GetEnemyCount() == 0) mHUD.RenderNextWaveButton(mWindow);
 	mStatistics.Render(mWindow);
-	mWindow->Render(mPostEffectShader.get());
+	mWindow->Display(mPostEffectShader.get());
 }
 
 void	Game::UpdateFPS()

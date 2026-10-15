@@ -56,7 +56,7 @@ INC_DIRS		+=	Yuna/includes Yuna/mfGUI/include
 
 INC_DIRS		:= $(foreach d, $(INC_DIRS), -I $d)
 
-LIBDEP			:=	Yuna/Yuna.a Yuna/mfGUI/lib/libMFGUId.a
+LIBDEP			:=	Yuna/libYuna.a Yuna/lib/libMFGUId.a
 
 
 # This is a minimal set of ANSI/VT100 color codes

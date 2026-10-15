@@ -26,8 +26,11 @@ all: install_dep Yuna.a $(OBJS) $(NAME)
 
 $(OBJS):	| obj
 
+# Yuna and mfGUI are built with CMake/Ninja (in-source), which produces
+# Yuna/libYuna.a and Yuna/lib/libMFGUId.a.
 Yuna.a:
-	make -C Yuna/.
+	cmake -S Yuna -B Yuna -G Ninja -DCMAKE_BUILD_TYPE=Debug
+	ninja -C Yuna
 
 obj:
 	@echo -e "$(_BLUE)Creating object directories...$(_END)"

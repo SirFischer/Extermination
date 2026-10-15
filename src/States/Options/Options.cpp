@@ -110,5 +110,5 @@ void	Options::Render()
 {
 	mWindow->Clear();
 	mf::GUI::Render();
-	mWindow->Render();
+	mWindow->Display();
 }

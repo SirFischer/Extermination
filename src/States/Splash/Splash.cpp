@@ -46,5 +46,5 @@ void	Splash::Render()
 {
 	mWindow->Clear(sf::Color::White);
 	mf::GUI::Render();
-	mWindow->Render();
+	mWindow->Display();
 }
