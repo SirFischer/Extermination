@@ -26,6 +26,9 @@
 #include "WaveManager.hpp"
 #include "PickableManager.hpp"
 #include "Inventory.hpp"
+#include "Lighting/Emissive.hpp"
+#include "Lighting/MuzzleFlash.hpp"
+#include "Fog/Fog.hpp"
 
 # define MAP_SIZE 100
 
@@ -45,6 +48,7 @@ private:
 	EntityManager							mEntityManager;
 	WaveManager								mWaveManager;
 	PickableManager							mPickableManager;
+	Fog										mFog;
 	
 	sf::FloatRect							mViewRect;
 

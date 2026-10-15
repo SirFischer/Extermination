@@ -14,6 +14,8 @@
 #include <cmath>
 #include <memory>
 
+#include "../../Lighting/MuzzleFlash.hpp"
+
 Weapon::Weapon(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mTexturePath = "assets/images/player/gun.png";
@@ -34,6 +36,7 @@ void	Weapon::Shoot(float pAngle, sf::Vector2f pPos)
 	if ((1.f / mShootingSpeed) > mCooldownClock.getElapsedTime().asSeconds())
 		return ;
 	mCooldownClock.restart();
+	MuzzleFlashManager::AddFlash(pPos, pAngle);
 	auto bullet = std::make_unique<Projectile>();
 	bullet->mAngle = pAngle;
 	bullet->mPos = pPos;

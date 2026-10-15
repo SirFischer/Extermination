@@ -109,6 +109,7 @@ World::World(Yuna::Core::ResourceManager *pResourceManager, Statistics *pStatist
 
 	////////////
 
+	Emissive::Init();
 	InitBackgrounds(pResourceManager);
 	InitConsoleCommands(pResourceManager);
 	InitBase(pResourceManager);
@@ -187,6 +188,8 @@ void	World::Update(Yuna::Core::EventHandler *pEventHandler, float pDeltaTime)
 	{
 		background.Update(mCamera.GetPosition());
 	}
+	mFog.Update(pDeltaTime, mCamera.GetPosition());
+	MuzzleFlashManager::Update(pDeltaTime);
 	ParticleManager::Update(pDeltaTime);
 	ParticleManager::ForEachParticleEffect([this](ParticleEffect &pEffect){
 		HandleParticleCollisions(&pEffect);
@@ -210,6 +213,9 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	mPickableManager.render(pWindow);
 	mEntityManager.Render(pWindow);
 	ParticleManager::Render(pWindow);
+	mFog.Render(pWindow);
+	Emissive::DrawLight(pWindow, mPlayer->GetPosition() + sf::Vector2f(19.f, 27.f), 420.f, sf::Color(255, 214, 150));
+	MuzzleFlashManager::Render(pWindow);
 	pWindow->ResetView(true);
 	mInventory->Render(pWindow);
 }
