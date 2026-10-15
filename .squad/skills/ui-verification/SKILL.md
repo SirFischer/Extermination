@@ -153,7 +153,30 @@ Also note: the game **auto-advances** Splash → Menu after 3s (`Splash::mSplash
 Menu then **waits for a click** on `Play` (`src/States/Menu/InitMenu.cpp`). Since input synthesis is
 impossible, a plain `./Extermination` run will sit on the menu forever and `Game::Init()` will never
 run — so `stdout` stays completely empty. An empty `stdout` from a plain run is **expected**, not a
-build failure. Do not re-run the binary hoping for output; use a hook.
+build failure.
+
+### Stop after ONE empty run (hard rule)
+
+**If a run produces no output, do not run it again.** Reason about *why* first. Re-running an
+unchanged binary against unchanged conditions cannot produce a different result — it is pure waste,
+and it reads as flailing.
+
+Observed failure: `./Extermination` was run **six times** in a row expecting `stdout`, each producing
+0 bytes. The root cause (Menu waits for a click; input synthesis is impossible) was knowable after
+run #1. The user interrupted twice: *"stop looping around. there is a splash screen of 3-5 seconds
+before you can press a button"* and *"trying the same thing over and over is not a good strategy"*.
+
+The correct response to an empty run is to **change the approach**, not repeat it:
+
+| Symptom | Wrong response | Right response |
+|---|---|---|
+| Empty `stdout` from a plain run | Run it again | Expected — the menu blocks. Use a hook. |
+| Window opens, nothing happens | Run it again | Input synthesis is impossible. Use a hook. |
+| No window opens at all | Run it again | The hook is outside the real loop. See dead end #1. |
+| Command hangs | Run it again | That command renders through the UI. Use a `stdout`-only command. |
+
+If you catch yourself about to run the same command a second time with no change in between, stop
+and state what you expect to be different — if you cannot, do not run it.
 
 ## Cleanup discipline (MANDATORY)
 
@@ -325,4 +348,6 @@ Text x=[78..251] sits inside button x=[50..280] for all 31 countdown values.
 - Asserting on `GetTextBounds()` alone without rendering — bounds are a model of the glyphs; the
   rendered pixels are the ground truth.
 - Reusing a stale harness after changing the widget's size, font, or character size.
+- Re-running a command that produced no output, hoping for a different result — see "Stop after ONE
+  empty run". Change the approach instead.
 - Leaving `.scratch/` output or a temporary debug hook behind — see Cleanup discipline.
