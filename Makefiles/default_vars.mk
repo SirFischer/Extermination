@@ -24,7 +24,13 @@ BLACK_LIST_SRCS :=
 
 SRCDIRS			:=	src
 
-SRCS			+=	$(shell find $(SRCDIRS) -name '*.cpp')
+# Source auto-discovery. Test sources must never be swept into the game binary:
+# a test file under src/ would be compiled into obj/ and linked into $(NAME),
+# where its main() (or a test framework's main()) collides with src/main.cpp.
+# Excluding any 'tests' directory here makes that safe by construction, so a
+# future src/tests/ cannot break the game build. Keep unit tests in a top-level
+# tests/ directory (outside $(SRCDIRS)) as well.
+SRCS			+=	$(shell find $(SRCDIRS) -name '*.cpp' -not -path '*/tests/*')
 
 INC_PATHS		:=	src
 
@@ -35,6 +41,12 @@ INCLUDES		+=	$(foreach d, $(INC_PATHS), -I $d)
 SRC_DIR			:=	$(patsubst src/%,obj/%,$(shell find src/* -type d))
 
 OBJS			:=	$(patsubst src/%.cpp,obj/%.o,$(SRCS))
+
+# Seam for a future unit-test binary: the game's objects without main.o, so a
+# test target can link the real game code alongside a test framework's own
+# main() (e.g. libgtest_main) without a duplicate-symbol collision with
+# src/main.cpp. Not used by the game build itself.
+GAME_OBJS_NO_MAIN	:=	$(filter-out obj/main.o,$(OBJS))
 
 DEPS			:=	$(patsubst %.o,%.d,$(OBJS))
 

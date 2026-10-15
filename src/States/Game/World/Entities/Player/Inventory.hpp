@@ -32,7 +32,7 @@ public:
 	Inventory();
 	~Inventory();
 
-	Item	*GetSelectedItem() {return (mInventorySlots[mSelected].get());}
+	Item	*GetSelectedItem() {return (mInventorySlots.empty() ? nullptr : mInventorySlots[mSelected].get());}
 
 	void	AddItem(std::shared_ptr<Item> pItem);
 	void	NextItem();

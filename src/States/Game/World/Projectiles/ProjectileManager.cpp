@@ -11,8 +11,10 @@
  */
 #include "ProjectileManager.hpp"
 
+#include <cmath>
+
 Yuna::Core::ResourceManager *ProjectileManager::mResourceManager = nullptr;
-std::list<Projectile *> ProjectileManager::mProjectiles = std::list<Projectile *>();
+std::list<std::unique_ptr<Projectile>> ProjectileManager::mProjectiles = std::list<std::unique_ptr<Projectile>>();
 sf::Sprite ProjectileManager::mSprite = sf::Sprite();
 
 ProjectileManager::ProjectileManager(Yuna::Core::ResourceManager *pResourceManager)
@@ -24,21 +26,21 @@ ProjectileManager::~ProjectileManager()
 {
 }
 
-void	ProjectileManager::AddProjectile(Projectile *pProjectile)
+void	ProjectileManager::AddProjectile(std::unique_ptr<Projectile> pProjectile)
 {
 	//adds projectile at the right place in list
-	std::list<Projectile *>::iterator it = mProjectiles.begin();
+	std::list<std::unique_ptr<Projectile>>::iterator it = mProjectiles.begin();
 	while (it != mProjectiles.end())
 	{
 		if ((*it)->mType == pProjectile->mType)
 		{
-			mProjectiles.insert(it, pProjectile);
+			mProjectiles.insert(it, std::move(pProjectile));
 			return ;
 		}
 		it++;
 	}
 	//no item of same type exists
-	mProjectiles.push_front(pProjectile);
+	mProjectiles.push_front(std::move(pProjectile));
 }
 
 void	ProjectileManager::HandleCollisions(Block *pBlock)

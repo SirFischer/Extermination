@@ -12,6 +12,8 @@
 
 #include "CrateItem.hpp"
 
+#include <cmath>
+
 
 CrateItem::CrateItem(Yuna::Core::ResourceManager *pResourceManager)
 {

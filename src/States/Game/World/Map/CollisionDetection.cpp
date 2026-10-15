@@ -12,6 +12,8 @@
 
 #include "Map.hpp"
 
+#include <cmath>
+
 void	Map::ApplyCollisionDetection(Entity *pEntity)
 {
 	auto list = mBlockQTree->Query(sf::FloatRect(sf::Vector2f(pEntity->GetPosition().x - (mGridSize * 3.f), pEntity->GetPosition().y - (mGridSize * 3.f)), sf::Vector2f(mGridSize * 6.f, mGridSize * 6.f)));

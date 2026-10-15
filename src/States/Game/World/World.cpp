@@ -11,6 +11,8 @@
  */
 #include "World.hpp"
 
+#include <cmath>
+
 #include "Items/CrateItem.hpp"
 #include "Map/Blocks/Crate.hpp"
 #include "Map/Blocks/Grate.hpp"
@@ -235,9 +237,4 @@ void	World::InitBase(Yuna::Core::ResourceManager *pResourceManager)
 	mBase = std::make_shared<Base>(pResourceManager);
 	mBase->SetPosition(sf::Vector2f(0, mMap.GetBaseVerticalPosition()));
 	mEntityManager.AddBase(mBase);
-}
-
-void	World::InitShader(Yuna::Core::ResourceManager *pResourceManager)
-{
-	mGlobalLightingShader = pResourceManager->LoadShader("assets/shaders/global_lighting.frag");
 }

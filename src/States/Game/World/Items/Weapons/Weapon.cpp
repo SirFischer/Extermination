@@ -11,6 +11,9 @@
  */
 #include "Weapon.hpp"
 
+#include <cmath>
+#include <memory>
+
 Weapon::Weapon(Yuna::Core::ResourceManager *pResourceManager)
 {
 	mTexturePath = "assets/images/player/gun.png";
@@ -31,13 +34,13 @@ void	Weapon::Shoot(float pAngle, sf::Vector2f pPos)
 	if ((1.f / mShootingSpeed) > mCooldownClock.getElapsedTime().asSeconds())
 		return ;
 	mCooldownClock.restart();
-	auto bullet = new Projectile;
+	auto bullet = std::make_unique<Projectile>();
 	bullet->mAngle = pAngle;
 	bullet->mPos = pPos;
 	bullet->mVelocity = sf::Vector2f(
 		std::cos((pAngle / 180.f) * M_PI) * mBulletSpeed,
 		std::sin((pAngle / 180.f) * M_PI) * mBulletSpeed);
-	ProjectileManager::AddProjectile(bullet);
+	ProjectileManager::AddProjectile(std::move(bullet));
 }
 
 void	Weapon::Render(Yuna::Core::Window *pWindow)

@@ -29,14 +29,26 @@ void	Inventory::AddItem(std::shared_ptr<Item> pItem)
 
 void	Inventory::NextItem()
 {
+	if (mInventorySlots.empty())
+	{
+		mSelected = 0;
+		return ;
+	}
 	mSelected++;
 	if (mSelected >= mInventorySlots.size()) mSelected = 0;
 }
 
 void	Inventory::PreviousItem()
 {
-	mSelected--;
-	if (mSelected >= mInventorySlots.size()) mSelected = mInventorySlots.size() - 1;
+	if (mInventorySlots.empty())
+	{
+		mSelected = 0;
+		return ;
+	}
+	if (mSelected == 0)
+		mSelected = mInventorySlots.size() - 1;
+	else
+		mSelected--;
 }
 
 

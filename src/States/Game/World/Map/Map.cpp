@@ -11,6 +11,8 @@
  */
 #include "Map.hpp"
 
+#include <cmath>
+
 #include "../../Config.hpp"
 
 Map::Map(Yuna::Core::ResourceManager *pResourceManager, Yuna::Core::Window *pWindow)

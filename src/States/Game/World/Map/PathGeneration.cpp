@@ -11,6 +11,7 @@
  */
 #include "Map.hpp"
 
+#include <cmath>
 #include <iostream>
 
 void	Map::AddPathNode(std::shared_ptr<Block> tBlock)

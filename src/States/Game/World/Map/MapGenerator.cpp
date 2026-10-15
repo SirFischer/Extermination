@@ -55,8 +55,13 @@ void	Map::ApplyPerlin(uint32_t pSegments, float pAmplitude)
 
 void	Map::FitToGrid()
 {
-	for (auto &block : mBlocks)
+	// Snapshot the original block count: foliage is appended to mBlocks below,
+	// and iterating the live vector would both visit the new blocks and
+	// invalidate the reference on reallocation.
+	const size_t	originalBlockCount = mBlocks.size();
+	for (size_t i = 0; i < originalBlockCount; i++)
 	{
+		Block			&block = mBlocks[i];
 		sf::Vector2f	pos = block.GetPosition();
 		pos.y = (int)(pos.y / (int)mGridSize) * (int)mGridSize;
 		block.SetPosition(pos);
@@ -71,9 +76,18 @@ void	Map::FitToGrid()
 
 void	Map::GenerateGround()
 {
-	for (uint32_t i = 0; i < mBlocks.size(); i++)
+	// NOTE: the loop bound is deliberately re-evaluated against the growing
+	// vector. Each surface block appends a column of ground blocks below it,
+	// and those appended blocks are themselves processed, which is what fills
+	// the ground all the way down. Capturing the size once would only produce
+	// a single row of ground per surface block and change the map.
+	//
+	// The original code indexed mBlocks[i + 1] unconditionally, reading one
+	// past the end on the final iteration and relying on the `break` firing
+	// first. The bound is now explicit; the termination semantics are the same.
+	for (size_t i = 0; i < mBlocks.size(); i++)
 	{
-		if (mBlocks[i].GetPosition().x == mBlocks[i + 1].GetPosition().x)
+		if (i + 1 < mBlocks.size() && mBlocks[i].GetPosition().x == mBlocks[i + 1].GetPosition().x)
 			break;
 		uint32_t length = (mAmplitude / mGridSize);
 		for (uint32_t j = 1; j < ((length > 15) ? length : 15); j++)
@@ -81,7 +95,7 @@ void	Map::GenerateGround()
 			if (!mBlocks[i].IsSolid())
 				continue;
 			Block block;
-			bool cornerBlock = (j == 1) && ((i > 0 && mBlocks[i - 1].GetPosition().y > mBlocks[i].GetPosition().y) || (i < mBlocks.size() - 1 && mBlocks[i + 1].GetPosition().y > mBlocks[i].GetPosition().y));
+			bool cornerBlock = (j == 1) && ((i > 0 && mBlocks[i - 1].GetPosition().y > mBlocks[i].GetPosition().y) || (i + 1 < mBlocks.size() && mBlocks[i + 1].GetPosition().y > mBlocks[i].GetPosition().y));
 			block.SetTexturePath((cornerBlock) ? "assets/textures/Sandstone.png" : "assets/textures/Sandstone.png");
 			block.SetSize(sf::Vector2f(mGridSize, mGridSize));
 			sf::Vector2f pos = mBlocks[i].GetPosition();

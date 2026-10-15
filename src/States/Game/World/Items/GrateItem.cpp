@@ -12,6 +12,8 @@
 
 #include "GrateItem.hpp"
 
+#include <cmath>
+
 
 GrateItem::GrateItem(Yuna::Core::ResourceManager *pResourceManager)
 {

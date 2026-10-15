@@ -12,6 +12,9 @@
 #include "WaveManager.hpp"
 #include "Dog.hpp"
 
+#include <algorithm>
+#include <limits>
+
 
 WaveManager::WaveManager(EntityManager *pEntityManager)
 : mEntityManager(pEntityManager)
@@ -33,20 +36,25 @@ void	WaveManager::initDictionary()
 void	WaveManager::NextWave()
 {
 	int currentBuyingPower = mBuyingPower;
-	mBuyingPower *= mBuyingPowerIncrease;
+	mBuyingPower = (uint16_t)std::min((float)std::numeric_limits<uint16_t>::max(), mBuyingPower * mBuyingPowerIncrease);
 	mWaveNumber++;
 	
 	while (currentBuyingPower > 10)
 	{
-		int random = rand() % mEnemyTypes.size();
-		if (mEnemyTypes[random].mPrice <= currentBuyingPower)
-		{
-			currentBuyingPower -= mEnemyTypes[random].mPrice;
-			//add type and powerlevel to spawn queue TODO when adding more enemies
-			if (mEnemyTypes[random].mType == "Enemy")
-				mEntityManager->SpawnEnemy<Enemy>();
-			else if (mEnemyTypes[random].mType == "Dog")
-				mEntityManager->SpawnEnemy<Dog>();
-		}
+		// Only consider affordable types: picking blindly among all types can
+		// spin forever once an unaffordable type exists in the dictionary.
+		std::vector<size_t> affordable;
+		for (size_t i = 0; i < mEnemyTypes.size(); i++)
+			if (mEnemyTypes[i].mPrice <= currentBuyingPower)
+				affordable.push_back(i);
+		if (affordable.empty())
+			break ;
+		size_t random = affordable[rand() % affordable.size()];
+		currentBuyingPower -= mEnemyTypes[random].mPrice;
+		//add type and powerlevel to spawn queue TODO when adding more enemies
+		if (mEnemyTypes[random].mType == "Enemy")
+			mEntityManager->SpawnEnemy<Enemy>();
+		else if (mEnemyTypes[random].mType == "Dog")
+			mEntityManager->SpawnEnemy<Dog>();
 	}
 }

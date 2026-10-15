@@ -45,7 +45,6 @@ private:
 	EntityManager							mEntityManager;
 	WaveManager								mWaveManager;
 	PickableManager							mPickableManager;
-	std::shared_ptr<sf::Shader>				mGlobalLightingShader;
 	
 	sf::FloatRect							mViewRect;
 
@@ -53,7 +52,6 @@ private:
 	void	InitConsoleCommands(Yuna::Core::ResourceManager *pResourceManager);
 	void	InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager);
 	void	InitBase(Yuna::Core::ResourceManager *pResourceManager);
-	void	InitShader(Yuna::Core::ResourceManager *pResourceManager);
 
 	void	HandleBulletCollisions(const sf::FloatRect &pRect);
 	void	HandleParticleCollisions(ParticleEffect *pEffect);

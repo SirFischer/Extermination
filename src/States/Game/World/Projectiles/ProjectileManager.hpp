@@ -12,6 +12,7 @@
 #pragma once
 
 #include <list>
+#include <memory>
 
 #include <Yuna.hpp>
 #include "Projectile.hpp"
@@ -27,7 +28,7 @@ private:
 	// dependencies
 	static Yuna::Core::ResourceManager *mResourceManager;
 
-	static std::list<Projectile *> mProjectiles;
+	static std::list<std::unique_ptr<Projectile>> mProjectiles;
 	static sf::Sprite mSprite;
 
 public:
@@ -35,7 +36,7 @@ public:
 	ProjectileManager(Yuna::Core::ResourceManager *pResourceManager);
 	~ProjectileManager();
 
-	static void AddProjectile(Projectile *pProjectile);
+	static void AddProjectile(std::unique_ptr<Projectile> pProjectile);
 	static void HandleCollisions(Block *pBlock);
 	static void HandleCollisions(Entity *pEntity);
 

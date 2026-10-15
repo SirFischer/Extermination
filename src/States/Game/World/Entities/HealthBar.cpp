@@ -1,5 +1,7 @@
 #include "HealthBar.hpp"
 
+#include <cmath>
+
 HealthBar::HealthBar(/* args */)
 {
 }

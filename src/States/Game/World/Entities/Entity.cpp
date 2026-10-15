@@ -11,6 +11,8 @@
  */
 #include "Entities/Entity.hpp"
 
+#include <cmath>
+
 
 Entity::Entity(/* args */)
 {

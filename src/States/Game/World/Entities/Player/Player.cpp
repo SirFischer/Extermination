@@ -11,6 +11,8 @@
  */
 #include "Player.hpp"
 
+#include <cmath>
+
 
 Player::Player(std::shared_ptr<Inventory> pInventory)
 : mInventory(pInventory)
