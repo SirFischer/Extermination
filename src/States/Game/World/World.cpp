@@ -214,10 +214,8 @@ void	World::Render(Yuna::Core::Window *pWindow)
 	mEntityManager.Render(pWindow);
 	ParticleManager::Render(pWindow);
 	mFog.Render(pWindow);
-	Emissive::DrawLight(pWindow, mPlayer->GetPosition() + sf::Vector2f(19.f, 27.f), 180.f, sf::Color(255, 214, 150));
 	MuzzleFlashManager::Render(pWindow);
 	pWindow->ResetView(true);
-	mInventory->Render(pWindow);
 }
 
 void	World::InitBackgrounds(Yuna::Core::ResourceManager *pResourceManager)

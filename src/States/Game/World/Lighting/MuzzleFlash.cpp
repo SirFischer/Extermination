@@ -4,7 +4,7 @@
 #include <list>
 
 #define MAX_MUZZLE_FLASHES	16
-#define MUZZLE_FLASH_LIFE	0.065f
+#define MUZZLE_FLASH_LIFE	0.085f
 
 namespace
 {
@@ -35,7 +35,7 @@ void	MuzzleFlashManager::AddFlash(const sf::Vector2f &pPos, float pAngle)
 	flash.mPos = pPos;
 	flash.mAngle = pAngle;
 	flash.mElapsed = 0.f;
-	flash.mDiameter = 96.f;
+	flash.mDiameter = 380.f;
 	flash.mTint = sf::Color(255, 226, 150, 255);
 
 	mFlashes.push_back(flash);
@@ -68,7 +68,7 @@ void	MuzzleFlashManager::Render(Yuna::Core::Window *pWindow)
 
 	core.setOrigin(sf::Vector2f(static_cast<float>(texSize.x) * 0.5f,
 								static_cast<float>(texSize.y) * 0.5f));
-	core.setScale(sf::Vector2f(0.35f, 0.18f));
+	core.setScale(sf::Vector2f(0.55f, 0.28f));
 
 	for (const MuzzleFlash &flash : mFlashes)
 	{
@@ -79,7 +79,10 @@ void	MuzzleFlashManager::Render(Yuna::Core::Window *pWindow)
 		sf::Color	tint = flash.mTint;
 		tint.a = static_cast<sf::Uint8>(static_cast<float>(flash.mTint.a) * alpha);
 
+		// The shared gradient peaks at 0.45 so it reads as a soft glow; the
+		// flash wants to be punchier, so it draws the light twice.
 		Emissive::DrawLight(pWindow, flash.mPos, flash.mDiameter * (0.6f + 0.4f * fade), tint);
+		Emissive::DrawLight(pWindow, flash.mPos, flash.mDiameter * (0.6f + 0.4f * fade) * 0.55f, tint);
 
 		core.setPosition(flash.mPos);
 		core.setRotation(flash.mAngle);

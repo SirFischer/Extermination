@@ -69,6 +69,8 @@ public:
 	uint16_t	GetEntityCount() {return (mEntityManager.GetEntityCount());}
 	uint16_t	GetEnemyCount() {return (mEntityManager.GetEnemyCount());}
 
+	std::shared_ptr<Inventory>	GetInventory() {return (mInventory);}
+
 	float		GetNextWaveTimeLeft() {return (mWaveManager.GetAutoLaunchTimeLeft());}
 
 	void	NextWave();

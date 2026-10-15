@@ -81,6 +81,8 @@ void	Game::Render()
 	dim.setFillColor(sf::Color(0, 0, 0, 166));
 	mWindow->Draw(dim);
 
+	// UI is drawn after the quad so it stays bright
+	if (mWorld.GetInventory()) mWorld.GetInventory()->Render(mWindow);
 	mf::GUI::Render();
 	if (mWorld.GetEnemyCount() == 0) mHUD.RenderNextWaveButton(mWindow);
 	mStatistics.Render(mWindow);
