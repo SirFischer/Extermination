@@ -16,20 +16,21 @@
 void	Options::InitButtonBinding(std::string pText, eAction pAction)
 {
 	auto container = mf::Container::Create();
-	container->SetSize(100, 64)->SetSizePercentage(true, false);
-	container->SetBackground(sf::Color::Transparent);
+	container->SetSize(100, 64);
+	container->SetSizePercentage(true, false);
+	container->GetBackground()->SetBackground(sf::Color::Transparent);
 	mControlsOptionsList->AddWidget(container);
 	auto text = mf::Text::Create();
 	container->AddWidget(text);
-	text->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf");
-	text->SetBackgroundColor(sf::Color::Transparent);
-	text->SetText(pText);
-	text->SetTextColor(sf::Color::White);
+	text->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	text->GetBackground()->SetBackground(sf::Color::Transparent);
+	text->GetText()->SetString(pText);
+	text->GetText()->SetColor(sf::Color::White);
 	text->SetSize(250, 100);
 	auto btn = mf::Button::Create();
 	container->AddWidget(btn);
-	btn->SetTextFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf"));
-	btn->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	btn->GetText()->LoadFont(*mResourceManager.LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf"));
+	btn->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
 	int32_t tmp  = -1;
 	for (auto a : mEventHandler.GetBindingMap())
 	{
@@ -39,19 +40,20 @@ void	Options::InitButtonBinding(std::string pText, eAction pAction)
 			break;
 		}
 	}
-	btn->SetText(mEventHandler.GetBindingNames()[tmp])->SetTextColor(sf::Color::White);
-	btn->SetSize(516, 64)->SetTextPosition(10, 5);
+	btn->GetText()->SetString(mEventHandler.GetBindingNames()[tmp]);
+	btn->GetText()->SetColor(sf::Color::White);
+	btn->SetSize(516, 64);
+	btn->GetText()->SetPos(sf::Vector2f(10, 5));
 	btn->SetPosition(250, -15);
-	btn->SetTextPosition(10, 5);
 	Utils::initBtnHover(btn, &mResourceManager, &mHoverSound);
 	eAction *tmpAction = &mActionToBind;
 	bool	*tmpListen = &mListenToNextEvent;
-	mf::Button **tmpBtn = &mButtonToBind;
+	std::shared_ptr<mf::Button> *tmpBtn = &mButtonToBind;
 	btn->SetClickEvent([pAction, tmpAction, tmpListen, btn, tmpBtn, clickSound = &mClickSound](){
 		*tmpAction = pAction;
 		*tmpListen = true;
 		*tmpBtn = btn;
-		btn->SetText("Press any key");
+		btn->GetText()->SetString("Press any key");
 		Utils::playClickSound(clickSound);
 	});
 }
@@ -61,28 +63,29 @@ void	Options::InitControlsOptions()
 	if (mControlsOptionsList)
 	{
 		mOptionsContainer->RemoveWidget(mControlsOptionsList);
-		mControlsOptionsList->ClearWidgets(true);
-		delete mControlsOptionsList;
+		mControlsOptionsList->ClearWidgets();
 	}
-	mControlsOptionsList = mf::List::Create()
-	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
-	->SetSize(95, 95)->SetSizePercentage(true, true)
-	->SetPosition(2.5, 2.5)->SetPositionPercentage(true, true);
+	mControlsOptionsList = mf::List::Create();
+	mControlsOptionsList->GetBackground()->SetBackground(sf::Color(0, 0, 0, 0));
+	mControlsOptionsList->SetSize(95, 95);
+	mControlsOptionsList->SetSizePercentage(true, true);
+	mControlsOptionsList->SetPosition(2.5, 2.5);
+	mControlsOptionsList->SetPositionPercentage(true, true);
 	mOptionsContainer->AddWidget(mControlsOptionsList);
 	mControlsOptionsList->SetDisabled(true);
 
-	mf::Button *restoreDefaults = mf::Button::Create();
-	restoreDefaults->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("Restore defaults")
-	->SetSize(300, 50)
-	->SetTextColor(sf::Color::White)
-	->SetTextPosition(10, 5)
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	auto restoreDefaults = mf::Button::Create();
+	restoreDefaults->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	restoreDefaults->GetText()->SetString("Restore defaults");
+	restoreDefaults->SetSize(300, 50);
+	restoreDefaults->GetText()->SetColor(sf::Color::White);
+	restoreDefaults->GetText()->SetPos(sf::Vector2f(10, 5));
+	restoreDefaults->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
 	Utils::initBtnHover(restoreDefaults, &mResourceManager, &mHoverSound);
 	mControlsOptionsList->AddWidget(restoreDefaults);
 	auto space = mf::Container::Create();
 	space->SetSize(0, 50);
-	space->SetBackground(sf::Color::Transparent);
+	space->GetBackground()->SetBackground(sf::Color::Transparent);
 	mControlsOptionsList->AddWidget(space);
 
 	InitButtonBinding("Jump", eAction::JUMP);
@@ -93,13 +96,13 @@ void	Options::InitControlsOptions()
 	InitButtonBinding("Next Item", eAction::NEXT_ITEM);
 	InitButtonBinding("Previous Item", eAction::PREVIOUS_ITEM);
 
-	mf::Button *saveBtn = mf::Button::Create();
+	auto saveBtn = mf::Button::Create();
 	mControlsOptionsList->AddWidget(saveBtn);
-	saveBtn->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
-	->SetText("Save")
-	->SetTextColor(sf::Color::White)
-	->SetTextPosition(10, 5);
+	saveBtn->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	saveBtn->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	saveBtn->GetText()->SetString("Save");
+	saveBtn->GetText()->SetColor(sf::Color::White);
+	saveBtn->GetText()->SetPos(sf::Vector2f(10, 5));
 	Utils::initBtnHover(saveBtn, &mResourceManager, &mHoverSound);
 	saveBtn->SetClickEvent([clickSound = &mClickSound](){
 		std::cout << "saving to console...\n";

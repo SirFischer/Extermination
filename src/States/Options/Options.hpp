@@ -29,16 +29,16 @@ private:
 	void	HandleEvents();
 	void	Render();
 
-	mf::Container	*mOptionsContainer;
+	std::shared_ptr<mf::Container>	mOptionsContainer;
 
-	mf::List	*mGraphicsOptionsList = NULL;
-	mf::List	*mAudioOptionsList = NULL;
-	mf::List	*mControlsOptionsList = NULL;
-	mf::List	*mMainOptionsList = NULL;
+	std::shared_ptr<mf::List>	mGraphicsOptionsList = NULL;
+	std::shared_ptr<mf::List>	mAudioOptionsList = NULL;
+	std::shared_ptr<mf::List>	mControlsOptionsList = NULL;
+	std::shared_ptr<mf::List>	mMainOptionsList = NULL;
 
 	bool		mListenToNextEvent = false;
 	eAction		mActionToBind;
-	mf::Button	*mButtonToBind = NULL;
+	std::shared_ptr<mf::Button>	mButtonToBind = NULL;
 
 	sf::Sound	mHoverSound;
 	sf::Sound 	mClickSound;

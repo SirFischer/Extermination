@@ -17,7 +17,7 @@
 
 namespace Utils
 {
-	void	initBtnHover(mf::Button *pBtn, Yuna::Core::ResourceManager *pResourceManager, sf::Sound *pHoverSound);
+	void	initBtnHover(std::shared_ptr<mf::Button> pBtn, Yuna::Core::ResourceManager *pResourceManager, sf::Sound *pHoverSound);
 	void	playClickSound(sf::Sound *pHoverSound);
 	
 }

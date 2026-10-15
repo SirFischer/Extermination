@@ -16,80 +16,82 @@
 void	Options::InitGraphicsOptions()
 {
 	// Graphics options
-	mGraphicsOptionsList = mf::List::Create()
-	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
-	->SetSize(95, 95)->SetSizePercentage(true, true)
-	->SetItemSpacing(10)
-	->SetPosition(2.5, 2.5)->SetPositionPercentage(true, true);
+	mGraphicsOptionsList = mf::List::Create();
+	mGraphicsOptionsList->GetBackground()->SetBackground(sf::Color(0, 0, 0, 0));
+	mGraphicsOptionsList->SetSize(95, 95);
+	mGraphicsOptionsList->SetSizePercentage(true, true);
+	mGraphicsOptionsList->SetItemSpacing(10);
+	mGraphicsOptionsList->SetPosition(2.5, 2.5);
+	mGraphicsOptionsList->SetPositionPercentage(true, true);
 	mOptionsContainer->AddWidget(mGraphicsOptionsList);
 	mGraphicsOptionsList->SetDisabled(true);
 
 	// Fullscreen
-	mf::Button *fullscreen = mf::Button::Create();
-	fullscreen->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("Fullscreen: Off")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
-	->SetSize(275, 50)
-	->SetTextColor(sf::Color::White)
-	->SetTextPosition(10, 5)
-	->SetClickEvent([this, fullscreen, clickSound = &mClickSound]() {
+	auto fullscreen = mf::Button::Create();
+	fullscreen->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	fullscreen->GetText()->SetString("Fullscreen: Off");
+	fullscreen->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	fullscreen->SetSize(275, 50);
+	fullscreen->GetText()->SetColor(sf::Color::White);
+	fullscreen->GetText()->SetPos(sf::Vector2f(10, 5));
+	fullscreen->SetClickEvent([this, fullscreen, clickSound = &mClickSound]() {
 		this->mWindow->SetFullscreen(!this->mWindow->IsFullscreen());
 		Utils::playClickSound(clickSound);
-		fullscreen->SetText(std::string("Fullscreen: ") + (this->mWindow->IsFullscreen() ? "On" : "Off"));
+		fullscreen->GetText()->SetString(std::string("Fullscreen: ") + (this->mWindow->IsFullscreen() ? "On" : "Off"));
 	});
 	Utils::initBtnHover(fullscreen, &mResourceManager, &mHoverSound);
 	mGraphicsOptionsList->AddWidget(fullscreen);
 
 
 	// VSync
-	mf::Button *vsync = mf::Button::Create();
-	vsync->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText(std::string("VSync: ") + (this->mWindow->IsVSync() ? "On" : "Off"))
-	->SetTextColor(sf::Color::White)
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
-	->SetSize(275, 50)
-	->SetTextPosition(10, 5)
-	->SetClickEvent([this, vsync, clickSound = &mClickSound]() {
+	auto vsync = mf::Button::Create();
+	vsync->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	vsync->GetText()->SetString(std::string("VSync: ") + (this->mWindow->IsVSync() ? "On" : "Off"));
+	vsync->GetText()->SetColor(sf::Color::White);
+	vsync->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	vsync->SetSize(275, 50);
+	vsync->GetText()->SetPos(sf::Vector2f(10, 5));
+	vsync->SetClickEvent([this, vsync, clickSound = &mClickSound]() {
 		this->mWindow->SetVSync(!this->mWindow->IsVSync());
 		Utils::playClickSound(clickSound);
-		vsync->SetText(std::string("VSync: ") + (this->mWindow->IsVSync() ? "On" : "Off"));
+		vsync->GetText()->SetString(std::string("VSync: ") + (this->mWindow->IsVSync() ? "On" : "Off"));
 	});
 	Utils::initBtnHover(vsync, &mResourceManager, &mHoverSound);
 	mGraphicsOptionsList->AddWidget(vsync);
 
 	// Resolution options
-	mf::Container *resolutionContainer = mf::Container::Create();
-	resolutionContainer->SetBackground(sf::Color(0, 0, 0, 0));
+	auto resolutionContainer = mf::Container::Create();
+	resolutionContainer->GetBackground()->SetBackground(sf::Color(0, 0, 0, 0));
 	resolutionContainer->SetSize(100, 240);
 	resolutionContainer->SetSizePercentage(true, false);
 	
-	mf::Text *resolutionHeader = mf::Text::Create();
-	resolutionHeader->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("Resolution:")
-	->SetCharacterSize(20)
-	->SetTextColor(sf::Color::White)
-	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
-	->SetClickThrough(true)
-	->SetPosition(10, 5);
+	auto resolutionHeader = mf::Text::Create();
+	resolutionHeader->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	resolutionHeader->GetText()->SetString("Resolution:");
+	resolutionHeader->GetText()->SetSize(20);
+	resolutionHeader->GetText()->SetColor(sf::Color::White);
+	resolutionHeader->GetBackground()->SetBackground(sf::Color(0, 0, 0, 0));
+	resolutionHeader->SetClickThrough(true);
+	resolutionHeader->SetPosition(10, 5);
 	resolutionContainer->AddWidget(resolutionHeader);
 	
 	// Resolution preset buttons container
-	mf::Container *presetButtonsContainer = mf::Container::Create();
-	presetButtonsContainer->SetBackground(sf::Color(0, 0, 0, 0))
-	->SetPosition(0, 30)
-	->SetSize(275, 110);
+	auto presetButtonsContainer = mf::Container::Create();
+	presetButtonsContainer->GetBackground()->SetBackground(sf::Color(0, 0, 0, 0));
+	presetButtonsContainer->SetPosition(0, 30);
+	presetButtonsContainer->SetSize(275, 110);
 	resolutionContainer->AddWidget(presetButtonsContainer);
 	
 	// Preset button for 1280x720
-	mf::Button *res720p = mf::Button::Create();
-	res720p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("1280 x 720")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
-	->SetSize(260, 50)
-	->SetPosition(0, 0)
-	->SetTextColor(sf::Color::White)
-	->SetTextPosition(10, 5)
-	->SetClickEvent([this, clickSound = &mClickSound]() {
+	auto res720p = mf::Button::Create();
+	res720p->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	res720p->GetText()->SetString("1280 x 720");
+	res720p->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	res720p->SetSize(260, 50);
+	res720p->SetPosition(0, 0);
+	res720p->GetText()->SetColor(sf::Color::White);
+	res720p->GetText()->SetPos(sf::Vector2f(10, 5));
+	res720p->SetClickEvent([this, clickSound = &mClickSound]() {
 		this->mWindow->SetSize(sf::Vector2i(1280, 720));
 		this->mWindow->Create();
 		this->mWindow->ResetView(true);
@@ -99,15 +101,15 @@ void	Options::InitGraphicsOptions()
 	presetButtonsContainer->AddWidget(res720p);
 	
 	// Preset button for 1600x900
-	mf::Button *res900p = mf::Button::Create();
-	res900p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("1600 x 900")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
-	->SetSize(260, 50)
-	->SetPosition(0, 55)
-	->SetTextColor(sf::Color::White)
-	->SetTextPosition(10, 5)
-	->SetClickEvent([this, clickSound = &mClickSound]() {
+	auto res900p = mf::Button::Create();
+	res900p->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	res900p->GetText()->SetString("1600 x 900");
+	res900p->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	res900p->SetSize(260, 50);
+	res900p->SetPosition(0, 55);
+	res900p->GetText()->SetColor(sf::Color::White);
+	res900p->GetText()->SetPos(sf::Vector2f(10, 5));
+	res900p->SetClickEvent([this, clickSound = &mClickSound]() {
 		this->mWindow->SetSize(sf::Vector2i(1600, 900));
 		this->mWindow->Create();
 		this->mWindow->ResetView(true);
@@ -117,15 +119,15 @@ void	Options::InitGraphicsOptions()
 	presetButtonsContainer->AddWidget(res900p);
 	
 	// Preset button for 1920x1080
-	mf::Button *res1080p = mf::Button::Create();
-	res1080p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("1920 x 1080")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
-	->SetSize(260, 50)
-	->SetPosition(0, 110)
-	->SetTextColor(sf::Color::White)
-	->SetTextPosition(10, 5)
-	->SetClickEvent([this, clickSound = &mClickSound]() {
+	auto res1080p = mf::Button::Create();
+	res1080p->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	res1080p->GetText()->SetString("1920 x 1080");
+	res1080p->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	res1080p->SetSize(260, 50);
+	res1080p->SetPosition(0, 110);
+	res1080p->GetText()->SetColor(sf::Color::White);
+	res1080p->GetText()->SetPos(sf::Vector2f(10, 5));
+	res1080p->SetClickEvent([this, clickSound = &mClickSound]() {
 		this->mWindow->SetSize(sf::Vector2i(1920, 1080));
 		this->mWindow->Create();
 		this->mWindow->ResetView(true);
@@ -135,15 +137,15 @@ void	Options::InitGraphicsOptions()
 	presetButtonsContainer->AddWidget(res1080p);
 	
 	// Preset button for 2560x1440
-	mf::Button *res1440p = mf::Button::Create();
-	res1440p->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("2560 x 1440")
-	->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"))
-	->SetSize(260, 50)
-	->SetPosition(0, 165)
-	->SetTextColor(sf::Color::White)
-	->SetTextPosition(10, 5)
-	->SetClickEvent([this, clickSound = &mClickSound]() {
+	auto res1440p = mf::Button::Create();
+	res1440p->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	res1440p->GetText()->SetString("2560 x 1440");
+	res1440p->GetBackground()->SetBackground(*mResourceManager.LoadTexture("assets/textures/button.png"));
+	res1440p->SetSize(260, 50);
+	res1440p->SetPosition(0, 165);
+	res1440p->GetText()->SetColor(sf::Color::White);
+	res1440p->GetText()->SetPos(sf::Vector2f(10, 5));
+	res1440p->SetClickEvent([this, clickSound = &mClickSound]() {
 		this->mWindow->SetSize(sf::Vector2i(2560, 1440));
 		this->mWindow->Create();
 		this->mWindow->ResetView(true);
@@ -155,24 +157,24 @@ void	Options::InitGraphicsOptions()
 	mGraphicsOptionsList->AddWidget(resolutionContainer);
 
 	// FPS
-	mf::Container *fpsContainer = mf::Container::Create();
-	fpsContainer->SetBackground(sf::Color(0, 0, 0, 0));
-	mf::Slider *fps = mf::Slider::Create();
-	fps->SetSize(275, 40)
-	->SetBackgroundColor(sf::Color(100, 100, 100, 255))
-	->SetDirection(mf::eDirection::HORIZONTAL)
-	->SetValue(60);
-	fps->GetButton()->SetBackground(sf::Color(255, 255, 255, 255));
+	auto fpsContainer = mf::Container::Create();
+	fpsContainer->GetBackground()->SetBackground(sf::Color(0, 0, 0, 0));
+	auto fps = mf::Slider::Create();
+	fps->SetSize(275, 40);
+	fps->GetBackground()->SetBackground(sf::Color(100, 100, 100, 255));
+	fps->SetDirection(mf::eDirection::HORIZONTAL);
+	fps->SetValue(60);
+	fps->GetButton()->GetBackground()->SetBackground(sf::Color(255, 255, 255, 255));
 	fpsContainer->AddWidget(fps);
 
-	mf::Text *fpsText = mf::Text::Create();
-	fpsText->SetTextFont("assets/fonts/AlfaSlabOne-Regular.ttf")
-	->SetText("FPS: " + (mWindow->GetMaxFPS() ? std::to_string(mWindow->GetMaxFPS()) : "unlimited"))
-	->SetCharacterSize(20)
-	->SetTextColor(sf::Color::White)
-	->SetBackgroundColor(sf::Color(0, 0, 0, 0))
-	->SetClickThrough(true)
-	->SetPosition(10, 5);
+	auto fpsText = mf::Text::Create();
+	fpsText->GetText()->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf");
+	fpsText->GetText()->SetString("FPS: " + (mWindow->GetMaxFPS() ? std::to_string(mWindow->GetMaxFPS()) : "unlimited"));
+	fpsText->GetText()->SetSize(20);
+	fpsText->GetText()->SetColor(sf::Color::White);
+	fpsText->GetBackground()->SetBackground(sf::Color(0, 0, 0, 0));
+	fpsText->SetClickThrough(true);
+	fpsText->SetPosition(10, 5);
 	fpsContainer->AddWidget(fpsText);
 
 	fps->SetChangeEventListener([this, fps, fpsText, clickSound = &mClickSound]() {
@@ -196,7 +198,7 @@ void	Options::InitGraphicsOptions()
 			this->mWindow->SetMaxFPS((int)(value * MAX_FPS));
 		}
 
-		fpsText->SetText(std::string("FPS: ") + newFps);
+		fpsText->GetText()->SetString(std::string("FPS: ") + newFps);
 		Utils::playClickSound(clickSound);
 	});
 

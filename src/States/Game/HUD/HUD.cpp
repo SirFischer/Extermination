@@ -28,15 +28,15 @@ HUD::~HUD()
 void	HUD::InitNextWaveButton(const std::function<void()> &pClickAction)
 {
 	mNextWaveButton = mf::Button::Create();
-	mNextWaveButton->SetPosition(0, 0)
-	->SetSize(230, 50)
-	->SetTextFont(*mResourceManager->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get())
-	->SetCharacterSize(20)
-	->SetText("Next wave")
-	->SetTextColor(sf::Color::White)
-	->SetBackground(*mResourceManager->LoadTexture("assets/textures/button.png"))
-	->SetPosition(50, 50)->SetPositionPercentage(true, true)
-	->AddEventListener(mf::eEvent::LEFT_CLICK, pClickAction);
+	mNextWaveButton->SetSize(230, 50);
+	mNextWaveButton->GetText()->LoadFont(*mResourceManager->LoadFont("assets/fonts/AlfaSlabOne-Regular.ttf").get());
+	mNextWaveButton->GetText()->SetSize(20);
+	mNextWaveButton->GetText()->SetString("Next wave");
+	mNextWaveButton->GetText()->SetColor(sf::Color::White);
+	mNextWaveButton->GetBackground()->SetBackground(*mResourceManager->LoadTexture("assets/textures/button.png"));
+	mNextWaveButton->SetPosition(50, 50);
+	mNextWaveButton->SetPositionPercentage(true, true);
+	mNextWaveButton->AddEventListener(mf::eEvent::LEFT_CLICK, pClickAction);
 	
 }
 
@@ -54,7 +54,7 @@ void	HUD::UpdateNextWaveButton(float pTimeLeft)
 	int	secondsLeft = (int)std::ceil(pTimeLeft);
 	if (secondsLeft < 0)
 		secondsLeft = 0;
-	mNextWaveButton->SetText("Next wave (" + std::to_string(secondsLeft) + "s)");
+	mNextWaveButton->GetText()->SetString("Next wave (" + std::to_string(secondsLeft) + "s)");
 	CenterNextWaveButtonText();
 }
 
@@ -64,9 +64,9 @@ void	HUD::CenterNextWaveButtonText()
 	//frame to keep it inside the button instead of overflowing its bounds.
 	sf::FloatRect	textBounds = mNextWaveButton->GetTextBounds();
 	sf::Vector2f	buttonSize = mNextWaveButton->GetSize();
-	mNextWaveButton->SetTextPosition(
+	mNextWaveButton->GetText()->SetPos(sf::Vector2f(
 		(buttonSize.x - textBounds.width) / 2.f - textBounds.left,
-		(buttonSize.y - textBounds.height) / 2.f - textBounds.top);
+		(buttonSize.y - textBounds.height) / 2.f - textBounds.top));
 }
 
 void	HUD::RenderNextWaveButton(Yuna::Core::Window *pWindow)

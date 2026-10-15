@@ -14,11 +14,13 @@ void	Splash::Init()
 {
 	mSplashClock.restart();
 	mf::GUI::ClearWidgets();
-	mf::GUI::AddWidget(
-		mf::Image::Create()
-		->SetSizePercentage(false, false)->SetSize(400 * 1.414, 400)
-		->SetImage("assets/images/Logo_V3.5_short.png")
-		->SetPositionPercentage(true, true)->SetPosition(35, 25));
+	auto logo = mf::Image::Create();
+	logo->SetSizePercentage(false, false);
+	logo->SetSize(400 * 1.414, 400);
+	logo->SetImage("assets/images/Logo_V3.5_short.png");
+	logo->SetPositionPercentage(true, true);
+	logo->SetPosition(35, 25);
+	mf::GUI::AddWidget(logo);
 }
 
 void	Splash::Update()

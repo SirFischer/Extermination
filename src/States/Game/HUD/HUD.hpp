@@ -17,7 +17,7 @@ class HUD
 {
 private:
 	Yuna::Core::ResourceManager *mResourceManager;
-	mf::Button *mNextWaveButton = nullptr;
+	std::shared_ptr<mf::Button> mNextWaveButton = nullptr;
 
 public:
 	HUD(Yuna::Core::ResourceManager *pResourceManager);

@@ -14,18 +14,18 @@
 
 namespace Utils {
 
-void initBtnHover(mf::Button *pBtn, Yuna::Core::ResourceManager *pResourceManager, sf::Sound *pHoverSound)
+void initBtnHover(std::shared_ptr<mf::Button> pBtn, Yuna::Core::ResourceManager *pResourceManager, sf::Sound *pHoverSound)
 {
 	pBtn->AddEventListener(mf::eEvent::ENTERED, [pBtn, pResourceManager, pHoverSound](){
 		pHoverSound->setPlayingOffset(sf::seconds(0.10f));
 		pHoverSound->play();
 	
-		pBtn->SetBackground(*(pResourceManager->LoadTexture("assets/textures/button-hover.png")));
-		pBtn->SetTextPosition(10 + (4 * (pBtn->GetSize().x / 128)), 9);
+		pBtn->GetBackground()->SetBackground(*(pResourceManager->LoadTexture("assets/textures/button-hover.png")));
+		pBtn->GetText()->SetPos(sf::Vector2f(10 + (4 * (pBtn->GetSize().x / 128)), 9));
 	});
 	pBtn->AddEventListener(mf::eEvent::EXITED, [pBtn, pResourceManager](){
-		pBtn->SetBackground(*(pResourceManager->LoadTexture("assets/textures/button.png")));
-		pBtn->SetTextPosition(10, 5);
+		pBtn->GetBackground()->SetBackground(*(pResourceManager->LoadTexture("assets/textures/button.png")));
+		pBtn->GetText()->SetPos(sf::Vector2f(10, 5));
 	});
 }
 

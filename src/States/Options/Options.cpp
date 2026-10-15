@@ -77,7 +77,7 @@ void	Options::HandleEvents()
 			{
 				mEventHandler.BindKey(event.key.code, (uint32_t)mActionToBind);
 				mListenToNextEvent = false;
-				mButtonToBind->SetText(mEventHandler.GetBindingNames()[event.key.code]);
+				mButtonToBind->GetText()->SetString(mEventHandler.GetBindingNames()[event.key.code]);
 				InitControlsOptions();
 				mControlsOptionsList->SetDisabled(false);
 			}
@@ -85,7 +85,7 @@ void	Options::HandleEvents()
 			{
 				mEventHandler.BindButton(event.mouseButton.button, (uint32_t)mActionToBind);
 				mListenToNextEvent = false;
-				mButtonToBind->SetText(mEventHandler.GetBindingNames()[event.key.code + 1000]);
+				mButtonToBind->GetText()->SetString(mEventHandler.GetBindingNames()[event.key.code + 1000]);
 				InitControlsOptions();
 				mControlsOptionsList->SetDisabled(false);
 			}
@@ -96,7 +96,7 @@ void	Options::HandleEvents()
 				else
 					mEventHandler.BindWheelDown((uint32_t)mActionToBind);
 
-				mButtonToBind->SetText(mEventHandler.GetBindingNames()[EVENTHANDLER_WHEEL_OFFSET + event.mouseWheelScroll.delta]);
+				mButtonToBind->GetText()->SetString(mEventHandler.GetBindingNames()[EVENTHANDLER_WHEEL_OFFSET + event.mouseWheelScroll.delta]);
 				InitControlsOptions();
 				mListenToNextEvent = false;
 				mControlsOptionsList->SetDisabled(false);
